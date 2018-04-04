@@ -13,6 +13,7 @@ import { BwcProvider } from '../bwc/bwc';
 import { ConfigProvider } from '../config/config';
 import { FeeProvider } from '../fee/fee';
 import { FilterProvider } from '../filter/filter';
+import { LanguageProvider } from '../language/language';
 import { OnGoingProcessProvider } from '../on-going-process/on-going-process';
 import { PersistenceProvider } from '../persistence/persistence';
 import { PopupProvider } from '../popup/popup';
@@ -54,6 +55,7 @@ export class WalletProvider {
     private bwcErrorProvider: BwcErrorProvider,
     private rateProvider: RateProvider,
     private filter: FilterProvider,
+    private languageProvider: LanguageProvider,
     private popupProvider: PopupProvider,
     private onGoingProcessProvider: OnGoingProcessProvider,
     private touchidProvider: TouchIdProvider,
@@ -425,7 +427,7 @@ export class WalletProvider {
         try {
           localTxs = JSON.parse(txs);
         } catch (ex) {
-          localTxs = txs;
+          this.logger.warn(ex);
         };
         return resolve(lodash.compact(localTxs));
       }).catch((err: Error) => {
@@ -878,8 +880,10 @@ export class WalletProvider {
 
       try {
         wallet.signTxProposal(txp, password, (err: any, signedTxp: any) => {
-          this.logger.warn('Transaction signed err:' + err);
-          if (err) return reject(err);
+          if (err) { 
+            this.logger.error('Transaction signed err: ', err);
+            return reject(err);
+          }
           return resolve(signedTxp);
         });
       } catch (e) {
@@ -977,11 +981,14 @@ export class WalletProvider {
       // Update this JIC.
       let config: any = this.configProvider.get();
 
-      // TODO prefs.email  (may come from arguments)
+      // Get email from local config
       prefs.email = config.emailNotifications.email;
-      prefs.language = "en" // This line was hardcoded - TODO: prefs.language = uxLanguage.getCurrentLanguage();
-      // TODO let walletSettings = config.wallet.settings;
-      // prefs.unit = walletSettings.unitCode; // TODO: remove, not used
+
+      // Get current languge
+      prefs.language = this.languageProvider.getCurrent();
+      
+      // Set OLD wallet in bits to btc
+      prefs.unit = 'btc'; // DEPRECATED
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {

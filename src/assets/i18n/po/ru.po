@@ -12,7 +12,7 @@ msgstr ""
 "Last-Translator: cmgustavo83\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
-"PO-Revision-Date: 2018-03-22 14:15-0400\n"
+"PO-Revision-Date: 2018-03-28 11:29-0400\n"
 
 msgid "(Trusted)"
 msgstr "(Доверенный)"
@@ -75,6 +75,9 @@ msgid "Address Type"
 msgstr "Тип адреса"
 
 msgid "Address book"
+msgstr ""
+
+msgid "Addressbook is empty"
 msgstr ""
 
 msgid "Addresses with balance"
@@ -314,6 +317,9 @@ msgstr "Подтвердить"
 msgid "Confirm &amp; Finish"
 msgstr ""
 
+msgid "Confirm your PIN"
+msgstr ""
+
 msgid "Confirm your new encrypt password"
 msgstr ""
 
@@ -423,6 +429,9 @@ msgid "Could not get dynamic fee for level:"
 msgstr ""
 
 msgid "Could not get fee levels"
+msgstr ""
+
+msgid "Could not get the Addressbook"
 msgstr ""
 
 msgid "Could not get the invoice"
@@ -536,8 +545,14 @@ msgstr ""
 msgid "Details"
 msgstr "Подробности"
 
+msgid "Disabled"
+msgstr ""
+
 msgid "Do it later"
 msgstr "Отложить"
+
+msgid "Do not include private key"
+msgstr ""
 
 msgid "Don't see your language on Crowdin? Contact the Owner on Crowdin! We'd love to support your language."
 msgstr "Не видите свой язык на Crowdin? Свяжитесь с владельцем по Crowdin! Мы с удовольствием поддержим ваш язык."
@@ -605,8 +620,17 @@ msgstr ""
 msgid "Enter your password"
 msgstr "Введите пароль"
 
+msgid "Entry already exist"
+msgstr ""
+
+msgid "Entry does not exist"
+msgstr ""
+
 msgid "Error"
 msgstr "Ошибка"
+
+msgid "Error adding new entry"
+msgstr ""
 
 msgid "Error at confirm"
 msgstr "Ошибка при подтверждении"
@@ -616,6 +640,12 @@ msgstr ""
 
 msgid "Error creating wallet"
 msgstr "Ошибка создания кошелька"
+
+msgid "Error deleting addressbook"
+msgstr ""
+
+msgid "Error deleting entry"
+msgstr ""
 
 msgid "Error getting SendMax information"
 msgstr ""
@@ -690,6 +720,9 @@ msgid "Fetching payment information"
 msgstr ""
 
 msgid "File/Text"
+msgstr ""
+
+msgid "Fingerprint"
 msgstr ""
 
 msgid "Finish"
@@ -986,6 +1019,9 @@ msgstr "Недостающий параметр"
 msgid "Missing private keys to sign"
 msgstr "Отсутствуют закрытые ключи для подписи"
 
+msgid "More"
+msgstr ""
+
 msgid "More Options"
 msgstr "Дополнительные параметры"
 
@@ -1103,6 +1139,9 @@ msgstr "Cредства не обнаружены"
 msgid "Not now"
 msgstr "Потом"
 
+msgid "Not valid bitcoin address"
+msgstr ""
+
 msgid "Note"
 msgstr "Примечание"
 
@@ -1187,6 +1226,9 @@ msgstr ""
 msgid "Ouch!"
 msgstr ""
 
+msgid "PIN"
+msgstr ""
+
 msgid "Password"
 msgstr "Пароль"
 
@@ -1268,6 +1310,9 @@ msgstr "Введите ключевое словосочетание"
 msgid "Please enter the wallet recovery phrase"
 msgstr "Введите ключевое словосочетание кошелька"
 
+msgid "Please enter your PIN"
+msgstr ""
+
 msgid "Please tap each word in the correct order."
 msgstr "Тапните каждое слово в правильном порядке."
 
@@ -1336,6 +1381,9 @@ msgstr ""
 
 msgid "Quick review!"
 msgstr "Быстрый просмотр!"
+
+msgid "Random"
+msgstr ""
 
 msgid "Rate"
 msgstr ""
@@ -1496,6 +1544,9 @@ msgstr "Отправить"
 msgid "Send Feedback"
 msgstr "Отправить отзыв"
 
+msgid "Send Max amount"
+msgstr ""
+
 msgid "Send Money"
 msgstr "Отправить деньги"
 
@@ -1592,10 +1643,28 @@ msgstr ""
 msgid "Since only you control your money, you’ll need to save your backup phrase in case this app is deleted."
 msgstr "Так как кошелёк хранится только у вас, вам необходимо записать ключевую фразу на случай удаления {{appName}}."
 
+msgid "Single address"
+msgstr ""
+
 msgid "Skip"
 msgstr "Пропустить"
 
+msgid "Slide to accept"
+msgstr ""
+
+msgid "Slide to confirm"
+msgstr ""
+
+msgid "Slide to pay"
+msgstr ""
+
+msgid "Slide to send"
+msgstr ""
+
 msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
+msgstr ""
+
+msgid "Specify Recovery Phrase"
 msgstr ""
 
 msgid "Spend proposal is not accepted"
@@ -1681,6 +1750,9 @@ msgstr "Сумма биткойнов с менее, чем одним подт�
 
 msgid "The derivation path"
 msgstr "Путь деривации"
+
+msgid "The destination wallet is not backed up. Please, complete the backup process before continue."
+msgstr ""
 
 msgid "The exchange rate changes with the market."
 msgstr ""

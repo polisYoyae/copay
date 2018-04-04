@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Events, ModalController, NavController, NavParams } from 'ionic-angular';
 import * as _ from 'lodash';
 import { Logger } from '../../../../providers/logger/logger';
 
 // pages
 import { FinishModalPage } from '../../../finish/finish';
+import { GlideraPage } from '../../../integrations/glidera/glidera';
 
 // providers
 import { ConfigProvider } from '../../../../providers/config/config';
@@ -21,6 +22,7 @@ import { WalletProvider } from '../../../../providers/wallet/wallet';
   templateUrl: 'sell-glidera.html',
 })
 export class SellGlideraPage {
+  @ViewChild('slideButton') slideButton;
 
   public isCordova: boolean;
   public token: string;
@@ -30,6 +32,7 @@ export class SellGlideraPage {
   public wallets: any;
   public amountUnitStr: string;
   public sellInfo: any;
+  public isOpenSelector: boolean;
 
   private currency: string;
   private amount: number;
@@ -54,7 +57,13 @@ export class SellGlideraPage {
     this.isCordova = this.platformProvider.isCordova;
   }
 
+  ionViewWillLeave() {
+    this.navCtrl.swipeBackEnabled = true;
+  }
+
   ionViewWillEnter() {
+    this.isOpenSelector = false;
+    this.navCtrl.swipeBackEnabled = false;
 
     this.isFiat = this.navParams.data.currency != 'BTC' ? true : false;
     this.amount = this.navParams.data.amount;
@@ -77,6 +86,8 @@ export class SellGlideraPage {
   }
 
   private showErrorAndBack(err: any): void {
+    if (this.isCordova)
+      this.slideButton.isConfirmed(false);
     this.logger.error(err);
     err = err.errors ? err.errors[0].message : err;
     this.popupProvider.ionicAlert('Error', err).then(() => {
@@ -85,6 +96,8 @@ export class SellGlideraPage {
   }
 
   private showError(err: any): void {
+    if (this.isCordova)
+      this.slideButton.isConfirmed(false);
     this.logger.error(err);
     err = err.errors ? err.errors[0].message : err;
     this.popupProvider.ionicAlert('Error', err);
@@ -142,7 +155,11 @@ export class SellGlideraPage {
     let okText = 'Confirm';
     let cancelText = 'Cancel';
     this.popupProvider.ionicConfirm(null, message, okText, cancelText).then((ok) => {
-      if (!ok) return;
+      if (!ok) {
+        if (this.isCordova)
+          this.slideButton.isConfirmed(false);
+        return;
+      }
       this.onGoingProcessProvider.set('sellingBitcoin');
       this.glideraProvider.get2faCode(this.token, (err, tfa) => {
         if (err) {
@@ -258,11 +275,13 @@ export class SellGlideraPage {
   }
 
   public showWallets(): void {
+    this.isOpenSelector = true;
     let id = this.wallet ? this.wallet.credentials.walletId : null;
     this.events.publish('showWalletsSelectorEvent', this.wallets, id, 'Sell From');
     this.events.subscribe('selectWalletEvent', (wallet: any) => {
       if (!_.isEmpty(wallet)) this.onWalletSelect(wallet);
       this.events.unsubscribe('selectWalletEvent');
+      this.isOpenSelector = false;
     });
   }
 
@@ -272,8 +291,14 @@ export class SellGlideraPage {
     let modal = this.modalCtrl.create(FinishModalPage, { finishText, finishComment }, { showBackdrop: true, enableBackdropDismiss: false });
     modal.present();
     modal.onDidDismiss(() => {
-      this.navCtrl.remove(3, 1);
-      this.navCtrl.pop();
+      this.navCtrl.popToRoot({ animate: false }).then(() => {
+        this.navCtrl.parent.select(0);
+
+        // Fixes mobile navigation
+        setTimeout(() => {
+          this.navCtrl.push(GlideraPage, null, { animate: false });
+        }, 200);
+      });
     });
   }
 

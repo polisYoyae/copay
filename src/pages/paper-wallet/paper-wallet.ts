@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Events, ModalController, NavController, NavParams } from 'ionic-angular';
 import * as _ from 'lodash';
@@ -8,6 +8,7 @@ import { Logger } from '../../providers/logger/logger';
 import { BwcProvider } from '../../providers/bwc/bwc';
 import { FeeProvider } from '../../providers/fee/fee';
 import { OnGoingProcessProvider } from '../../providers/on-going-process/on-going-process';
+import { PlatformProvider } from '../../providers/platform/platform';
 import { PopupProvider } from '../../providers/popup/popup';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { WalletProvider } from '../../providers/wallet/wallet';
@@ -18,6 +19,7 @@ import { FinishModalPage } from '../finish/finish';
   templateUrl: 'paper-wallet.html',
 })
 export class PaperWalletPage {
+  @ViewChild('slideButton') slideButton;
 
   public wallet: any;
   public walletName: string;
@@ -31,11 +33,14 @@ export class PaperWalletPage {
   public passphrase: string;
   public privateKey: string;
   public balanceSat: number;
-  public singleWallet: boolean;
   public noMatchingWallet: boolean;
   public balanceHidden: boolean;
   public error: boolean;
+  public isOpenSelector: boolean;
   private bitcore: any;
+
+  // Platform info
+  public isCordova: boolean;
 
   constructor(
     private navCtrl: NavController,
@@ -49,12 +54,20 @@ export class PaperWalletPage {
     private profileProvider: ProfileProvider,
     private events: Events,
     private modalCtrl: ModalController,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private platformProvider: PlatformProvider,
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
+    this.isCordova = this.platformProvider.isCordova;
+  }
+
+  ionViewWillLeave() {
+    this.navCtrl.swipeBackEnabled = true;
   }
 
   ionViewWillEnter() {
+    this.isOpenSelector = false;
+    this.navCtrl.swipeBackEnabled = false;
     this.scannedKey = this.navParams.data.privateKey;
     this.isPkEncrypted = this.scannedKey ? (this.scannedKey.substring(0, 2) == '6P') : null;
     this.error = false;
@@ -62,7 +75,10 @@ export class PaperWalletPage {
       onlyComplete: true,
       network: 'livenet',
     });
-    this.singleWallet = this.wallets.length == 1;
+
+    this.wallets = _.filter(_.clone(this.wallets), (wallet: any) => {
+      return !wallet.needsBackup;
+    });
 
     if (!this.wallets || !this.wallets.length) {
       this.noMatchingWallet = true;
@@ -179,11 +195,13 @@ export class PaperWalletPage {
   }
 
   public showWallets(): void {
+    this.isOpenSelector = true;
     let id = this.wallet ? this.wallet.credentials.walletId : null;
     this.events.publish('showWalletsSelectorEvent', this.wallets, id, 'Transfer to');
     this.events.subscribe('selectWalletEvent', (wallet: any) => {
       if (!_.isEmpty(wallet)) this.onWalletSelect(wallet);
       this.events.unsubscribe('selectWalletEvent');
+      this.isOpenSelector = false;
     });
   }
 

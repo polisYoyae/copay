@@ -1,4 +1,9 @@
 page-sell-glidera {
+  ion-content {
+    .fixed-content, .scroll-content {
+      margin-bottom: 70px;
+    }
+  }
   .selling-label {
     display: flex;
     align-items: center;
@@ -19,7 +24,7 @@ page-sell-glidera {
     }
     .alternative {
       margin-top: 1rem;
-      color: color($colors, light);
+      color: color($colors, grey);
     }
   }
   .wallets-list {
@@ -32,5 +37,9 @@ page-sell-glidera {
         margin-right: 1rem;
       }
     }
+  }
+
+  .last-item{
+    margin-left: auto !important;
   }
 }

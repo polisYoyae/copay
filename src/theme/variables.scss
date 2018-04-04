@@ -37,7 +37,7 @@ $colors: (
 );
 
 // App background color
-$background-color : #F5F5F5;
+$background-color: #F5F5F5;
 
 // Item list background color
 $list-background-color: #ffffff;
@@ -57,13 +57,13 @@ $text-color: color($colors, dark);
 $list-border-color: color($colors, light);
 
 // Font size
-$font-size-base: 1.4rem;
+//$font-size-base: 1.4rem;
 
 // Toolbar
 $toolbar-ios-title-text-color: color($colors, light);
 $toolbar-md-title-text-color: color($colors, light);
-$toolbar-md-title-font-size: 1.6rem;
-$toolbar-ios-title-font-size: 1.5rem;
+//$toolbar-md-title-font-size: 1.6rem;
+//$toolbar-ios-title-font-size: 1.5rem;
 
 // Onboarding colors
 $onboarding-gradient-top-color: $toolbar-background;
@@ -81,7 +81,7 @@ $onboarding-background-image: linear-gradient(
 $tabs-ios-background: color($colors, blank);
 $tabs-ios-border-color: rgba(0, 0, 0, .1);
 
-$item-ios-body-text-font-size: 1.4rem;
+//$item-ios-body-text-font-size: 1.3rem;
 
 $item-ios-divider-background: $background-color;
 $item-ios-divider-color: color($colors, grey);
@@ -91,7 +91,7 @@ $label-ios-margin-top: 14px;
 $label-ios-margin-bottom: 14px;
 
 $list-ios-border-color: color($colors, light);
-$list-ios-header-font-size: 16px;
+//$list-ios-header-font-size: 16px;
 $list-ios-margin-bottom: 0;
 $list-ios-header-font-weight: 700;
 $list-ios-header-color: color($colors, dark);
@@ -101,16 +101,13 @@ $searchbar-ios-padding-vertical: 16px;
 $searchbar-ios-padding-horizontal: 8px;
 
 $note-ios-color: color($colors, light-grey);
-$alert-md-title-font-size: 16px;
-$alert-md-sub-title-font-size: 12.5px;
-$alert-md-message-font-size: 12.5px;
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-$item-md-body-text-font-size: 1.4rem;
-$item-md-font-size: 1.6rem;
+//$item-md-body-text-font-size: 1.3rem;
+//$item-md-font-size: 1.4rem;
 
 $item-md-divider-background: $background-color;
 $item-md-divider-color: color($colors, grey);
@@ -124,12 +121,18 @@ $searchbar-md-padding-end: 8px;
 $searchbar-md-padding-top: 16px;
 
 $list-md-border-color: color($colors, light);
-$list-md-header-font-size: 16px;
+//$list-md-header-font-size: 16px;
 $list-md-header-margin-bottom: 0;
 $list-md-margin-bottom: 0;
 $list-md-header-color: color($colors, dark);
 
 $note-md-color: color($colors, light-grey);
+
+$alert-md-title-font-size: 16px;
+$alert-md-sub-title-font-size: 12.5px;
+$alert-md-message-font-size: 12.5px;
+
+$button-md-text-transform: none;
 
 // App Windows Variables
 // --------------------------------------------------
@@ -177,8 +180,24 @@ $note-md-color: color($colors, light-grey);
 // Transition between home <-> walletDetails
 .ios {
   page-wallet-details {
+    .balance-card {
+      /* Fix iPhone X screen */
+      @media only screen 
+      and (device-width : 375px) 
+      and (device-height : 812px) 
+      and (-webkit-device-pixel-ratio : 3) { 
+        padding-top: 64px;
+      }
+    }
     .balance-header {
-      margin-top: 44px;
+      margin-top: 64px;
+      /* Fix iPhone X screen */
+      @media only screen 
+      and (device-width : 375px) 
+      and (device-height : 812px) 
+      and (-webkit-device-pixel-ratio : 3) { 
+        margin-top: 0;
+      }
     }
   }
 }
@@ -198,12 +217,15 @@ $note-md-color: color($colors, light-grey);
       z-index: 999;
     }
     .title-md { //material design only
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        text-align: center;
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      .toolbar-title-md {
+        padding: 0px 50px 0px 50px;
+      }
     }
   }
 }

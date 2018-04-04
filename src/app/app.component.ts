@@ -125,27 +125,28 @@ export class CopayApp {
   private openLockModal(): void {
     if (this.isModalOpen) return;
     let config: any = this.configProvider.get();
-    let lockMethod = config.lock.method;
+    let lockMethod = config.lock.method ? config.lock.method.toLowerCase() : null;
     if (!lockMethod) return;
-    if (lockMethod == 'PIN') this.openPINModal('checkPin');
-    if (lockMethod == 'Fingerprint') this.openFingerprintModal();
+    if (lockMethod == 'pin') this.openPINModal('checkPin');
+    if (lockMethod == 'fingerprint') this.openFingerprintModal();
   }
 
   private openPINModal(action): void {
     this.isModalOpen = true;
-    let modal = this.modalCtrl.create(PinModalPage, { action }, { showBackdrop: false, enableBackdropDismiss: false });
-    modal.present();
-    modal.onDidDismiss(() => {
+    this.events.publish('showPinModalEvent', action);
+    this.events.subscribe('finishPinModalEvent', () => {
       this.isModalOpen = false;
+      this.events.unsubscribe('finishPinModalEvent');
     });
   }
 
   private openFingerprintModal(): void {
     this.isModalOpen = true;
-    let modal = this.modalCtrl.create(FingerprintModalPage, {}, { showBackdrop: false, enableBackdropDismiss: false });
-    modal.present();
-    modal.onDidDismiss(() => {
+    let isCopay = this.appProvider.info.nameCase == 'Copay' ? true : false;
+    this.events.publish('showFingerprintModalEvent', isCopay);
+    this.events.subscribe('finishFingerprintModalEvent', () => {
       this.isModalOpen = false;
+      this.events.unsubscribe('finishFingerprintModalEvent');
     });
   }
 

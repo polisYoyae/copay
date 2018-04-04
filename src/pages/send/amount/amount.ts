@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Http } from '@angular/http';
-
+import { TranslateService } from '@ngx-translate/core';
 import { ActionSheetController, NavController, NavParams } from 'ionic-angular';
 import * as _ from 'lodash';
 
@@ -83,7 +83,8 @@ export class AmountPage {
     private platformProvider: PlatformProvider,
     private rateProvider: RateProvider,
     private txFormatProvider: TxFormatProvider,
-    private http:Http
+    private http:Http,
+    private translate: TranslateService
   ) {
     this.http.get('https://api.coinmarketcap.com/v1/ticker/POLIS/')
       .map(res => res.json())
@@ -113,7 +114,7 @@ export class AmountPage {
     this.reNr = /^[1234567890\.]$/;
     this.reOp = /^[\*\+\-\/]$/;
     this.nextView = this.getNextView();
-    this.itemSelectorLabel = 'Send Max amount';
+    this.itemSelectorLabel = this.translate.instant('Send Max amount');
 
 
     this.unitToSatoshi = this.config.wallet.settings.unitToSatoshi;

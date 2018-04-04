@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController } from 'ionic-angular';
+import { Events } from 'ionic-angular';
 
 // pages
 import { PinModalPage } from '../../pin/pin';
@@ -18,16 +18,16 @@ import * as _ from 'lodash';
 })
 export class LockPage {
 
-  public options: Array<{ method: string, enabled: boolean, disabled: boolean }> = [];
+  public options: Array<{ label: string, method: string, enabled: boolean, disabled: boolean }> = [];
   public lockOptions: any;
   public needsBackupMsg: string;
 
   constructor(
-    private modalCtrl: ModalController,
     private configProvider: ConfigProvider,
     private touchIdProvider: TouchIdProvider,
     private profileProvider: ProfileProvider,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private events: Events
   ) {
     this.checkLockOptions();
   }
@@ -38,19 +38,22 @@ export class LockPage {
       let needsBackup = this.needsBackup();
       this.options = [
         {
-          method: 'Disabled',
-          enabled: !this.lockOptions.method || this.lockOptions.method == 'Disabled' ? true : false,
+          label: this.translate.instant('Disabled'),
+          method: 'disabled',
+          enabled: !this.lockOptions.method || (this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'disabled' ? true : false),
           disabled: false
         },
         {
-          method: 'PIN',
-          enabled: this.lockOptions.method == 'PIN' ? true : false,
-          disabled: needsBackup || this.lockOptions.method == 'Fingerprint'
+          label: this.translate.instant('PIN'),
+          method: 'pin',
+          enabled: this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'pin' ? true : false,
+          disabled: needsBackup || (this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'fingerprint' ? true : false)
         },
         {
-          method: 'Fingerprint',
-          enabled: this.lockOptions.method == 'Fingerprint' ? true : false,
-          disabled: !isAvailable || needsBackup || this.lockOptions.method == 'PIN'
+          label: this.translate.instant('Fingerprint'),
+          method: 'fingerprint',
+          enabled: this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'fingerprint' ? true : false,
+          disabled: !isAvailable || needsBackup || (this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'pin' ? true : false)
         }
       ];
     });
@@ -58,30 +61,30 @@ export class LockPage {
 
   public select(method): void {
     switch (method) {
-      case 'PIN':
+      case 'pin':
         this.openPinModal('pinSetUp');
         break;
-      case 'Disabled':
-        if (this.lockOptions.method && this.lockOptions.method == 'PIN') this.openPinModal('removeLock');
-        if (this.lockOptions.method && this.lockOptions.method == 'Fingerprint') this.removeFingerprint();
+      case 'disabled':
+        if (this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'pin') this.openPinModal('removeLock');
+        if (this.lockOptions.method && this.lockOptions.method.toLowerCase() == 'fingerprint') this.removeFingerprint();
         break;
-      case 'Fingerprint':
+      case 'fingerprint':
         this.lockByFingerprint();
         break;
     }
   }
 
   private openPinModal(action): void {
-    let modal = this.modalCtrl.create(PinModalPage, { action });
-    modal.present();
-    modal.onDidDismiss(() => {
+    this.events.publish('showPinModalEvent', action);
+    this.events.subscribe('finishPinModalEvent', (wallet: any) => {
       this.checkLockOptions();
+      this.events.unsubscribe('finishPinModalEvent');
     });
   }
 
   private removeFingerprint(): void {
     this.touchIdProvider.check().then(() => {
-      let lock = { method: 'Disabled', value: null, bannedUntil: null };
+      let lock = { method: 'disabled', value: null, bannedUntil: null };
       this.configProvider.set({ lock });
       this.checkLockOptions();
     }).catch(() => {
@@ -90,7 +93,7 @@ export class LockPage {
   }
 
   public lockByFingerprint(): void {
-    let lock = { method: 'Fingerprint', value: null, bannedUntil: null };
+    let lock = { method: 'fingerprint', value: null, bannedUntil: null };
     this.configProvider.set({ lock });
     this.checkLockOptions();
   }

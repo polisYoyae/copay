@@ -1,4 +1,9 @@
 page-sell-coinbase {
+  ion-content {
+    .fixed-content, .scroll-content {
+      margin-bottom: 70px;
+    }
+  }
   .sending-label {
     display: flex;
     align-items: center;
@@ -19,7 +24,7 @@ page-sell-coinbase {
     }
     .alternative {
       margin-top: 1rem;
-      color: color($colors, light);
+      color: color($colors, grey);
     }
   }
   .wallets-list {
@@ -34,5 +39,9 @@ page-sell-coinbase {
         background-color: color($colors, primary);
       }
     }
+  }
+
+  .last-item{
+    margin-left: auto !important;
   }
 }

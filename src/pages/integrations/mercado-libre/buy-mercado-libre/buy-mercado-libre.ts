@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Events, ModalController, NavController, NavParams } from 'ionic-angular';
 import * as _ from 'lodash';
@@ -18,6 +18,7 @@ import { EmailNotificationsProvider } from '../../../../providers/email-notifica
 import { ExternalLinkProvider } from '../../../../providers/external-link/external-link';
 import { MercadoLibreProvider } from '../../../../providers/mercado-libre/mercado-libre';
 import { OnGoingProcessProvider } from "../../../../providers/on-going-process/on-going-process";
+import { PlatformProvider } from '../../../../providers/platform/platform';
 import { PopupProvider } from '../../../../providers/popup/popup';
 import { ProfileProvider } from '../../../../providers/profile/profile';
 import { TxFormatProvider } from '../../../../providers/tx-format/tx-format';
@@ -28,6 +29,7 @@ import { WalletProvider } from '../../../../providers/wallet/wallet';
   templateUrl: 'buy-mercado-libre.html',
 })
 export class BuyMercadoLibrePage {
+  @ViewChild('slideButton') slideButton;
 
   private bitcoreCash: any;
   private amount: number;
@@ -50,6 +52,10 @@ export class BuyMercadoLibrePage {
   public limitPerDayMessage: string;
   public network: string;
   public walletSelectorTitle: string;
+  public isOpenSelector: boolean;
+
+  // Platform info
+  public isCordova: boolean;
 
   constructor(
     private mercadoLibreProvider: MercadoLibreProvider,
@@ -68,19 +74,27 @@ export class BuyMercadoLibrePage {
     private profileProvider: ProfileProvider,
     private txFormatProvider: TxFormatProvider,
     private walletProvider: WalletProvider,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private platformProvider: PlatformProvider,
   ) {
     this.FEE_TOO_HIGH_LIMIT_PER = 15;
     this.configWallet = this.configProvider.get().wallet;
     this.mlGiftCard = null;
     this.bitcoreCash = this.bwcProvider.getBitcoreCash();
+    this.isCordova = this.platformProvider.isCordova;
   }
 
   ionViewDidLoad() {
     this.logger.info('ionViewDidLoad BuyMercadoLibrePage');
   }
 
+  ionViewWillLeave() {
+    this.navCtrl.swipeBackEnabled = true;
+  }
+
   ionViewWillEnter() {
+    this.isOpenSelector = false;
+    this.navCtrl.swipeBackEnabled = false;
     this.amount = this.navParams.data.amount;
     this.currency = this.navParams.data.currency;
 
@@ -122,6 +136,8 @@ export class BuyMercadoLibrePage {
   }
 
   private showErrorAndBack(title: string, msg: any) {
+    if (this.isCordova)
+      this.slideButton.isConfirmed(false);
     title = title ? title : this.translate.instant('Error');
     this.logger.error(msg);
     msg = (msg && msg.errors) ? msg.errors[0].message : msg;
@@ -132,6 +148,8 @@ export class BuyMercadoLibrePage {
 
   private showError = function (title: string, msg: any): Promise<any> {
     return new Promise((resolve, reject) => {
+      if (this.isCordova)
+        this.slideButton.isConfirmed(false);
       title = title || this.translate.instant('Error');
       this.logger.error(msg);
       msg = (msg && msg.errors) ? msg.errors[0].message : msg;
@@ -402,6 +420,8 @@ export class BuyMercadoLibrePage {
     var title = this.translate.instant('Confirm');
     this.popupProvider.ionicConfirm(title, this.message).then((ok) => {
       if (!ok) {
+        if (this.isCordova)
+          this.slideButton.isConfirmed(false);
         return;
       }
 
@@ -422,11 +442,13 @@ export class BuyMercadoLibrePage {
   }
 
   public showWallets(): void {
+    this.isOpenSelector = true;
     let id = this.wallet ? this.wallet.credentials.walletId : null;
     this.events.publish('showWalletsSelectorEvent', this.wallets, id, 'Buy from');
     this.events.subscribe('selectWalletEvent', (wallet: any) => {
       if (!_.isEmpty(wallet)) this.onWalletSelect(wallet);
       this.events.unsubscribe('selectWalletEvent');
+      this.isOpenSelector = false;
     });
   }
 
@@ -448,8 +470,14 @@ export class BuyMercadoLibrePage {
     let modal = this.modalCtrl.create(FinishModalPage, { finishText, finishComment, cssClass }, { showBackdrop: true, enableBackdropDismiss: false });
     modal.present();
     modal.onDidDismiss(() => {
-      this.navCtrl.popToRoot({ animate: false });
-      this.navCtrl.push(MercadoLibrePage, { invoiceId: this.invoiceId });
+      this.navCtrl.popToRoot({ animate: false }).then(() => {
+        this.navCtrl.parent.select(0);
+        
+        // Fixes mobile navigation
+        setTimeout(() => {
+          this.navCtrl.push(MercadoLibrePage, { invoiceId: this.invoiceId }, { animate: false });
+        }, 200);
+      });
     });
   }
 
