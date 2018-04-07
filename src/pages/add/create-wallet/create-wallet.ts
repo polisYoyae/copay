@@ -84,7 +84,7 @@ export class CreateWalletPage implements OnInit {
       myName: [null],
       totalCopayers: [1],
       requiredCopayers: [1],
-      bwsURL: [this.defaults.bws.url],
+      bwsURL: [this.defaults.bws[this.navParams.data.coin]],
       selectedSeed: ['new'],
       recoveryPhrase: [null],
       derivationPath: [this.derivationPathByDefault],

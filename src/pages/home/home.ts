@@ -48,7 +48,7 @@ import * as moment from 'moment';
 export class HomePage {
   public wallets: any;
   public walletsBtc: any;
-  public walletsBch: any;
+  public walletsPolis: any;
   public cachedBalanceUpdateOn: string;
   public recentTransactionsEnabled: boolean;
   public txps: any;
@@ -67,7 +67,7 @@ export class HomePage {
   public showRateCard: boolean;
   public homeTip: boolean;
   public showReorderBtc: boolean;
-  public showReorderBch: boolean;
+  public showReorderPolis: boolean;
   public showIntegration: any;
 
   private isNW: boolean;
@@ -104,7 +104,7 @@ export class HomePage {
     this.cachedBalanceUpdateOn = '';
     this.isNW = this.platformProvider.isNW;
     this.showReorderBtc = false;
-    this.showReorderBch = false;
+    this.showReorderPolis = false;
     this.zone = new NgZone({ enableLongStackTrace: false });
   }
 
@@ -232,7 +232,7 @@ export class HomePage {
   private setWallets = _.debounce(() => {
     this.wallets = this.profileProvider.getWallets();
     this.walletsBtc = this.profileProvider.getWallets({ coin: 'btc' });
-    this.walletsBch = this.profileProvider.getWallets({ coin: 'bch' });
+    this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
     this.updateAllWallets();
   }, 5000, {
       'leading': true
@@ -329,8 +329,8 @@ export class HomePage {
       wallets.push(wBtc);
     });
 
-    _.each(this.walletsBch, (wBch) => {
-      wallets.push(wBch);
+    _.each(this.walletsPolis, (wPolis) => {
+      wallets.push(wPolis);
     });
 
     if (_.isEmpty(wallets)) return;
@@ -393,7 +393,7 @@ export class HomePage {
   }
 
   public goToWalletDetails(wallet: any): void {
-    if (this.showReorderBtc || this.showReorderBch) return;
+    if (this.showReorderBtc || this.showReorderPolis) return;
     if (!wallet.isComplete()) {
       this.navCtrl.push(CopayersPage, { walletId: wallet.credentials.walletId });
       return;
@@ -433,8 +433,8 @@ export class HomePage {
     this.showReorderBtc = !this.showReorderBtc;
   }
 
-  public reorderBch(): void {
-    this.showReorderBch = !this.showReorderBch;
+  public reorderPolis(): void {
+    this.showReorderPolis = !this.showReorderPolis;
   }
 
   public reorderWalletsBtc(indexes): void {
@@ -446,11 +446,11 @@ export class HomePage {
     });
   };
 
-  public reorderWalletsBch(indexes): void {
-    let element = this.walletsBch[indexes.from];
-    this.walletsBch.splice(indexes.from, 1);
-    this.walletsBch.splice(indexes.to, 0, element);
-    _.each(this.walletsBch, (wallet: any, index: number) => {
+  public reorderWalletsPolis(indexes): void {
+    let element = this.walletsPolis[indexes.from];
+    this.walletsPolis.splice(indexes.from, 1);
+    this.walletsPolis.splice(indexes.to, 0, element);
+    _.each(this.walletsPolis, (wallet: any, index: number) => {
       this.profileProvider.setWalletOrder(wallet.id, index);
     });
   };

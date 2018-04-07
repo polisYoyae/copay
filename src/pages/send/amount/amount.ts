@@ -161,15 +161,15 @@ export class AmountPage {
       });
     }
 
-    let hasBCHWallets = this.profileProvider.getWallets({
-      coin: 'bch'
+    let hasPOLISWallets = this.profileProvider.getWallets({
+      coin: 'polis'
     }).length;
 
-    if (hasBCHWallets) {
+    if (hasPOLISWallets) {
       this.availableUnits.push({
-        name: 'Bitcoin Cash',
-        id: 'bch',
-        shortName: 'BCH',
+        name: 'Polis',
+        id: 'polis',
+        shortName: 'POLIS',
       });
     };
 

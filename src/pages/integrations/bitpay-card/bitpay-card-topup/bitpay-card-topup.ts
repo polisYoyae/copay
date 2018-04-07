@@ -52,7 +52,6 @@ export class BitPayCardTopUpPage {
   public currencySymbol;
   public rate;
 
-  private bitcoreCash: any;
   private createdTx;
   private configWallet: any;
 
@@ -82,7 +81,6 @@ export class BitPayCardTopUpPage {
   ) {
     this.configWallet = this.configProvider.get().wallet;
     this.isCordova = this.platformProvider.isCordova;
-    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
   }
 
   ionViewDidLoad() {
@@ -104,7 +102,7 @@ export class BitPayCardTopUpPage {
 
     let coin;
     if (this.currency == 'BTC') coin = 'btc';
-    else if (this.currency == 'BCH') coin = 'bch';
+    else if (this.currency == 'POLIS') coin = 'polis';
     else coin = null;
 
     this.bitPayCardProvider.get({
@@ -282,12 +280,6 @@ export class BitPayCardTopUpPage {
 
         txp['origToAddress'] = txp.toAddress;
 
-        if (wallet.coin && wallet.coin == 'bch') {
-          // Use legacy address
-          txp.toAddress = this.bitcoreCash.Address(txp.toAddress).toString();
-          txp.outputs[0].toAddress = txp.toAddress;
-        }
-
         this.walletProvider.createTx(wallet, txp).then((ctxp: any) => {
           return resolve(ctxp);
         }).catch((err: any) => {
@@ -347,7 +339,7 @@ export class BitPayCardTopUpPage {
             buyerSelectedTransactionCurrency: wallet.coin.toUpperCase()
           }).then((inv) => {
 
-            // Check if BTC or BCH is enabled in this account
+            // Check if BTC or POLIS is enabled in this account
             if (!this.isCryptoCurrencySupported(wallet, inv)) {
               let msg = this.translate.instant('Top-up with this cryptocurrency is not enabled');
               this.showErrorAndBack(null, msg);
@@ -398,7 +390,7 @@ export class BitPayCardTopUpPage {
     this.onGoingProcessProvider.set('loadingTxInfo');
     this.createInvoice(dataSrc).then((invoice) => {
 
-      // Check if BTC or BCH is enabled in this account
+      // Check if BTC or POLIS is enabled in this account
       if (!this.isCryptoCurrencySupported(wallet, invoice)) {
         let msg = this.translate.instant('Top-up with this cryptocurrency is not enabled');
         this.showErrorAndBack(null, msg);

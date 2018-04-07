@@ -22,13 +22,13 @@ import * as _ from 'lodash';
 export class SendPage {
   public search: string = '';
   public walletsBtc: any;
-  public walletsBch: any;
-  public walletBchList: any;
+  public walletsPolis: any;
+  public walletPolisList: any;
   public walletBtcList: any;
   public contactsList: object[] = [];
   public filteredContactsList: object[] = [];
   public hasBtcWallets: boolean;
-  public hasBchWallets: boolean;
+  public hasPolisWallets: boolean;
   public hasContacts: boolean;
   public contactsShowMore: boolean;
   private CONTACTS_SHOW_LIMIT: number = 10;
@@ -51,10 +51,10 @@ export class SendPage {
 
   ionViewWillEnter() {
     this.walletsBtc = this.profileProvider.getWallets({ coin: 'btc' });
-    this.walletsBch = this.profileProvider.getWallets({ coin: 'bch' });
+    this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
     this.hasBtcWallets = !(_.isEmpty(this.walletsBtc));
-    this.hasBchWallets = !(_.isEmpty(this.walletsBch));
-    this.updateBchWalletsList();
+    this.hasPolisWallets = !(_.isEmpty(this.walletsPolis));
+    this.updatePolisWalletsList();
     this.updateBtcWalletsList();
     this.updateContactsList();
   }
@@ -63,13 +63,13 @@ export class SendPage {
     this.search = '';
   }
 
-  private updateBchWalletsList(): void {
-    this.walletBchList = [];
+  private updatePolisWalletsList(): void {
+    this.walletPolisList = [];
 
-    if (!this.hasBchWallets) return;
+    if (!this.hasPolisWallets) return;
 
-    _.each(this.walletsBch, (v: any) => {
-      this.walletBchList.push({
+    _.each(this.walletsPolis, (v: any) => {
+      this.walletPolisList.push({
         color: v.color,
         name: v.name,
         recipientType: 'wallet',

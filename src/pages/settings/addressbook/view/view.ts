@@ -22,7 +22,7 @@ export class AddressbookViewPage {
   public name: string;
   public email: string;
 
-  private bitcoreCash: any;
+  private bitcorePolis: any;
   private coin: string;
 
 
@@ -35,13 +35,13 @@ export class AddressbookViewPage {
     private popupProvider: PopupProvider,
     private translate: TranslateService
   ) {
-    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
+    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
     this.address = this.navParams.data.contact.address;
     this.name = this.navParams.data.contact.name;
     this.email = this.navParams.data.contact.email;
 
-    const cashAddress = this.bitcoreCash.Address.isValid(this.address, 'livenet');
-    this.coin = cashAddress ? 'bch' : 'btc';
+    const polisAddress = this.bitcorePolis.Address.isValid(this.address, 'livenet');
+    this.coin = polisAddress ? 'polis' : 'btc';
   }
 
   ionViewDidLoad() {

@@ -191,8 +191,8 @@ msgstr "Le commissioni per i miner di Bitcoin (BTC) sono elevate a causa dell'al
 msgid "Bitcoin Address"
 msgstr "Indirizzo Bitcoin"
 
-msgid "Bitcoin Cash Wallets"
-msgstr "Portafogli Bitcoin Cash"
+msgid "Polis Wallets"
+msgstr "Portafogli Polis"
 
 msgid "Bitcoin Network Fee Policy"
 msgstr "Criterio delle Commissioni del Bitcoin Network"
@@ -200,8 +200,8 @@ msgstr "Criterio delle Commissioni del Bitcoin Network"
 msgid "Bitcoin Wallets"
 msgstr "Portafogli Bitcoin"
 
-msgid "Bitcoin cash Payment"
-msgstr "Pagamento Bitcoin Cash"
+msgid "Polis Payment"
+msgstr "Pagamento Polis"
 
 msgid "Bitcoin is a currency."
 msgstr "Bitcoin è una moneta."
@@ -353,8 +353,8 @@ msgstr "Continua"
 msgid "Contribute translations"
 msgstr "Contribuisci alle traduzioni"
 
-msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
-msgstr "Copay supporta Bitcoin Cash soltanto utilizzando la nuova versione di indirizzi"
+msgid "Copay only supports Polis using new version numbers addresses"
+msgstr "Copay supporta Polis soltanto utilizzando la nuova versione di indirizzi"
 
 msgid "Copayer already in this wallet"
 msgstr "Copayer già in questo portafoglio"
@@ -857,8 +857,8 @@ msgstr "Ho capito che i miei fondi sono custoditi in sicurezza in questa disposi
 msgid "I'm sure"
 msgstr "Sono sicuro"
 
-msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
-msgstr "Se abilitato, gli indirizzi di Bitcoin Cash saranno mostrati con lo stile di indirizzo di Copay, e non con il nuovo formato di cashaddr."
+msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
+msgstr "Se abilitato, gli indirizzi di Polis saranno mostrati con lo stile di indirizzo di Copay, e non con il nuovo formato di cashaddr."
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
 msgstr "Se attivata, tutte le informazioni sensibili (chiavi private e la frase di recupero) e azioni (spesa ed esportazione) associate a questo portafoglio saranno protette."
@@ -1109,8 +1109,8 @@ msgstr "Nessun portafoglo disponibile per ricevere i fondi"
 msgid "No wallets available to use ShapeShift"
 msgstr "Nessun portafoglio disponibile per utilizzare ShapeShift"
 
-msgid "No wallets eligible for Bitcoin Cash support"
-msgstr "Nessun portafogli idoneo al supporto di Bitcoin Cash"
+msgid "No wallets eligible for Polis support"
+msgstr "Nessun portafogli idoneo al supporto di Polis"
 
 msgid "No wallets with funds"
 msgstr "Nessun portafoglio con fondi"
@@ -1145,8 +1145,8 @@ msgstr "Indirizzo bitcoin non valido"
 msgid "Note"
 msgstr "Nota"
 
-msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
-msgstr "Nota: se questo portafoglio BCH è stato duplicato da un portafoglio BTC, condividono la stessa frase di recupero."
+msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgstr "Nota: se questo portafoglio POLIS è stato duplicato da un portafoglio BTC, condividono la stessa frase di recupero."
 
 msgid "Notification"
 msgstr "Notifica"
@@ -1280,8 +1280,8 @@ msgstr "Pagamento accettato, ma non ancora inviata alla rete"
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "Pagamento accettato. Esso sarà trasmesso attraverso la rete Glidera. Nel caso in cui ci fosse un problema, si potrà eliminarlo 6 ore dopo che è stato creato."
 
-msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
-msgstr "Indirizzo per il pagamento è stato tradotto al nuovo formato di indirizzo Bitcoin Cash: {{addr}}"
+msgid "Payment address was translated to new Polis address format: {{addr}}"
+msgstr "Indirizzo per il pagamento è stato tradotto al nuovo formato di indirizzo Polis: {{addr}}"
 
 msgid "Payment request"
 msgstr "Richiesta di pagamento"
@@ -1661,8 +1661,8 @@ msgstr "Trascina per pagare"
 msgid "Slide to send"
 msgstr "Trascina per inviare"
 
-msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
-msgstr "Alcuni dei tuoi portafogli non sono idonei al supporto di Bitcoin Cash. Puoi provare ad accedere ad accedere ai fondi BCH da questi portafogli con lo strumento di recupero"
+msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
+msgstr "Alcuni dei tuoi portafogli non sono idonei al supporto di Polis. Puoi provare ad accedere ad accedere ai fondi POLIS da questi portafogli con lo strumento di recupero"
 
 msgid "Specify Recovery Phrase"
 msgstr "Specificare la frase di recupero"
@@ -1874,8 +1874,8 @@ msgstr "Transazioni"
 msgid "Transactions without fee are not supported."
 msgstr "Non sono supportate transazioni senza commissione."
 
-msgid "Transfer to Bitcoin Cash Wallet"
-msgstr "Trasferimento a portafoglio Bitcoin Cash"
+msgid "Transfer to Polis Wallet"
+msgstr "Trasferimento a portafoglio Polis"
 
 msgid "Transfer to Bitcoin Wallet"
 msgstr "Trasferimento a portafoglio Bitcoin"
@@ -1928,8 +1928,8 @@ msgstr "In aggiornamento... Attendere"
 msgid "Urgent"
 msgstr "Urgente"
 
-msgid "Use Bitcoin Cash Copay Style Addresses"
-msgstr "Utilizzare gli indirizzi Bitcoin Cash in stile Copay"
+msgid "Use Polis Copay Style Addresses"
+msgstr "Utilizzare gli indirizzi Polis in stile Copay"
 
 msgid "Use Unconfirmed Funds"
 msgstr "Usa i fondi non confermati"

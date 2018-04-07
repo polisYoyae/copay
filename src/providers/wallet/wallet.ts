@@ -329,15 +329,14 @@ export class WalletProvider {
   }
 
   public getAddressView(wallet: any, address: string): string {
-    if (wallet.coin != 'bch' || this.useLegacyAddress()) return address;
-    return this.txFormatProvider.toCashAddress(address);
+    return address;
   }
 
   public getProtoAddress(wallet: any, address: string) {
     let proto: string = this.getProtocolHandler(wallet.coin);
     let protoAddr: string = proto + ':' + address;
 
-    if (wallet.coin != 'bch' || this.useLegacyAddress()) {
+    if (wallet.coin != 'bch') {
       return protoAddr;
     } else {
       return protoAddr.toUpperCase();
@@ -953,6 +952,8 @@ export class WalletProvider {
         return new Promise((resolve, reject) => {
           let wallet = clients.shift();
           if (!wallet) return resolve();
+		  
+          
           this.logger.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
 
           wallet.savePreferences(prefs, (err: any) => {
@@ -979,8 +980,8 @@ export class WalletProvider {
       // Get current languge
       prefs.language = this.languageProvider.getCurrent();
       
-      // Set OLD wallet in bits to btc
-      prefs.unit = 'btc'; // DEPRECATED
+	  // BWS Compatibility 
+      prefs.unit = 'btc';
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {
@@ -1334,8 +1335,8 @@ export class WalletProvider {
   }
 
   public getProtocolHandler(coin: string): string {
-    if (coin == 'bch') {
-      return 'bitcoincash';
+    if (coin == 'polis') {
+      return 'polis';
     } else {
       return 'bitcoin';
     }
@@ -1343,7 +1344,10 @@ export class WalletProvider {
 
   public copyCopayers(wallet: any, newWallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      let walletPrivKey = this.bwcProvider.getBitcore().PrivateKey.fromString(wallet.credentials.walletPrivKey);
+	  
+	  let bitcore = this.bwcProvider.getBitcore(wallet.coin);
+	  let walletPrivKey = bitcore.PrivateKey.fromString(wallet.credentials.walletPrivKey);
+
       let copayer = 1;
       let i = 0;
 

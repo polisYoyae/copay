@@ -193,7 +193,7 @@ msgstr ""
 msgid "Bitcoin Address"
 msgstr "ビットコインアドレス"
 
-msgid "Bitcoin Cash Wallets"
+msgid "Polis Wallets"
 msgstr "ビットコインキャッシュウォレット"
 
 msgid "Bitcoin Network Fee Policy"
@@ -202,7 +202,7 @@ msgstr "ビットコインネットワークの手数料設定"
 msgid "Bitcoin Wallets"
 msgstr "ビットコインウォレット"
 
-msgid "Bitcoin cash Payment"
+msgid "Polis Payment"
 msgstr "ビットコインキャッシュペイメント"
 
 msgid "Bitcoin is a currency."
@@ -355,7 +355,7 @@ msgstr "続ける"
 msgid "Contribute translations"
 msgstr ""
 
-msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
+msgid "Copay only supports Polis using new version numbers addresses"
 msgstr "Copay のビットコインキャッシュはビットコインと完全に異なる別通貨なので、アドレスの頭文字が異なります。"
 
 msgid "Copayer already in this wallet"
@@ -859,7 +859,7 @@ msgstr ""
 msgid "I'm sure"
 msgstr ""
 
-msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
+msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
 msgstr ""
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
@@ -1111,7 +1111,7 @@ msgstr "ペーパーウォレットの出金を受け取るためのウォレッ
 msgid "No wallets available to use ShapeShift"
 msgstr ""
 
-msgid "No wallets eligible for Bitcoin Cash support"
+msgid "No wallets eligible for Polis support"
 msgstr "ビットコインキャッシュ対応できるウォレットがありません。"
 
 msgid "No wallets with funds"
@@ -1147,7 +1147,7 @@ msgstr ""
 msgid "Note"
 msgstr "メモ"
 
-msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
 msgstr "注意: このビットコインキャッシュウォレットがビットコインウォレットからの複製の場合、復元フレーズは一緒です。"
 
 msgid "Notification"
@@ -1282,7 +1282,7 @@ msgstr "取引が承認されましたが、まだ送信していません。"
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "取引が承認されました。Glideraより送信されます。問題があった場合、送金命令を出す６時間以内に取り消すことができます。"
 
-msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
+msgid "Payment address was translated to new Polis address format: {{addr}}"
 msgstr ""
 
 msgid "Payment request"
@@ -1665,7 +1665,7 @@ msgstr ""
 msgid "Slide to send"
 msgstr ""
 
-msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
+msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
 msgstr ""
 
 msgid "Specify Recovery Phrase"
@@ -1878,7 +1878,7 @@ msgstr ""
 msgid "Transactions without fee are not supported."
 msgstr "手数料なしの取引はサポートされていません。"
 
-msgid "Transfer to Bitcoin Cash Wallet"
+msgid "Transfer to Polis Wallet"
 msgstr ""
 
 msgid "Transfer to Bitcoin Wallet"
@@ -1932,7 +1932,7 @@ msgstr "更新中... お待ち下さい"
 msgid "Urgent"
 msgstr "緊急"
 
-msgid "Use Bitcoin Cash Copay Style Addresses"
+msgid "Use Polis Copay Style Addresses"
 msgstr ""
 
 msgid "Use Unconfirmed Funds"

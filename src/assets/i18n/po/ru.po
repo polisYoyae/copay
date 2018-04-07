@@ -191,7 +191,7 @@ msgstr ""
 msgid "Bitcoin Address"
 msgstr "Биткойн-адрес"
 
-msgid "Bitcoin Cash Wallets"
+msgid "Polis Wallets"
 msgstr ""
 
 msgid "Bitcoin Network Fee Policy"
@@ -200,7 +200,7 @@ msgstr "Политика комиссии сети Биткойн"
 msgid "Bitcoin Wallets"
 msgstr ""
 
-msgid "Bitcoin cash Payment"
+msgid "Polis Payment"
 msgstr ""
 
 msgid "Bitcoin is a currency."
@@ -353,7 +353,7 @@ msgstr "Продолжить"
 msgid "Contribute translations"
 msgstr ""
 
-msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
+msgid "Copay only supports Polis using new version numbers addresses"
 msgstr ""
 
 msgid "Copayer already in this wallet"
@@ -857,7 +857,7 @@ msgstr ""
 msgid "I'm sure"
 msgstr ""
 
-msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
+msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
 msgstr ""
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
@@ -1109,7 +1109,7 @@ msgstr "Некуда перевести средства"
 msgid "No wallets available to use ShapeShift"
 msgstr ""
 
-msgid "No wallets eligible for Bitcoin Cash support"
+msgid "No wallets eligible for Polis support"
 msgstr ""
 
 msgid "No wallets with funds"
@@ -1145,7 +1145,7 @@ msgstr ""
 msgid "Note"
 msgstr "Примечание"
 
-msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
 msgstr ""
 
 msgid "Notification"
@@ -1280,7 +1280,7 @@ msgstr "Платёж принят, но пока не отправлен"
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "Платёж принят и будет отправлен Glidera. В случае проблем он может быть удалён спустя шесть часов после создания."
 
-msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
+msgid "Payment address was translated to new Polis address format: {{addr}}"
 msgstr ""
 
 msgid "Payment request"
@@ -1661,7 +1661,7 @@ msgstr ""
 msgid "Slide to send"
 msgstr ""
 
-msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
+msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
 msgstr ""
 
 msgid "Specify Recovery Phrase"
@@ -1874,7 +1874,7 @@ msgstr ""
 msgid "Transactions without fee are not supported."
 msgstr ""
 
-msgid "Transfer to Bitcoin Cash Wallet"
+msgid "Transfer to Polis Wallet"
 msgstr ""
 
 msgid "Transfer to Bitcoin Wallet"
@@ -1928,7 +1928,7 @@ msgstr "Обновление... Подождите, пожалуйста"
 msgid "Urgent"
 msgstr "Срочно"
 
-msgid "Use Bitcoin Cash Copay Style Addresses"
+msgid "Use Polis Copay Style Addresses"
 msgstr ""
 
 msgid "Use Unconfirmed Funds"

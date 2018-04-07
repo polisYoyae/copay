@@ -6,7 +6,7 @@
 
 </ion-header>
 <ion-content no-bounce>
-  <div *ngIf="hasBtcWallets || hasBchWallets">
+  <div *ngIf="hasBtcWallets || hasPolisWallets">
     <div class="send-header-wrapper">
       <span class="send-heading" translate>Recipient</span>
       <ion-item class="search-wrapper">
@@ -61,14 +61,14 @@
       </ion-list>
     </div>
 
-    <div class="card" *ngIf="walletBchList && walletBchList[0]">
+    <div class="card" *ngIf="walletPolisList && walletPolisList[0]">
       <ion-item-divider class="title">
-        <img src="assets/img/bitcoin-cash-logo.svg" alt="Bitcoin Cash Wallets" width="22" />
-        <span translate>Transfer to Bitcoin Cash Wallet</span>
+        <img src="assets/img/bitcoin-cash-logo.svg" alt="Polis Wallets" width="22" />
+        <span translate>Transfer to Polis Wallet</span>
       </ion-item-divider>
 
       <ion-list>
-        <button ion-item *ngFor="let wallet of walletBchList" (click)="goToAmount(wallet)">
+        <button ion-item *ngFor="let wallet of walletPolisList" (click)="goToAmount(wallet)">
           <ion-icon item-start>
             <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
             <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />
@@ -87,7 +87,7 @@
       </ion-list>
     </div>
   </div>
-  <div *ngIf="!hasBtcWallets && !hasBchWallets" class="no-wallet-message">
+  <div *ngIf="!hasBtcWallets && !hasPolisWallets" class="no-wallet-message">
     <span translate>To get started, you'll need to create a bitcoin wallet and get some bitcoin.</span>
   </div>
 </ion-content>

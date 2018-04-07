@@ -38,6 +38,7 @@ export class PaperWalletPage {
   public error: boolean;
   public isOpenSelector: boolean;
   private bitcore: any;
+  private bitcorePolis: any;
 
   // Platform info
   public isCordova: boolean;
@@ -58,6 +59,7 @@ export class PaperWalletPage {
     private platformProvider: PlatformProvider,
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
+    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
     this.isCordova = this.platformProvider.isCordova;
   }
 
@@ -114,7 +116,11 @@ export class PaperWalletPage {
     try {
       new this.bitcore.PrivateKey(privateKey, 'livenet');
     } catch (err) {
-      return false;
+	  try {
+		new this.bitcorePolis.PrivateKey(privateKey, 'livenet');
+	  } catch (err) {
+	  	return false;
+	  }
     }
     return true;
   };
