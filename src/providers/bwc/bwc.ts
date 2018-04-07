@@ -15,7 +15,7 @@ export class BwcProvider {
   public getBitcore(coin?): any {
 	if( coin === 'btc'){
 	  return BWCBitcoin.Bitcore;
-	else if ( coin === 'polis' ){
+	}else if ( coin === 'polis' ){
 	  return BWCPolis.Bitcore;
 	}
     return BWCBitcoin.Bitcore;

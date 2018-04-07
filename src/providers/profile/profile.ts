@@ -708,7 +708,7 @@ export class ProfileProvider {
       let getBWSURL = (walletId: string, coin: string) => {
         let config: any = this.configProvider.get();
         let defaults: any = this.configProvider.getDefaults();
-        return ((config.bwsFor && config.bwsFor[walletId]) || (defaults.bws[wallet.coin]));
+        return ((config.bwsFor && config.bwsFor[walletId]) || (defaults.bws[coin]));
       };
 
       let walletClient = this.bwcProvider.getClient(credentials.coin, JSON.stringify(credentials), {
