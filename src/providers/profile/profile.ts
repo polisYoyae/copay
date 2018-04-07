@@ -293,6 +293,7 @@ export class ProfileProvider {
   public importWallet(str: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
 		
+	  // Unecessary complexity here because of Polis bws returning coin as 'btc'	
       let walletClientBtc = this.bwcProvider.getClient('btc', null, opts);
   	  let walletClientPolis = this.bwcProvider.getClient('polis', null, opts);
   	  var coin = 'btc';
@@ -334,9 +335,10 @@ export class ProfileProvider {
 
       let addressBook = strParsed.addressBook ? strParsed.addressBook : {};
 
+	  let walletClient = this.bwcProvider.getClient(coin, null, opts); 
       this.addAndBindWalletClient(walletClient, {
         bwsurl: opts.bwsurl,
-		    walletcoin: coin
+		walletcoin: coin
       }).then((walletId: string) => {
         this.setMetaData(walletClient, addressBook).then(() => {
           return resolve(walletClient);
@@ -728,8 +730,8 @@ export class ProfileProvider {
         return ((config.bwsFor && config.bwsFor[walletId]) || (coin === 'polis' ? defaults.bws.polis : defaults.bws.btc));
       };
 
-      let walletClient = this.bwcProvider.getClient(coin, JSON.stringify(credentials), {
-        bwsurl: getBWSURL(credentials.walletId, coin),
+      let walletClient = this.bwcProvider.getClient(credentials.coin, JSON.stringify(credentials), {
+        bwsurl: getBWSURL(credentials.walletId, credentials.coin),
       });
 
       let skipKeyValidation = this.shouldSkipValidation(credentials.walletId);

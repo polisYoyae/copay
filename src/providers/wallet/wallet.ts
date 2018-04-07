@@ -1344,7 +1344,6 @@ export class WalletProvider {
 
   public copyCopayers(wallet: any, newWallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-	  let walletPrivKey = null;
 	  
 	  let bitcore = wallet.coin === 'btc' ? this.bwcProvider.getBitcore() : this.bwcProvider.getBitcorePolis();
 	  let walletPrivKey = bitcore.PrivateKey.fromString(wallet.credentials.walletPrivKey);
