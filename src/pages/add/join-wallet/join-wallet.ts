@@ -54,7 +54,7 @@ export class JoinWalletPage {
     this.joinForm = this.form.group({
       myName: [null, Validators.required],
       invitationCode: [null, [Validators.required, Validators.pattern(regex)]], // invitationCode == secret
-      bwsURL: [this.defaults.bws.url],
+      bwsURL: [this.navParams.data.coin === 'polis' ? this.defaults.bws.polis : this.defaults.bws.btc],
       selectedSeed: ['new'],
       recoveryPhrase: [null],
       derivationPath: [this.derivationPathByDefault],

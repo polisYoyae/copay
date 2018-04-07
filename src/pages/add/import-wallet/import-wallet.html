@@ -60,7 +60,8 @@
     <ion-item *ngIf="selectedTab != 'file'">
       <ion-label stacked>{{'Coin' | translate}}</ion-label>
       <ion-select formControlName="coin" (ionChange)="testnetEnabled = false">
-        <ion-option value="btc">POLIS</ion-option>
+        <ion-option value="btc">BTC</ion-option>
+        <ion-option value="polis">POLIS</ion-option>
       </ion-select>
     </ion-item>
 

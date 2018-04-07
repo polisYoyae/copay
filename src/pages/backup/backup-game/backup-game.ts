@@ -200,7 +200,7 @@ export class BackupGamePage {
       }
 
       if (this.mnemonicHasPassphrase) {
-        let walletClient = this.bwcProvider.getClient();
+        let walletClient = this.bwcProvider.getClient(this.wallet.coin);
         let separator = this.useIdeograms ? '\u3000' : ' ';
         let customSentence = customWordList.join(separator);
         let password = this.password || '';

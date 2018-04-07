@@ -30,7 +30,8 @@ interface Config {
   };
 
   bws: {
-    url: string;
+    btc: string;
+    polis: string;
   };
 
   download: {
@@ -99,7 +100,7 @@ interface Config {
 
   blockExplorerUrl: {
     btc: string;
-    bch: string;
+    polis: string;
   }
 };
 
@@ -132,8 +133,8 @@ const configDefault: Config = {
 
   // Bitcore wallet service URL
   bws: {
-    // url: 'https://bws.bitpay.com/bws/api'
-    url: 'https://bws.polispay.org/bws/api'
+    btc: 'https://bws.bitpay.com/bws/api',
+    polis: 'https://bws.polispay.org/bws/api'
   },
 
   download: {
@@ -202,9 +203,8 @@ const configDefault: Config = {
   },
 
   blockExplorerUrl: {
-    // btc: 'insight.bitpay.com',
-    btc: 'insight.polispay.org',
-    bch: 'bch-insight.bitpay.com'
+    btc: 'insight.bitpay.com',
+    polis: 'polis-insight.bitpay.com'
   }
 };
 
@@ -217,7 +217,7 @@ export class ConfigProvider {
     private logger: Logger,
     private persistence: PersistenceProvider
   ) {
-    this.logger.debug('ConfigProvider initialized.');
+    this.logger.info('ConfigProvider initialized.');
   }
 
   public load() {

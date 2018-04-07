@@ -65,8 +65,8 @@ export class TxDetailsPage {
     this.txsUnsubscribedForNotifications = this.config.confirmedTxsNotifications ? !this.config.confirmedTxsNotifications.enabled : true;
 
     let defaults = this.configProvider.getDefaults();
-    this.blockexplorerUrl = this.wallet.coin === 'bch'
-      ? defaults.blockExplorerUrl.bch
+    this.blockexplorerUrl = this.wallet.coin === 'polis'
+      ? defaults.blockExplorerUrl.polis
       : defaults.blockExplorerUrl.btc;
 
     this.txConfirmNotificationProvider.checkIfEnabled(this.txId).then((res: any) => {
@@ -151,7 +151,6 @@ export class TxDetailsPage {
       if (!opts.hideLoading) this.onGoingProcess.clear();
 
       this.btx = this.txFormatProvider.processTx(this.wallet.coin, tx, this.walletProvider.useLegacyAddress());
-
       let v: string = this.txFormatProvider.formatAlternativeStr(this.wallet.coin, tx.fees);
       this.btx.feeFiatStr = v;
       this.btx.feeRateStr = (this.btx.fees / (this.btx.amount + this.btx.fees) * 100).toFixed(2) + '%';

@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <img class="home-logo" src="assets/img/app/icon.png">
+      <img class="home-logo" src="assets/img/app/logo-negative.svg">
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderBch">
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderPolis">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
@@ -51,7 +51,7 @@
         <img src="assets/img/check-white.svg" class="bg green" />
       </ion-icon>
       <div class="title" translate>
-        Your polis wallet is ready!
+        Your bitcoin wallet is ready!
       </div>
       <div class="subtitle" translate>
         On this screen you can see all your wallets, accounts, and assets.
@@ -102,9 +102,8 @@
   <div class="card" *ngIf="walletsBtc && walletsBtc[0]">
     <ion-item-divider>
       <div class="title" item-start>
-        <!-- <img src="assets/img/icon-bitcoin.svg" alt="Polis Wallets" width="18" /> -->
-        <img src="assets/img/app/coin-icon.png" alt="Polis Wallets" width="18" />
-        <span translate>Polis Wallets</span>
+        <img src="assets/img/icon-bitcoin.svg" alt="Bitcoin Wallets" width="18" />
+        <span translate>Bitcoin Wallets</span>
       </div>
       <div item-end *ngIf="!showReorderBtc">
         <button ion-button clear icon-only color="grey" (click)="goToAddView()">
@@ -137,9 +136,7 @@
           </span>
           <span *ngIf="wallet.isComplete() && !wallet.needsBackup">
             <span *ngIf="!wallet.balanceHidden && !wallet.scanning">
-              {{wallet.status && wallet.status.totalBalanceStr ? (wallet.status.totalBalanceStr.replace('BTC','POLIS')) : ( wallet.cachedBalance ? wallet.cachedBalance.replace('BTC','POLIS')
-              + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '')
-              : '')}}
+              {{wallet.status && wallet.status.totalBalanceStr ? (wallet.status.totalBalanceStr) : ( wallet.cachedBalance ? wallet.cachedBalance + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '') : '')}}
             </span>
             <span *ngIf="wallet.scanning" translate>Scanning funds</span>
             <span *ngIf="wallet.balanceHidden && !wallet.scanning">[
@@ -153,29 +150,29 @@
     </ion-list>
   </div>
 
-  <!-- <div *ngIf="walletsBch && walletsBch[0]">
+  <div class="card" *ngIf="walletsPolis && walletsPolis[0]">
     <ion-item-divider>
       <div class="title" item-start>
-        <img src="assets/img/bitcoin-cash-logo.svg" alt="Bitcoin Cash Wallets" width="22" />
-        <span translate>Bitcoin Cash Wallets</span>
+        <img src="assets/img/bitcoin-cash-logo.svg" alt="Polis Wallets" width="22" />
+        <span translate>Polis Wallets</span>
       </div>
-      <div item-end *ngIf="!showReorderBch">
-        <button ion-button clear icon-only color="grey" (click)="goToAddView('bch')">
+      <div item-end *ngIf="!showReorderPolis">
+        <button ion-button clear icon-only color="grey" (click)="goToAddView('polis')">
           <ion-icon name="add"></ion-icon>
         </button>
-        <button ion-button clear icon-only color="grey" (click)="reorderBch()" *ngIf="walletsBch.length > 1">
+        <button ion-button clear icon-only color="grey" (click)="reorderPolis()" *ngIf="walletsPolis.length > 1">
           <ion-icon name="reorder"></ion-icon>
         </button>
       </div>
-      <div item-end *ngIf="showReorderBch">
-        <button ion-button clear color="secondary" (click)="reorderBch()">
+      <div item-end *ngIf="showReorderPolis">
+        <button ion-button clear color="secondary" (click)="reorderPolis()">
           {{'Done' | translate}}
         </button>
       </div>
     </ion-item-divider>
 
-    <ion-list reorder="{{showReorderBch}}" (ionItemReorder)="reorderWalletsBch($event)">
-      <button ion-item *ngFor="let wallet of walletsBch" (click)="goToWalletDetails(wallet)">
+    <ion-list reorder="{{showReorderPolis}}" (ionItemReorder)="reorderWalletsPolis($event)">
+      <button ion-item *ngFor="let wallet of walletsPolis" (click)="goToWalletDetails(wallet)">
         <ion-icon item-start>
           <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
           <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />
@@ -202,7 +199,7 @@
         </div>
       </button>
     </ion-list>
-  </div> -->
+  </div>
 
   <div class="card" *ngIf="showBitPayCard && bitpayCardItems && bitpayCardItems[0] && wallets &&wallets[0]">
     <ion-item-divider>
@@ -245,5 +242,6 @@
         <span>{{service.title || service.name}}</span>
       </button>
     </ion-list>
+
   </div>
 </ion-content>

@@ -29,9 +29,8 @@
     </div>
     <ngx-qrcode *ngIf="!loading && address" copy-to-clipboard="{{ address }}" qrc-value="{{qrAddress}}" qrc-class="aclass" qrc-errorCorrectionLevel="M"></ngx-qrcode>
     <div *ngIf="!loading" class="text-address ellipsis" copy-to-clipboard="{{ address }}">
-      <img *ngIf="wallet.coin == 'btc'" src="assets/img/app/coin-icon.png" alt="POLIS" width="18" />
-<!--       <img *ngIf="wallet.coin == 'bch'" src="assets/img/bitcoin-cash-logo.svg" alt="BCH" width="22" /> -->
-      {{ address }}
+      <img *ngIf="wallet.coin == 'btc'" src="assets/img/icon-bitcoin.svg" alt="BTC" width="18" />
+      <img *ngIf="wallet.coin == 'polis'" src="assets/img/bitcoin-cash-logo.svg" alt="POLIS" width="22" /> {{ address }}
     </div>
     <div *ngIf="loading" class="text-address">...</div>
     <button ion-button clear [hidden]="!address" (click)="requestSpecificAmount()">
@@ -79,8 +78,7 @@
       </span>
       <span *ngIf="wallet.isComplete() && !wallet.needsBackup">
         <span *ngIf="!wallet.balanceHidden && !wallet.scanning">
-          {{wallet.status && wallet.status.totalBalanceStr ? (wallet.status.totalBalanceStr.replace('BTC',' POLIS')) : ( wallet.cachedBalance ? wallet.cachedBalance.replace('BTC',' POLIS')
-          + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '') : '')}}
+          {{wallet.status && wallet.status.totalBalanceStr ? (wallet.status.totalBalanceStr) : ( wallet.cachedBalance ? wallet.cachedBalance + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '') : '')}}
         </span>
         <span *ngIf="wallet.scanning" translate>Scanning funds</span>
         <span *ngIf="wallet.balanceHidden && !wallet.scanning">

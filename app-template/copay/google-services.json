@@ -1,16 +1,16 @@
 {
   "project_info": {
-    "project_number": "726858118397",
-    "firebase_url": "https://polispay-copay.firebaseio.com/",
-    "project_id": "polispay-copay",
-    "storage_bucket": "polispay-copay.appspot.com"
+    "project_number": "149194066736",
+    "firebase_url": "https://bitpay-wallet.firebaseio.com",
+    "project_id": "bitpay-wallet",
+    "storage_bucket": "bitpay-wallet.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:726858118397:android:1ff8d546a6fba706",
+        "mobilesdk_app_id": "1:149194066736:android:6de8942b48fea047",
         "android_client_info": {
-          "package_name": "com.polispay.copay"
+          "package_name": "com.bitpay.copay"
         }
       },
       "oauth_client": [

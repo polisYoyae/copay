@@ -5,18 +5,17 @@
   </ion-navbar>
 
 </ion-header>
-
 <ion-content no-bounce>
-  <div *ngIf="hasBtcWallets || hasBchWallets">
+  <div *ngIf="hasBtcWallets || hasPolisWallets">
     <div class="send-header-wrapper">
       <span class="send-heading" translate>Recipient</span>
-      <div class="search-wrapper">
-        <ion-icon class="bitcoin-icon" name="search-btc"></ion-icon>
-        <ion-input placeholder="{{'Search or enter polis address' | translate}}" [(ngModel)]="search" (ngModelChange)="findContact(search)"></ion-input>
-        <ion-icon class="scan-icon" (click)="openScanner()">
+      <ion-item class="search-wrapper">
+        <ion-icon item-start class="bitcoin-icon" name="search-btc"></ion-icon>
+        <ion-input placeholder="{{'Search or enter bitcoin address' | translate}}" [(ngModel)]="search" (ngModelChange)="findContact(search)"></ion-input>
+        <ion-icon item-end class="scan-icon" (click)="openScanner()">
           <img src="assets/img/scan-ico.svg">
         </ion-icon>
-      </div>
+      </ion-item>
     </div>
 
     <div class="card" *ngIf="filteredContactsList && filteredContactsList[0]">
@@ -38,8 +37,8 @@
 
     <div class="card" *ngIf="walletBtcList && walletBtcList[0]">
       <ion-item-divider class="title">
-        <img src="assets/img/app/coin-icon.png" alt="Polis Wallets" width="16" />
-        <span translate>Transfer to Polis Wallet</span>
+        <img src="assets/img/icon-bitcoin.svg" alt="Bitcoin Wallets" width="16" />
+        <span translate>Transfer to Bitcoin Wallet</span>
       </ion-item-divider>
 
       <ion-list>
@@ -64,14 +63,14 @@
       </ion-list>
     </div>
 
-    <div class="card" *ngIf="walletBchList && walletBchList[0]">
+    <div class="card" *ngIf="walletPolisList && walletPolisList[0]">
       <ion-item-divider class="title">
-        <img src="assets/img/bitcoin-cash-logo.svg" alt="Bitcoin Cash Wallets" width="22" />
-        <span translate>Transfer to Polis Cash Wallet</span>
+        <img src="assets/img/bitcoin-cash-logo.svg" alt="Polis Wallets" width="22" />
+        <span translate>Transfer to Polis Wallet</span>
       </ion-item-divider>
 
       <ion-list>
-        <button ion-item *ngFor="let wallet of walletBchList" (click)="goToAmount(wallet)">
+        <button ion-item *ngFor="let wallet of walletPolisList" (click)="goToAmount(wallet)">
           <ion-icon item-start>
             <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg"
               class="icon-wallet" />
@@ -92,7 +91,7 @@
       </ion-list>
     </div>
   </div>
-  <div *ngIf="!hasBtcWallets && !hasBchWallets" class="no-wallet-message">
-    <span translate>To get started, you'll need to create a polis wallet and get some polis.</span>
+  <div *ngIf="!hasBtcWallets && !hasPolisWallets" class="no-wallet-message">
+    <span translate>To get started, you'll need to create a bitcoin wallet and get some bitcoin.</span>
   </div>
 </ion-content>

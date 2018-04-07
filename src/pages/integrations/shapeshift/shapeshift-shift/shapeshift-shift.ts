@@ -20,7 +20,7 @@ import { ShapeshiftProvider } from '../../../../providers/shapeshift/shapeshift'
 export class ShapeshiftShiftPage {
 
   private walletsBtc: any[];
-  private walletsBch: any[];
+  private walletsPolis: any[];
 
   public toWallets: any[];
   public fromWallets: any[];
@@ -44,7 +44,7 @@ export class ShapeshiftShiftPage {
     private translate: TranslateService
   ) {
     this.walletsBtc = [];
-    this.walletsBch = [];
+    this.walletsPolis = [];
     this.toWallets = [];
     this.fromWallets = [];
     this.fromWalletSelectorTitle = 'From';
@@ -58,18 +58,18 @@ export class ShapeshiftShiftPage {
       coin: 'btc'
     });
 
-    this.walletsBch = this.profileProvider.getWallets({
+    this.walletsPolis = this.profileProvider.getWallets({
       onlyComplete: true,
       network: this.network,
-      coin: 'bch'
+      coin: 'polis'
     });
 
-    if (_.isEmpty(this.walletsBtc) || _.isEmpty(this.walletsBch)) {
+    if (_.isEmpty(this.walletsBtc) || _.isEmpty(this.walletsPolis)) {
       this.showErrorAndBack(null, this.translate.instant('No wallets available to use ShapeShift'));
       return;
     }
 
-    this.fromWallets = _.filter(this.walletsBtc.concat(this.walletsBch), (w: any) => {
+    this.fromWallets = _.filter(this.walletsBtc.concat(this.walletsPolis), (w: any) => {
       // Available cached funds
       if (!w.cachedBalance) return null;
       let hasCachedFunds = w.cachedBalance.match(/0\.00 /gi) ? false : true;
@@ -107,7 +107,7 @@ export class ShapeshiftShiftPage {
   }
 
   private showToWallets(): void {
-    this.toWallets = this.fromWallet.coin == 'btc' ? this.walletsBch : this.walletsBtc;
+    this.toWallets = this.fromWallet.coin == 'btc' ? this.walletsPolis : this.walletsBtc;
     this.onToWalletSelect(this.toWallets[0]);
 
     let pair = this.fromWallet.coin + '_' + this.toWallet.coin;

@@ -134,7 +134,7 @@ export class WalletTransactionHistoryPage {
           var _fee = (it.fees * this.satToBtc).toFixed(8)
           this.csvContent.push({
             'Date': this.formatDate(it.time * 1000),
-            'Destination': 'Polis Network Fees',
+            'Destination': 'Bitcoin Network Fees',
             'Description': '',
             'Amount': '-' + _fee,
             'Currency': this.currency,

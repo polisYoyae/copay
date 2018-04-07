@@ -39,7 +39,7 @@ export class ShapeshiftConfirmPage {
   private message: string;
   private configWallet: any;
   private bitcore: any;
-  private bitcoreCash: any;
+  private bitcorePolis: any;
   private useSendMax: boolean;
   private sendMaxInfo: any;
 
@@ -83,7 +83,7 @@ export class ShapeshiftConfirmPage {
     this.currencyIsoCode = 'USD';  // Only USD
     this.isCordova = this.platformProvider.isCordova;
     this.bitcore = this.bwcProvider.getBitcore();
-    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
+    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
 
     this.useSendMax = this.navParams.data.useSendMax ? true : false;
 
@@ -361,14 +361,14 @@ export class ShapeshiftConfirmPage {
 
   private getLegacyAddressFormat(addr: string, coin: string): string {
     if (coin == 'btc') return addr;
-    let a = this.bitcoreCash.Address(addr).toObject();
+    let a = this.bitcorePolis.Address(addr).toObject();
     return this.bitcore.Address.fromObject(a).toString();
   }
 
   private getNewAddressFormat(addr: string, coin: string): string {
     if (coin == 'btc') return addr;
     let a = this.bitcore.Address(addr).toObject();
-    return this.bitcoreCash.Address.fromObject(a).toString();
+    return this.bitcorePolis.Address.fromObject(a).toString();
   }
 
   private getCoinPair(): string {

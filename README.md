@@ -1,10 +1,10 @@
-<img src="https://raw.githubusercontent.com/polispay/copay/master/resources/polispay/android/icon/drawable-xxxhdpi-icon.png" alt="Copay" width="79">
+<img src="https://raw.githubusercontent.com/bitpay/copay/master/resources/copay/android/icon/drawable-xxxhdpi-icon.png" alt="Copay" width="79">
 
 [![CircleCI](https://img.shields.io/circleci/project/github/bitpay/copay.svg)](https://circleci.com/gh/bitpay/copay/)
 [![Codecov](https://img.shields.io/codecov/c/github/bitpay/copay.svg)](https://codecov.io/gh/bitpay/copay/)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/copay/localized.png)](https://crowdin.com/project/copay)
 
-Copay is a secure Bitcoin and Bitcoin Cash wallet platform for both desktop and mobile devices. Copay uses [Bitcore Wallet Service](https://github.com/bitpay/bitcore-wallet-service) (BWS) for peer synchronization and network interfacing.
+Copay is a secure bitcoin wallet platform for both desktop and mobile devices. Copay uses [Bitcore Wallet Service](https://github.com/bitpay/bitcore-wallet-service) (BWS) for peer synchronization and network interfacing.
 
 Binary versions of Copay are available for download at [Copay.io](https://copay.io/#download). Copay Binaries are signed with the key `copay@bitpay.com` – See the section [`How to Verify Copay Signatures`](https://github.com/bitpay/copay#how-to-verify-copay-signatures) for details.
 
@@ -12,7 +12,6 @@ For a list of frequently asked questions please visit the [Copay FAQ](https://gi
 
 ## Main Features
 
-- Supports Bitcoin (BTC) and Bitcoin Cash (BCH) wallets
 - Multiple wallet creation and management in-app
 - Intuitive, multisignature security for personal or shared wallets
 - Easy spending proposal flow for shared wallets and group payments
@@ -28,8 +27,7 @@ For a list of frequently asked questions please visit the [Copay FAQ](https://gi
 - Push notifications (only available for ios and android versions)
 - Customizable wallet naming and background colors
 - Multiple languages supported
-- Available for [iOS](https://itunes.apple.com/us/app/copay/id951330296), [Android](https://play.google.com/store/apps/details?id=com.bitpay.copay&hl=en), [Windows Phone](https://www.microsoft.com/en-us/store/p/copay-secure-bitcoin-wallet/9nm8z2b0387b),
- [Chrome App](https://chrome.google.com/webstore/detail/copay/cnidaodnidkbaplmghlelgikaiejfhja?hl=en), [Linux](https://github.com/bitpay/copay/releases/latest), [Windows](https://github.com/bitpay/copay/releases/latest) and [OS X](https://github.com/bitpay/copay/releases/latest) devices
+- Available for [iOS](https://itunes.apple.com/us/app/copay/id951330296), [Android](https://play.google.com/store/apps/details?id=com.bitpay.copay&hl=en), [Windows Phone](http://www.windowsphone.com/en-us/store/app/copay-wallet/4372479b-a064-4d18-8bd3-74a3bdb81c3a), [Chrome App](https://chrome.google.com/webstore/detail/copay/cnidaodnidkbaplmghlelgikaiejfhja?hl=en), [Linux](https://github.com/bitpay/copay/releases/latest), [Windows](https://github.com/bitpay/copay/releases/latest) and [OS X](https://github.com/bitpay/copay/releases/latest) devices
 
 ## Testing in a Browser
 
@@ -77,7 +75,7 @@ npm run start:android
 
 ### iOS
 
-Follow the [Cordova iOS Platform Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/) to set up your development environment.
+Follow the [Cordova iOS Platform Guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/) to set up your development environment.
 
 When your developement enviroment is ready, run the `start:ios` npm package script.
 
@@ -86,6 +84,7 @@ npm run apply:copay
 npm run prepare:copay
 npm run start:ios
 ```
+
 <!-- ### Desktop (Linux, macOS, and Windows)
 
 The desktop version of Copay currently uses NW.js, an app runtime based on Chromium. To get started, first install NW.js on your system from [the NW.js website](https://nwjs.io/).

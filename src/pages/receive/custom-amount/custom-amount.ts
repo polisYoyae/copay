@@ -54,15 +54,15 @@ export class CustomAmountPage {
       let _currency = parsedAmount.currency;
       this.amountUnitStr = parsedAmount.amountUnitStr;
 
-      if (_currency != 'BTC' && _currency != 'BCH') {
-        // Convert to BTC or BCH
+      if (_currency != 'BTC' && _currency != 'POLIS') {
+        // Convert to BTC or POLIS
         let amountUnit = this.txFormatProvider.satToUnit(parsedAmount.amountSat);
         var btcParsedAmount = this.txFormatProvider.parseAmount(this.wallet.coin, amountUnit, this.wallet.coin.toUpperCase());
 
         this.amountCoin = btcParsedAmount.amount;
         this.altAmountStr = btcParsedAmount.amountUnitStr;
       } else {
-        this.amountCoin = _amount; // BTC or BCH
+        this.amountCoin = _amount; // BTC or POLIS
         this.altAmountStr = this.txFormatProvider.formatAlternativeStr(this.wallet.coin, parsedAmount.amountSat);
       }
 

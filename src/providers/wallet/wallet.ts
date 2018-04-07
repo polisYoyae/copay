@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-
 import { TranslateService } from '@ngx-translate/core';
 import { Events } from 'ionic-angular';
 import * as lodash from 'lodash';
@@ -24,9 +22,6 @@ import { TxFormatProvider } from '../tx-format/tx-format';
 @Injectable()
 export class WalletProvider {
 
-  // POLIS to BTC rate
-  public polis_to_btc: number;
-  
   // Ratio low amount warning (fee/amount) in incoming TX
   private LOW_AMOUNT_RATIO: number = 0.15;
 
@@ -61,13 +56,9 @@ export class WalletProvider {
     private touchidProvider: TouchIdProvider,
     private events: Events,
     private feeProvider: FeeProvider,
-    private translate: TranslateService,
-    private http:Http
+    private translate: TranslateService
   ) {
     this.logger.info('WalletService initialized.');
-    this.http.get('https://api.coinmarketcap.com/v1/ticker/POLIS/')
-      .map(res => res.json())
-      .subscribe(info => this.polis_to_btc = parseFloat(info[0].price_btc));
   }
 
 
@@ -228,10 +219,10 @@ export class WalletProvider {
 
         this.rateProvider.whenRatesAvailable().then(() => {
 
-          let totalBalanceAlternative = parseFloat((this.rateProvider.toFiat(cache.totalBalanceSat, cache.alternativeIsoCode, wallet.coin) * this.polis_to_btc).toFixed(4));
-          let pendingBalanceAlternative = parseFloat((this.rateProvider.toFiat(cache.pendingAmount, cache.alternativeIsoCode, wallet.coin) * this.polis_to_btc).toFixed(4));
-          let lockedBalanceAlternative = parseFloat((this.rateProvider.toFiat(cache.lockedBalanceSat, cache.alternativeIsoCode, wallet.coin) * this.polis_to_btc).toFixed(4));
-          let spendableBalanceAlternative = parseFloat((this.rateProvider.toFiat(cache.spendableAmount, cache.alternativeIsoCode, wallet.coin) * this.polis_to_btc).toFixed(4));
+          let totalBalanceAlternative = this.rateProvider.toFiat(cache.totalBalanceSat, cache.alternativeIsoCode, wallet.coin);
+          let pendingBalanceAlternative = this.rateProvider.toFiat(cache.pendingAmount, cache.alternativeIsoCode, wallet.coin);
+          let lockedBalanceAlternative = this.rateProvider.toFiat(cache.lockedBalanceSat, cache.alternativeIsoCode, wallet.coin);
+          let spendableBalanceAlternative = this.rateProvider.toFiat(cache.spendableAmount, cache.alternativeIsoCode, wallet.coin);
           let alternativeConversionRate = this.rateProvider.toFiat(100000000, cache.alternativeIsoCode, wallet.coin);
 
           cache.totalBalanceAlternative = this.filter.formatFiatAmount(totalBalanceAlternative);
@@ -338,15 +329,14 @@ export class WalletProvider {
   }
 
   public getAddressView(wallet: any, address: string): string {
-    if (wallet.coin != 'bch' || this.useLegacyAddress()) return address;
-    return this.txFormatProvider.toCashAddress(address);
+    return address;
   }
 
   public getProtoAddress(wallet: any, address: string) {
     let proto: string = this.getProtocolHandler(wallet.coin);
     let protoAddr: string = proto + ':' + address;
 
-    if (wallet.coin != 'bch' || this.useLegacyAddress()) {
+    if (wallet.coin != 'polis') {
       return protoAddr;
     } else {
       return protoAddr.toUpperCase();
@@ -383,6 +373,7 @@ export class WalletProvider {
   private createAddress(wallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.logger.debug('Creating address for wallet:', wallet.id);
+
       wallet.createAddress({}, (err, addr) => {
         if (err) {
           let prefix = this.translate.instant('Could not create address');
@@ -961,6 +952,8 @@ export class WalletProvider {
         return new Promise((resolve, reject) => {
           let wallet = clients.shift();
           if (!wallet) return resolve();
+		  
+          
           this.logger.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
 
           wallet.savePreferences(prefs, (err: any) => {
@@ -987,8 +980,8 @@ export class WalletProvider {
       // Get current languge
       prefs.language = this.languageProvider.getCurrent();
       
-      // Set OLD wallet in bits to btc
-      prefs.unit = 'btc'; // DEPRECATED
+	  // BWS Compatibility 
+      prefs.unit = 'btc';
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {
@@ -1115,11 +1108,11 @@ export class WalletProvider {
 
   public encrypt(wallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      var title = this.translate.instant('Enter new spending password');
-      var warnMsg = this.translate.instant('Your wallet key will be encrypted. The Spending Password cannot be recovered. Be sure to write it down.');
+      var title = this.translate.instant('Enter a new encrypt password');
+      var warnMsg = this.translate.instant('Your wallet key will be encrypted. The encrypt password cannot be recovered. Be sure to write it down.');
       this.askPassword(warnMsg, title).then((password: string) => {
         if (!password) return reject(this.translate.instant('no password'));
-        title = this.translate.instant('Confirm your new spending password');
+        title = this.translate.instant('Confirm your new encrypt password');
         this.askPassword(warnMsg, title).then((password2: string) => {
           if (!password2 || password != password2) return reject(this.translate.instant('password mismatch'));
           wallet.encryptPrivateKey(password);
@@ -1136,7 +1129,7 @@ export class WalletProvider {
   public decrypt(wallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.logger.debug('Disabling private key encryption for' + wallet.name);
-      this.askPassword(null, this.translate.instant('Enter Spending Password')).then((password: string) => {
+      this.askPassword(null, this.translate.instant('Enter encrypt password')).then((password: string) => {
         if (!password) return reject(this.translate.instant('no password'));
         try {
           wallet.decryptPrivateKey(password);
@@ -1151,7 +1144,7 @@ export class WalletProvider {
   public handleEncryptedWallet(wallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (!this.isEncrypted(wallet)) return resolve();
-      this.askPassword(null, this.translate.instant('Enter Spending Password')).then((password: string) => {
+      this.askPassword(null, this.translate.instant('Enter encrypt password')).then((password: string) => {
         if (!password) return reject(this.translate.instant('No password'));
         if (!wallet.checkPassword(password)) return reject(this.translate.instant('Wrong password'));
         return resolve(password);
@@ -1342,24 +1335,27 @@ export class WalletProvider {
   }
 
   public getProtocolHandler(coin: string): string {
-    if (coin == 'bch') {
-      return 'bitcoincash';
-    } else {
-      // return 'bitcoin';
+    if (coin == 'polis') {
       return 'polis';
+    } else {
+      return 'bitcoin';
     }
   }
 
   public copyCopayers(wallet: any, newWallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      let walletPrivKey = this.bwcProvider.getBitcore().PrivateKey.fromString(wallet.credentials.walletPrivKey);
+	  let walletPrivKey = null;
+	  
+	  let bitcore = wallet.coin === 'btc' ? this.bwcProvider.getBitcore() : this.bwcProvider.getBitcorePolis();
+	  let walletPrivKey = bitcore.PrivateKey.fromString(wallet.credentials.walletPrivKey);
+
       let copayer = 1;
       let i = 0;
 
       lodash.each(wallet.credentials.publicKeyRing, (item) => {
         let name = item.copayerName || ('copayer ' + copayer++);
         newWallet._doJoinWallet(newWallet.credentials.walletId, walletPrivKey, item.xPubKey, item.requestPubKey, name, {
-          coin: newWallet.credentials.coin,
+          coin: wallet.coin,
         }, (err: any) => {
           // Ignore error is copayer already in wallet
           if (err && !(err instanceof this.errors.COPAYER_IN_WALLET)) return reject(err);

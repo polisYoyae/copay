@@ -1,11 +1,6 @@
-.toolbar-background-md {
-  background: #2d3f4f;
-}
-
 page-home {
   .home-logo {
-    height: 45px;
-    border-radius: 4px;
+    height: 24px;
     position: relative;
     top: 3px;
   }
@@ -30,7 +25,6 @@ page-home {
     >img {
       vertical-align: sub;
       margin-right: 5px;
-      border-radius: 50%;
     }
   }
   .error {

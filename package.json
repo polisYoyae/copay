@@ -11,10 +11,10 @@
     "apply:bitpay": "npm i fs-extra shelljs && cd app-template && node apply.js bitpay && cd .. && npm i",
     "unstage-package": "git reset package.json",
     "clean-all": "git clean -dfx"
-   },
-   "license": "MIT",
-   "repository": {
-         "url": "git://github.com/polispay/copay.git",
-         "type": "git"
-   }
- }
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "git://github.com/bitpay/copay.git",
+    "type": "git"
+  }
+}

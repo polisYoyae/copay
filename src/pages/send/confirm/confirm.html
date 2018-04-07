@@ -14,8 +14,8 @@
           <span translate *ngIf="tx.sendMax">Sending maximum amount</span>
         </div>
         <div class="amount-label">
-          <div class="amount">{{(tx.amount | satToUnit: tx.coin).replace('BTC','POLIS')}}</div>
-          <div class="alternative">{{parseToPolis(tx.amount | satToFiat: tx.coin)}}</div>
+          <div class="amount">{{tx.amount | satToUnit: tx.coin}}</div>
+          <div class="alternative">{{tx.amount | satToFiat: tx.coin}}</div>
         </div>
       </div>
     </ion-item>
@@ -28,9 +28,9 @@
         <div>...</div>
       </div>
       <div *ngIf="wallet && tx.txp[wallet.id]">
-        <span class="fee-amount">{{(tx.txp[wallet.id].fee | satToUnit: tx.coin).replace('BTC','POLIS')}}</span>
+        <span class="fee-amount">{{tx.txp[wallet.id].fee | satToUnit: tx.coin}}</span>
         <div class="fee-details">
-          {{parseToPolis(tx.txp[wallet.id].fee | satToFiat: tx.coin)}}
+          {{tx.txp[wallet.id].fee | satToFiat: tx.coin}}
           <span *ngIf="tx.txp[wallet.id].feeRatePerStr">
             &middot;
             <span [ngClass]="{'warn':tx.txp[wallet.id].feeTooHigh}">

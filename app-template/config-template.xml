@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.polispay.*BUNDLENAME*"
+<widget id="com.bitpay.*BUNDLENAME*"
   version="*VERSION*"
   android-versionCode="*ANDROIDVERSION*"
   ios-CFBundleVersion="*VERSION*">
@@ -7,8 +7,8 @@
     <description>
       *PURPOSELINE*
     </description>
-    <author email="support@polispay.org" href="*URL*">
-        PolisPay Inc.
+    <author email="support@bitpay.com" href="*URL*">
+        BitPay Inc.
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -70,6 +70,7 @@
       <variable name="THIRD_URL_SCHEME" value="bitcoincash" />
     </plugin>
     <plugin name="cordova-plugin-fcm" spec="https://github.com/cmgustavo/cordova-plugin-fcm.git#v4.0" />
+
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
 
     <!-- Platform Specific Settings -->

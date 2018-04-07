@@ -44,7 +44,7 @@ export class SettingsPage {
   public currentLanguageName: string;
   public languages: any[];
   public walletsBtc: any[];
-  public walletsBch: any[];
+  public walletsPolis: any[];
   public config: any;
   public selectedAlternative: any;
   public isCordova: boolean;
@@ -67,7 +67,7 @@ export class SettingsPage {
     private translate: TranslateService
   ) {
     this.appName = this.app.info.nameCase;
-    this.walletsBch = [];
+    this.walletsPolis = [];
     this.walletsBtc = [];
     this.isCordova = this.platformProvider.isCordova;
   }
@@ -81,8 +81,8 @@ export class SettingsPage {
     this.walletsBtc = this.profileProvider.getWallets({
       coin: 'btc'
     });
-    this.walletsBch = this.profileProvider.getWallets({
-      coin: 'bch'
+    this.walletsPolis = this.profileProvider.getWallets({
+      coin: 'polis'
     });
     this.config = this.configProvider.get();
     this.selectedAlternative = {

@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
 import { Logger } from '../../providers/logger/logger';
 import { BwcProvider } from '../bwc/bwc';
 import { ConfigProvider } from '../config/config';
@@ -12,36 +10,20 @@ import * as _ from "lodash";
 @Injectable()
 export class TxFormatProvider {
 
-  private bitcoreCash: any;
+  private bitcorePolis: any;
 
   // TODO: implement configService
   public pendingTxProposalsCountForUs: number
-  public polis_to_btc : number;
 
   constructor(
     private bwcProvider: BwcProvider,
     private rate: RateProvider,
     private configProvider: ConfigProvider,
     private filter: FilterProvider,
-    private logger: Logger,
-    private http:Http
+    private logger: Logger
   ) {
     this.logger.info('TxFormatProvider initialized.');
-    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
-
-    this.http.get('https://api.coinmarketcap.com/v1/ticker/POLIS/')
-      .map(res => res.json())
-      .subscribe(info => this.polis_to_btc = parseFloat(info[0].price_btc));
-  }
-
-  public toCashAddress(address: string, withPrefix?: boolean): string {
-    let cashAddr: string = (this.bitcoreCash.Address(address)).toCashAddress();
-
-    if (withPrefix) {
-      return cashAddr;
-    }
-
-    return cashAddr.split(':')[1]; // rm prefix
+    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
   }
 
   public formatAmount(satoshis: number, fullPrecision?: boolean): number {
@@ -53,7 +35,7 @@ export class TxFormatProvider {
     var opts = {
       fullPrecision: !!fullPrecision
     };
-    return this.bwcProvider.getUtils().formatAmount(satoshis, settings.unitCode, opts);
+    return this.bwcProvider.getUtils('btc').formatAmount(satoshis, settings.unitCode.replace('polis', 'btc'), opts); // BWS Polis formatAmount should not be different from BTC BWS
   }
 
   public formatAmountStr(coin: string, satoshis: number): string {
@@ -88,7 +70,7 @@ export class TxFormatProvider {
     let settings = this.configProvider.get().wallet.settings;
 
     let val = (() => {
-      var v1 = parseFloat((parseFloat((this.rate.toFiat(satoshis, settings.alternativeIsoCode, coin)).toFixed(2)) * this.polis_to_btc).toFixed(8));
+      var v1 = parseFloat((this.rate.toFiat(satoshis, settings.alternativeIsoCode, coin)).toFixed(2));
       v1 = this.filter.formatFiatAmount(v1);
       if (!v1) return null;
 
@@ -121,10 +103,6 @@ export class TxFormatProvider {
       }
       tx.toAddress = tx.outputs[0].toAddress;
 
-      // toDo: translate all tx.outputs[x].toAddress ?
-      if (tx.toAddress && coin == 'bch' && !useLegacyAddress) {
-        tx.toAddress = this.toCashAddress(tx.toAddress);
-      }
     }
 
     tx.amountStr = this.formatAmountStr(coin, tx.amount);
@@ -135,11 +113,7 @@ export class TxFormatProvider {
       tx.amountValueStr = tx.amountStr.split(' ')[0];
       tx.amountUnitStr = tx.amountStr.split(' ')[1];
     }
-
-    if (tx.addressTo && coin == 'bch' && !useLegacyAddress) {
-      tx.addressTo = this.toCashAddress(tx.addressTo);
-    }
-
+	
     return tx;
   };
 
@@ -218,19 +192,19 @@ export class TxFormatProvider {
     var alternativeIsoCode = settings.alternativeIsoCode;
 
     // If fiat currency
-    if (currency != 'BCH' && currency != 'BTC' && currency != 'sat') {
+    if (currency != 'POLIS' && currency != 'BTC' && currency != 'sat') {
       amountUnitStr = this.filter.formatFiatAmount(amount) + ' ' + currency;
       amountSat = Number(this.rate.fromFiat(amount, currency, coin).toFixed(0));
     } else if (currency == 'sat') {
       amountSat = Number(amount);
       amountUnitStr = this.formatAmountStr(coin, amountSat);
-      // convert sat to BTC or BCH
+      // convert sat to BTC or POLIS
       amount = (amountSat * satToBtc).toFixed(8);
       currency = (coin).toUpperCase();
     } else {
       amountSat = parseInt((amount * unitToSatoshi).toFixed(0), 10);
       amountUnitStr = this.formatAmountStr(coin, amountSat);
-      // convert unit to BTC or BCH
+      // convert unit to BTC or POLIS
       amount = (amountSat * satToBtc).toFixed(8);
       currency = (coin).toUpperCase();
     }

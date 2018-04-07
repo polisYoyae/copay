@@ -53,35 +53,14 @@ export class WalletServiceUrlPage {
     this.defaults = this.configProvider.getDefaults();
     this.config = this.configProvider.get();
     this.appName = this.app.info.nameCase;
-    this.walletServiceForm.value.bwsurl = (this.config.bwsFor && this.config.bwsFor[this.wallet.credentials.walletId]) || this.defaults.bws.url
+    this.walletServiceForm.value.bwsurl = (this.config.bwsFor && this.config.bwsFor[this.wallet.credentials.walletId]) || this.defaults.bws.btc
   }
 
   public resetDefaultUrl(): void {
-    this.walletServiceForm.value.bwsurl = this.defaults.bws.url;
+    this.walletServiceForm.value.bwsurl = this.defaults.bws.btc;
   };
 
   public save(): void {
-
-    let bws;
-    switch (this.walletServiceForm.value.bwsurl) {
-      case 'prod':
-      case 'production':
-        bws = 'https://bws.bitpay.com/bws/api'
-        // bws = 'https://bws.polispay.org/bws/api'
-        break;
-      case 'sta':
-      case 'staging':
-        bws = 'https://bws-staging.b-pay.net/bws/api'
-        break;
-      case 'loc':
-      case 'local':
-        bws = 'http://localhost:3232/bws/api'
-        break;
-    };
-    if (bws) {
-      this.logger.info('Using BWS URL Alias to ' + bws);
-      this.walletServiceForm.value.bwsurl = bws;
-    }
 
     let opts = {
       bwsFor: {}

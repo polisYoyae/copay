@@ -1,6 +1,6 @@
 import { Component, NgZone } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Events, ModalController, NavController } from 'ionic-angular';
+import { Events, ModalController, NavController, Platform } from 'ionic-angular';
 import { Logger } from '../../providers/logger/logger';
 
 // Pages
@@ -48,7 +48,7 @@ import * as moment from 'moment';
 export class HomePage {
   public wallets: any;
   public walletsBtc: any;
-  public walletsBch: any;
+  public walletsPolis: any;
   public cachedBalanceUpdateOn: string;
   public recentTransactionsEnabled: boolean;
   public txps: any;
@@ -67,7 +67,7 @@ export class HomePage {
   public showRateCard: boolean;
   public homeTip: boolean;
   public showReorderBtc: boolean;
-  public showReorderBch: boolean;
+  public showReorderPolis: boolean;
   public showIntegration: any;
 
   private isNW: boolean;
@@ -75,6 +75,7 @@ export class HomePage {
   private zone: any;
 
   constructor(
+    private plt: Platform,
     private navCtrl: NavController,
     private profileProvider: ProfileProvider,
     private releaseProvider: ReleaseProvider,
@@ -103,7 +104,7 @@ export class HomePage {
     this.cachedBalanceUpdateOn = '';
     this.isNW = this.platformProvider.isNW;
     this.showReorderBtc = false;
-    this.showReorderBch = false;
+    this.showReorderPolis = false;
     this.zone = new NgZone({ enableLongStackTrace: false });
   }
 
@@ -120,6 +121,12 @@ export class HomePage {
     // Update Tx Notifications
     this.recentTransactionsEnabled = this.config.recentTransactions.enabled;
     if (this.recentTransactionsEnabled) this.getNotifications();
+
+    // Update Tx Proposals
+    this.updateTxps();
+
+    // Update list of wallets and status
+    this.setWallets();
 
     // BWS Events: Update Status per Wallet
     // NewBlock, NewCopayer, NewAddress, NewTxProposal, TxProposalAcceptedBy, TxProposalRejectedBy, txProposalFinallyRejected,
@@ -148,7 +155,7 @@ export class HomePage {
 
     if (this.platformProvider.isCordova) {
       this.handleDeepLinks();
-    }
+    } 
 
     // Show integrations
     let integrations = _.filter(this.homeIntegrationsProvider.get(), { 'show': true });
@@ -176,7 +183,11 @@ export class HomePage {
 
   ionViewDidLoad() {
     this.logger.info('ionViewDidLoad HomePage');
-    this.setWallets();
+
+    this.plt.resume.subscribe(e => {
+      this.updateTxps();
+      this.setWallets();
+    });
   }
 
   private handleDeepLinks() {
@@ -221,7 +232,7 @@ export class HomePage {
   private setWallets = _.debounce(() => {
     this.wallets = this.profileProvider.getWallets();
     this.walletsBtc = this.profileProvider.getWallets({ coin: 'btc' });
-    this.walletsBch = this.profileProvider.getWallets({ coin: 'bch' });
+    this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
     this.updateAllWallets();
   }, 5000, {
       'leading': true
@@ -293,7 +304,7 @@ export class HomePage {
     }).catch((err: any) => {
       this.logger.error(err);
     });
-  }, 5000, {
+  }, 2000, {
       'leading': true
     });
 
@@ -306,7 +317,7 @@ export class HomePage {
     }).catch((err: any) => {
       this.logger.error(err);
     });
-  }, 5000, {
+  }, 2000, {
       'leading': true
     });
 
@@ -318,8 +329,8 @@ export class HomePage {
       wallets.push(wBtc);
     });
 
-    _.each(this.walletsBch, (wBch) => {
-      wallets.push(wBch);
+    _.each(this.walletsPolis, (wPolis) => {
+      wallets.push(wPolis);
     });
 
     if (_.isEmpty(wallets)) return;
@@ -382,7 +393,7 @@ export class HomePage {
   }
 
   public goToWalletDetails(wallet: any): void {
-    if (this.showReorderBtc || this.showReorderBch) return;
+    if (this.showReorderBtc || this.showReorderPolis) return;
     if (!wallet.isComplete()) {
       this.navCtrl.push(CopayersPage, { walletId: wallet.credentials.walletId });
       return;
@@ -422,8 +433,8 @@ export class HomePage {
     this.showReorderBtc = !this.showReorderBtc;
   }
 
-  public reorderBch(): void {
-    this.showReorderBch = !this.showReorderBch;
+  public reorderPolis(): void {
+    this.showReorderPolis = !this.showReorderPolis;
   }
 
   public reorderWalletsBtc(indexes): void {
@@ -435,11 +446,11 @@ export class HomePage {
     });
   };
 
-  public reorderWalletsBch(indexes): void {
-    let element = this.walletsBch[indexes.from];
-    this.walletsBch.splice(indexes.from, 1);
-    this.walletsBch.splice(indexes.to, 0, element);
-    _.each(this.walletsBch, (wallet: any, index: number) => {
+  public reorderWalletsPolis(indexes): void {
+    let element = this.walletsPolis[indexes.from];
+    this.walletsPolis.splice(indexes.from, 1);
+    this.walletsPolis.splice(indexes.to, 0, element);
+    _.each(this.walletsPolis, (wallet: any, index: number) => {
       this.profileProvider.setWalletOrder(wallet.id, index);
     });
   };

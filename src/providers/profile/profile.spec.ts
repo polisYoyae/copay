@@ -6,7 +6,6 @@ import {
   TranslateModule,
   TranslateService
 } from '@ngx-translate/core';
-import { Level, NgLoggerModule } from '@nsalaun/ng-logger';
 import {
   AlertController,
   App,
@@ -53,16 +52,16 @@ describe('Profile Provider', () => {
     },
     api2: {
       id: 'zxccv25b-d6ab-4b11-8b76-88570d822222',
-      cachedBalance: '5.00 BCH',
+      cachedBalance: '5.00 POLIS',
       cachedBalanceUpdatedOn: null,
       credentials: {
-        coin: 'bch',
+        coin: 'polis',
         network: 'livenet',
         n: 1,
         m: 1
       },
       status: {
-        availableBalanceSat: 500000000 // 5 BCH
+        availableBalanceSat: 500000000 // 5 POLIS
       },
       isComplete: () => {
         return true;
@@ -105,7 +104,6 @@ describe('Profile Provider', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        NgLoggerModule.forRoot(Level.LOG),
         TranslateModule.forRoot({
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
@@ -160,7 +158,7 @@ describe('Profile Provider', () => {
 
     it('should not return any wallet when there is no wallets validating provided opts', () => {
       const opts = {
-        coin: 'bch',
+        coin: 'polis',
         network: 'livenet',
         minAmount: 1000000000
       };
