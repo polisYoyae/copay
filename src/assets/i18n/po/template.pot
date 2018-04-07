@@ -202,7 +202,7 @@ msgstr ""
 msgid "Bitcoin Address"
 msgstr ""
 
-msgid "Polis Wallets"
+msgid "Bitcoin Cash Wallets"
 msgstr ""
 
 msgid "Bitcoin Network Fee Policy"
@@ -211,7 +211,7 @@ msgstr ""
 msgid "Bitcoin Wallets"
 msgstr ""
 
-msgid "Polis Payment"
+msgid "Bitcoin cash Payment"
 msgstr ""
 
 msgid "Bitcoin is a currency."
@@ -366,7 +366,7 @@ msgstr ""
 msgid "Contribute translations"
 msgstr ""
 
-msgid "Copay only supports Polis using new version numbers addresses"
+msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
 msgstr ""
 
 msgid "Copayer already in this wallet"
@@ -890,7 +890,7 @@ msgid "I'm sure"
 msgstr ""
 
 msgid ""
-"If enabled, Polis addresses will be shown using Copay style address, "
+"If enabled, Bitcoin Cash addresses will be shown using Copay style address, "
 "and not the new cashaddr format."
 msgstr ""
 
@@ -1164,7 +1164,7 @@ msgstr ""
 msgid "No wallets available to use ShapeShift"
 msgstr ""
 
-msgid "No wallets eligible for Polis support"
+msgid "No wallets eligible for Bitcoin Cash support"
 msgstr ""
 
 msgid "No wallets with funds"
@@ -1201,7 +1201,7 @@ msgid "Note"
 msgstr ""
 
 msgid ""
-"Note: if this POLIS wallet was duplicated from a BTC wallet, they share the "
+"Note: if this BCH wallet was duplicated from a BTC wallet, they share the "
 "same recovery phrase."
 msgstr ""
 
@@ -1343,7 +1343,7 @@ msgid ""
 "problem, it can be deleted 6 hours after it was created."
 msgstr ""
 
-msgid "Payment address was translated to new Polis address format: {{addr}}"
+msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
 msgstr ""
 
 msgid "Payment request"
@@ -1729,8 +1729,8 @@ msgid "Slide to send"
 msgstr ""
 
 msgid ""
-"Some of your wallets are not eligible for Polis support. You can try "
-"to access POLIS funds from these wallets using the recovery tool"
+"Some of your wallets are not eligible for Bitcoin Cash support. You can try "
+"to access BCH funds from these wallets using the recovery tool"
 msgstr ""
 
 msgid "Specify Recovery Phrase"
@@ -1981,7 +1981,7 @@ msgstr ""
 msgid "Transactions without fee are not supported."
 msgstr ""
 
-msgid "Transfer to Polis Wallet"
+msgid "Transfer to Bitcoin Cash Wallet"
 msgstr ""
 
 msgid "Transfer to Bitcoin Wallet"
@@ -2035,7 +2035,7 @@ msgstr ""
 msgid "Urgent"
 msgstr ""
 
-msgid "Use Polis Copay Style Addresses"
+msgid "Use Bitcoin Cash Copay Style Addresses"
 msgstr ""
 
 msgid "Use Unconfirmed Funds"

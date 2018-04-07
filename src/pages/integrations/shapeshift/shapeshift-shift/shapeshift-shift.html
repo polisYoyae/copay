@@ -11,7 +11,7 @@
       <ion-item>
         <span translate>From</span>
         <img item-end *ngIf="fromWallet.coin == 'btc'" src="assets/img/icon-bitcoin.svg" width="18">
-        <img item-end *ngIf="fromWallet.coin == 'polis'" src="assets/img/bitcoin-cash-logo.svg" width="22">
+        <img item-end *ngIf="fromWallet.coin == 'bch'" src="assets/img/bitcoin-cash-logo.svg" width="22">
       </ion-item>
       <button ion-item class="wallet-selector" (click)="showWallets('from')">
         <img *ngIf="fromWallet.network != 'testnet'" src="assets/img/icon-wallet.svg" [ngStyle]="{'background-color': fromWallet.color}" class="icon-wallet" />
@@ -45,7 +45,7 @@
       <ion-item>
         <span translate>To</span>
         <img item-end *ngIf="toWallet.coin == 'btc'" src="assets/img/icon-bitcoin.svg" width="18">
-        <img item-end *ngIf="toWallet.coin == 'polis'" src="assets/img/bitcoin-cash-logo.svg" width="22">
+        <img item-end *ngIf="toWallet.coin == 'bch'" src="assets/img/bitcoin-cash-logo.svg" width="22">
       </ion-item>
       <button ion-item class="wallet-selector" (click)="showWallets('to')">
         <img *ngIf="toWallet.network != 'testnet'" src="assets/img/icon-wallet.svg" class="icon-wallet" [ngStyle]="{'background-color': toWallet.color}" />
@@ -58,7 +58,7 @@
               Incomplete
             </span>
             <span class="wallet-warning" *ngIf="toWallet.isComplete() && toWallet.needsBackup" translate>
-              Needs backup recovery
+              Needs backup
             </span>
             <span *ngIf="toWallet.isComplete() && !toWallet.needsBackup">
               <span *ngIf="!toWallet.balanceHidden && !toWallet.scanning"> {{toWallet.status.totalBalanceStr ? toWallet.status.totalBalanceStr : ( toWallet.cachedBalance ? toWallet.cachedBalance + (toWallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( toWallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '') : '' ) }} </span>

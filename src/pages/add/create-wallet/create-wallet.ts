@@ -84,7 +84,7 @@ export class CreateWalletPage implements OnInit {
       myName: [null],
       totalCopayers: [1],
       requiredCopayers: [1],
-      bwsURL: [this.navParams.data.coin === 'polis' ? this.defaults.bws.polis : this.defaults.bws.btc],
+      bwsURL: [this.defaults.bws.url],
       selectedSeed: ['new'],
       recoveryPhrase: [null],
       derivationPath: [this.derivationPathByDefault],
@@ -154,7 +154,7 @@ export class CreateWalletPage implements OnInit {
       m: this.createForm.value.requiredCopayers,
       n: this.createForm.value.totalCopayers,
       myName: this.createForm.value.totalCopayers > 1 ? this.createForm.value.myName : null,
-      networkName: this.createForm.value.testnetEnabled,
+      networkName: this.createForm.value.testnetEnabled ? 'testnet' : 'livenet',
       bwsurl: this.createForm.value.bwsURL,
       singleAddress: this.createForm.value.singleAddress,
       coin: this.createForm.value.coin

@@ -32,7 +32,7 @@ export class ConfirmPage {
   @ViewChild('slideButton') slideButton;
 
   private bitcore: any;
-  private bitcorePolis: any;
+  private bitcoreCash: any;
 
   public countDown = null;
   public CONFIRM_LIMIT_USD: number;
@@ -84,7 +84,7 @@ export class ConfirmPage {
     private externalLinkProvider: ExternalLinkProvider
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
-    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
     this.CONFIRM_LIMIT_USD = 20;
     this.FEE_TOO_HIGH_LIMIT_PER = 15;
     this.config = this.configProvider.get();
@@ -99,12 +99,12 @@ export class ConfirmPage {
   ionViewWillEnter() {
     this.navCtrl.swipeBackEnabled = false;
     this.isOpenSelector = false;
-    let B = this.navParams.data.coin == 'polis' ? this.bitcorePolis : this.bitcore;
+    let B = this.navParams.data.coin == 'bch' ? this.bitcoreCash : this.bitcore;
     let networkName;
     try {
       networkName = (new B.Address(this.navParams.data.toAddress)).network.name;
     } catch (e) {
-      var message = this.translate.instant('Copay only supports Polis using new version numbers addresses');
+      var message = this.translate.instant('Copay only supports Bitcoin Cash using new version numbers addresses');
       var backText = this.translate.instant('Go back');
       var learnText = this.translate.instant('Learn more');
       this.popupProvider.ionicConfirm(null, message, backText, learnText).then((back) => {
@@ -140,12 +140,12 @@ export class ConfirmPage {
       this.usingMerchantFee = true;
       this.tx.feeRate = +this.navParams.data.requiredFeeRate;
     } else {
-      this.tx.feeLevel = (this.tx.coin && this.tx.coin == 'polis') ? 'normal ' : this.configFeeLevel;
+      this.tx.feeLevel = (this.tx.coin && this.tx.coin == 'bch') ? 'normal ' : this.configFeeLevel;
     }
 
-    if (this.tx.coin && this.tx.coin == 'polis') {
+    if (this.tx.coin && this.tx.coin == 'bch') {
       // Use legacy address
-      this.tx.toAddress = this.bitcorePolis.Address(this.tx.toAddress).toString();
+      this.tx.toAddress = this.bitcoreCash.Address(this.tx.toAddress).toString();
     }
 
     this.tx.feeLevelName = this.feeProvider.feeOpts[this.tx.feeLevel];
@@ -258,7 +258,7 @@ export class ConfirmPage {
     this.tx.coin = this.wallet.coin;
 
     if (!this.usingCustomFee && !this.usingMerchantFee) {
-      this.tx.feeLevel = wallet.coin == 'polis' ? 'normal' : this.configFeeLevel;
+      this.tx.feeLevel = wallet.coin == 'bch' ? 'normal' : this.configFeeLevel;
     }
 
     this.setButtonText(this.wallet.credentials.m > 1, !!this.tx.paypro);
@@ -328,7 +328,7 @@ export class ConfirmPage {
 
       let maxAllowedMerchantFee = {
         btc: 'urgent',
-        polis: 'normal',
+        bch: 'normal',
       }
 
       this.onGoingProcessProvider.set('calculatingFee');
@@ -555,10 +555,10 @@ export class ConfirmPage {
     });
   }
 
-  private setSendError(msg: string) {
+  private setSendError(msg: string, title: string = '') {
     if (this.isCordova)
       this.slideButton.isConfirmed(false);
-    this.popupProvider.ionicAlert(this.translate.instant('Error at confirm'), this.bwcErrorProvider.msg(msg));
+    this.popupProvider.ionicAlert(this.translate.instant('Error at ' + title), this.bwcErrorProvider.msg(msg));
   }
 
   public toggleAddress(): void {
@@ -604,7 +604,7 @@ export class ConfirmPage {
               return resolve();
 
             let amount = (this.tx.amount / 1e8).toFixed(8);
-            let unit = this.config.wallet.settings.unitName;
+            let unit = txp.coin.toUpperCase();
             let name = wallet.name;
             let message = 'Sending ' + amount + ' ' + unit + ' from your ' + name + ' wallet'; // TODO: translate
             let okText = this.translate.instant('Confirm');
@@ -694,7 +694,7 @@ export class ConfirmPage {
 
   public chooseFeeLevel(): void {
 
-    if (this.tx.coin == 'polis') return;
+    if (this.tx.coin == 'bch') return;
     if (this.usingMerchantFee) return; // ToDo: should we allow overwride?
 
     let txObject: any = {};

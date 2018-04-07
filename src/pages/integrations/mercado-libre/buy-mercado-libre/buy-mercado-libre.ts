@@ -31,7 +31,7 @@ import { WalletProvider } from '../../../../providers/wallet/wallet';
 export class BuyMercadoLibrePage {
   @ViewChild('slideButton') slideButton;
 
-  private bitcorePolis: any;
+  private bitcoreCash: any;
   private amount: number;
   private currency: string;
   private createdTx: any;
@@ -80,7 +80,7 @@ export class BuyMercadoLibrePage {
     this.FEE_TOO_HIGH_LIMIT_PER = 15;
     this.configWallet = this.configProvider.get().wallet;
     this.mlGiftCard = null;
-    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
     this.isCordova = this.platformProvider.isCordova;
   }
 
@@ -284,9 +284,9 @@ export class BuyMercadoLibrePage {
 
       txp['origToAddress'] = txp.toAddress;
 
-      if (wallet.coin && wallet.coin == 'polis') {
+      if (wallet.coin && wallet.coin == 'bch') {
         // Use legacy address
-        txp.toAddress = this.bitcorePolis.Address(txp.toAddress).toString();
+        txp.toAddress = this.bitcoreCash.Address(txp.toAddress).toString();
         txp.outputs[0].toAddress = txp.toAddress;
       }
 

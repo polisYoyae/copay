@@ -15,10 +15,10 @@ describe('RateProvider', () => {
   let service: RateProvider;
   let httpMock: HttpTestingController;
 
-  const btcResponse = [{"code":"BTC","name":"Bitcoin","rate":1},{"code":"USD","name":"US Dollar","rate":11535.74},{"code":"POLIS","name":"Polis","rate":7.65734}];
-  const polisResponse = [{"symbol":"POLIS","name":"Polis","price_btc":0.130377,"price_usd":1503.3}];
+  const btcResponse = [{"code":"BTC","name":"Bitcoin","rate":1},{"code":"USD","name":"US Dollar","rate":11535.74},{"code":"BCH","name":"Bitcoin Cash","rate":7.65734}];
+  const bchResponse = [{"code":"BTC","name":"Bitcoin","rate":0.130377},{"code":"USD","name":"US Dollar","rate":1503.3},{"code":"BCH","name":"Bitcoin Cash","rate":1}];
   let btcUrl: string = 'https://bitpay.com/api/rates';
-  let polisUrl: string = 'https://api.coinmarketcap.com/v1/ticker/polis';
+  let bchUrl: string = 'https://bitpay.com/api/rates/bch';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,7 +44,7 @@ describe('RateProvider', () => {
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 
@@ -53,42 +53,42 @@ describe('RateProvider', () => {
       expect(service.isAvailable()).toBe(true);
       expect(service.getRate('BTC')).toEqual(1);
       expect(service.getRate('USD')).toEqual(11535.74);
-      expect(service.getRate('POLIS')).toEqual(7.65734);
+      expect(service.getRate('BCH')).toEqual(7.65734);
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 
-  it('should get POLIS rates', () => {
-    service.updateRatesPolis().then(response => {
+  it('should get BCH rates', () => {
+    service.updateRatesBch().then(response => {
       expect(service.isAvailable()).toBe(true);
-      expect(service.getRate('BTC', 'polis')).toEqual(0.130377);
-      expect(service.getRate('USD', 'polis')).toEqual(1503.3);
-      expect(service.getRate('POLIS', 'polis')).toEqual(1);
+      expect(service.getRate('BTC', 'bch')).toEqual(0.130377);
+      expect(service.getRate('USD', 'bch')).toEqual(1503.3);
+      expect(service.getRate('BCH', 'bch')).toEqual(1);
     });
 
     httpMock.match(btcUrl)[0].flush(btcResponse);
-    httpMock.match(polisUrl)[1].flush(polisResponse);
+    httpMock.match(bchUrl)[1].flush(bchResponse);
     httpMock.verify();
   });
 
   it('should catch an error on when call to update btc rates fails', () => {
-    service.getPOLIS = (): Promise<any> => {
+    service.getBCH = (): Promise<any> => {
       let prom = new Promise((resolve, reject) => {
         reject('test rejection');
       });
       return prom;
     };
 
-    service.updateRatesPolis()
+    service.updateRatesBch()
     .catch((err: any) => {
       expect(err).not.toBeNull();
     });
   });
 
-  it('should catch an error on when call to update polis rates fails', () => {
+  it('should catch an error on when call to update bch rates fails', () => {
     service.getBTC = (): Promise<any> => {
       let prom = new Promise((resolve, reject) => {
         reject('test rejection');
@@ -102,37 +102,37 @@ describe('RateProvider', () => {
     });
   });
 
-  it('should covert POLIS satoshis to fiat', () => {
+  it('should covert BCH satoshis to fiat', () => {
     // before we have rates
-    expect(service.toFiat(0.25*1e+8, 'USD', 'polis')).toBeNull();
+    expect(service.toFiat(0.25*1e+8, 'USD', 'bch')).toBeNull();
 
     // after we have rates
-    service.updateRatesPolis().then(response => {
+    service.updateRatesBch().then(response => {
       expect(service.isAvailable()).toBe(true);
-      expect(service.toFiat(1*1e+8, 'USD', 'polis')).toEqual(1503.3);
-      expect(service.toFiat(0.5*1e+8, 'USD', 'polis')).toEqual(751.65);
-      expect(service.toFiat(0.25*1e+8, 'USD', 'polis')).toEqual(375.825);
+      expect(service.toFiat(1*1e+8, 'USD', 'bch')).toEqual(1503.3);
+      expect(service.toFiat(0.5*1e+8, 'USD', 'bch')).toEqual(751.65);
+      expect(service.toFiat(0.25*1e+8, 'USD', 'bch')).toEqual(375.825);
     });
 
     httpMock.match(btcUrl)[0].flush(btcResponse);
-    httpMock.match(polisUrl)[1].flush(polisResponse);
+    httpMock.match(bchUrl)[1].flush(bchResponse);
     httpMock.verify();
   });
 
-  it('should covert fiat to POLIS satoshis', () => {
+  it('should covert fiat to BCH satoshis', () => {
     // before we have rates
-    expect(service.fromFiat(0.25*1e+8, 'USD', 'polis')).toBeNull();
+    expect(service.fromFiat(0.25*1e+8, 'USD', 'bch')).toBeNull();
 
     // after we have rates
-    service.updateRatesPolis().then(response => {
+    service.updateRatesBch().then(response => {
       expect(service.isAvailable()).toBe(true);
-      expect(service.fromFiat(1503.3, 'USD', 'polis')).toEqual(1*1e+8);
-      expect(service.fromFiat(751.65, 'USD', 'polis')).toEqual(0.5*1e+8);
-      expect(service.fromFiat(375.825, 'USD', 'polis')).toEqual(0.25*1e+8);
+      expect(service.fromFiat(1503.3, 'USD', 'bch')).toEqual(1*1e+8);
+      expect(service.fromFiat(751.65, 'USD', 'bch')).toEqual(0.5*1e+8);
+      expect(service.fromFiat(375.825, 'USD', 'bch')).toEqual(0.25*1e+8);
     });
 
     httpMock.match(btcUrl)[0].flush(btcResponse);
-    httpMock.match(polisUrl)[1].flush(polisResponse);
+    httpMock.match(bchUrl)[1].flush(bchResponse);
     httpMock.verify();
   });
 
@@ -149,7 +149,7 @@ describe('RateProvider', () => {
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 
@@ -166,7 +166,7 @@ describe('RateProvider', () => {
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 
@@ -180,16 +180,18 @@ describe('RateProvider', () => {
       expect(service.isAvailable()).toBe(true);
       expect(service.listAlternatives(false)).toEqual([
         {name: 'Bitcoin', isoCode: 'BTC'},
-        {name: 'US Dollar', isoCode: 'USD'}
+        {name: 'US Dollar', isoCode: 'USD'},
+        {name: 'Bitcoin Cash', isoCode: 'BCH'}
       ]);
       expect(service.listAlternatives(true)).toEqual([
         {name: 'Bitcoin', isoCode: 'BTC'},
+        {name: 'Bitcoin Cash', isoCode: 'BCH'},
         {name: 'US Dollar', isoCode: 'USD'}
       ]);
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 
@@ -206,7 +208,7 @@ describe('RateProvider', () => {
     });
 
     httpMock.match(btcUrl)[1].flush(btcResponse);
-    httpMock.match(polisUrl)[0].flush(polisResponse);
+    httpMock.match(bchUrl)[0].flush(bchResponse);
     httpMock.verify();
   });
 });

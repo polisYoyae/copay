@@ -87,9 +87,9 @@ export class FeeProvider {
         return resolve({ levels: this.cache.data, fromCache: true });
       }
 
-      let walletClient = this.bwcProvider.getClient(coin, null, {});
+      let walletClient = this.bwcProvider.getClient(null, {});
 
-      walletClient.getFeeLevels('btc', 'livenet', (errLivenet, levelsLivenet) => {
+      walletClient.getFeeLevels(coin, 'livenet', (errLivenet, levelsLivenet) => {
         if (errLivenet) {
           return reject(this.translate.instant('Could not get dynamic fee'));
         }
@@ -104,8 +104,9 @@ export class FeeProvider {
             'testnet': levelsTestnet
           };
           return resolve({ levels: this.cache.data });
-		});
+        });
       });
     });
   }
+
 }

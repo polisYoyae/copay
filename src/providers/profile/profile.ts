@@ -51,7 +51,7 @@ export class ProfileProvider {
     let config: any = this.configProvider.get();
     let defaults: any = this.configProvider.getDefaults();
     // this.config.whenAvailable( (config) => { TODO
-    wallet.usingCustomBWS = config.bwsFor && config.bwsFor[wallet.id] && (config.bwsFor[wallet.id] != (wallet.coin === 'polis' ? defaults.bws.polis : defaults.bws.btc));
+    wallet.usingCustomBWS = config.bwsFor && config.bwsFor[wallet.id] && (config.bwsFor[wallet.id] != defaults.bws.url);
     wallet.name = (config.aliasFor && config.aliasFor[wallet.id]) || wallet.credentials.walletName;
     wallet.color = (config.colorFor && config.colorFor[wallet.id]) ? config.colorFor[wallet.id] : null;
     wallet.email = config.emailFor && config.emailFor[wallet.id];
@@ -127,7 +127,7 @@ export class ProfileProvider {
     wallet.copayerId = wallet.credentials.copayerId;
     wallet.m = wallet.credentials.m;
     wallet.n = wallet.credentials.n;
-    wallet.coin = opts.coin || wallet.credentials.coin;
+    wallet.coin = wallet.credentials.coin;
     wallet.status = {};
 
     this.updateWalletSettings(wallet);
@@ -292,12 +292,8 @@ export class ProfileProvider {
 
   public importWallet(str: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
-		
-	  // Unecessary complexity here because of Polis bws returning coin as 'btc'	
-      let walletClientBtc = this.bwcProvider.getClient('btc', null, opts);
-  	  let walletClientPolis = this.bwcProvider.getClient('polis', null, opts);
-  	  var coin = 'btc';
-	  
+      let walletClient = this.bwcProvider.getClient(null, opts);
+
       this.logger.debug('Importing Wallet:', opts);
 
       try {
@@ -311,20 +307,12 @@ export class ProfileProvider {
 
         str = JSON.stringify(c);
 
-        walletClientBtc.import(str, {
+        walletClient.import(str, {
           compressed: opts.compressed,
           password: opts.password
         });
       } catch (err) {
-    		try {  
-  		    coin = 'polis';
-  			  walletClientPolis.import(str, {
-    			  compressed: opts.compressed,
-    			  password: opts.password
-    			});	
-    		} catch (err) {
-    			return reject(this.translate.instant('Could not import. Check input file.'));
-    		}
+        return reject(this.translate.instant('Could not import. Check input file.'));
       }
 
       let strParsed: any = JSON.parse(str);
@@ -335,10 +323,8 @@ export class ProfileProvider {
 
       let addressBook = strParsed.addressBook ? strParsed.addressBook : {};
 
-	  let walletClient = this.bwcProvider.getClient(coin, null, opts); 
       this.addAndBindWalletClient(walletClient, {
-        bwsurl: opts.bwsurl,
-		walletcoin: coin
+        bwsurl: opts.bwsurl
       }).then((walletId: string) => {
         this.setMetaData(walletClient, addressBook).then(() => {
           return resolve(walletClient);
@@ -455,13 +441,13 @@ export class ProfileProvider {
         if (!skipKeyValidation)
           this.runValidation(wallet);
 
-        this.bindWalletClient(wallet, {coin: opts.walletcoin});
+        this.bindWalletClient(wallet);
 
         let saveBwsUrl = (): Promise<any> => {
           return new Promise((resolve, reject) => {
             let defaults: any = this.configProvider.getDefaults();
             let bwsFor: any = {};
-            bwsFor[walletId] = opts.bwsurl || (wallet.coin === 'polis' ? defaults.bws.polis : defaults.bws.btc);
+            bwsFor[walletId] = opts.bwsurl || defaults.bws.url;
 
             // Dont save the default
             if (bwsFor[walletId] == defaults.bws.url) {
@@ -512,14 +498,10 @@ export class ProfileProvider {
   public importExtendedPrivateKey(xPrivKey: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
 
-	  let coin = opts.coin || 'btc';
-      let walletClient = this.bwcProvider.getClient(coin, null, opts);
+      let walletClient = this.bwcProvider.getClient(null, opts);
       this.logger.debug('Importing Wallet xPrivKey');
 
-	  // For polis bwc compatibility
-	  var optsUpdate = opts;
-	  optsUpdate.coin = optsUpdate.coin.replace('polis', 'btc');
-      walletClient.importFromExtendedPrivateKey(xPrivKey, optsUpdate, (err: any) => {
+      walletClient.importFromExtendedPrivateKey(xPrivKey, opts, (err: any) => {
         if (err) {
           if (err instanceof this.errors.NOT_AUTHORIZED) return reject(err);
           this.bwcErrorProvider.cb(err, this.translate.instant('Could not import')).then((msg: string) => {
@@ -527,8 +509,7 @@ export class ProfileProvider {
           });
         } else {
           this.addAndBindWalletClient(walletClient, {
-            bwsurl: opts.bwsurl,
-		    walletcoin: coin
+            bwsurl: opts.bwsurl
           }).then((wallet: any) => {
             return resolve(wallet);
           }).catch((err: any) => {
@@ -549,8 +530,8 @@ export class ProfileProvider {
 
   public importMnemonic(words: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
-	  let coin = opts.coin || 'btc';
-      let walletClient = this.bwcProvider.getClient(coin, null, opts);
+
+      let walletClient = this.bwcProvider.getClient(null, opts);
 
       this.logger.debug('Importing Wallet Mnemonic');
 
@@ -561,7 +542,7 @@ export class ProfileProvider {
         entropySourcePath: opts.entropySourcePath,
         derivationStrategy: opts.derivationStrategy || 'BIP44',
         account: opts.account || 0,
-        coin: opts.coin.replace('polis', 'btc')
+        coin: opts.coin
       }, (err: any) => {
         if (err) {
           if (err instanceof this.errors.NOT_AUTHORIZED) {
@@ -575,8 +556,7 @@ export class ProfileProvider {
         }
 
         this.addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl,
-		  walletcoin: coin
+          bwsurl: opts.bwsurl
         }).then((wallet: any) => {
           return resolve(wallet);
         }).catch((err: any) => {
@@ -588,14 +568,14 @@ export class ProfileProvider {
 
   public importExtendedPublicKey(opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
-	  let coin = opts.coin || 'btc';
-      let walletClient = this.bwcProvider.getClient(coin, null, opts);
+
+      let walletClient = this.bwcProvider.getClient(null, opts);
       this.logger.debug('Importing Wallet XPubKey');
 
       walletClient.importFromExtendedPublicKey(opts.extendedPublicKey, opts.externalSource, opts.entropySource, {
         account: opts.account || 0,
         derivationStrategy: opts.derivationStrategy || 'BIP44',
-        coin: opts.coin.replace('polis', 'btc')
+        coin: opts.coin
       }, (err: any) => {
         if (err) {
 
@@ -610,8 +590,7 @@ export class ProfileProvider {
         }
 
         this.addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl,
-		  walletcoin: coin
+          bwsurl: opts.bwsurl
         }).then((wallet: any) => {
           return resolve(wallet);
         }).catch((err: any) => {
@@ -724,14 +703,14 @@ export class ProfileProvider {
       }
 
       // Create the client
-      let getBWSURL = (walletId: string, coin: string) => {
+      let getBWSURL = (walletId: string) => {
         let config: any = this.configProvider.get();
         let defaults: any = this.configProvider.getDefaults();
-        return ((config.bwsFor && config.bwsFor[walletId]) || (coin === 'polis' ? defaults.bws.polis : defaults.bws.btc));
+        return ((config.bwsFor && config.bwsFor[walletId]) || defaults.bws.url);
       };
 
-      let walletClient = this.bwcProvider.getClient(credentials.coin, JSON.stringify(credentials), {
-        bwsurl: getBWSURL(credentials.walletId, credentials.coin),
+      let walletClient = this.bwcProvider.getClient(JSON.stringify(credentials), {
+        bwsurl: getBWSURL(credentials.walletId),
       });
 
       let skipKeyValidation = this.shouldSkipValidation(credentials.walletId);
@@ -768,8 +747,7 @@ export class ProfileProvider {
     return new Promise((resolve, reject) => {
 
       opts = opts ? opts : {};
-	  let coin = opts.coin || 'btc';
-      let walletClient = this.bwcProvider.getClient(coin, null, opts);
+      let walletClient = this.bwcProvider.getClient(null, opts);
       let network = opts.networkName || 'livenet';
 
       if (opts.mnemonic) {
@@ -780,7 +758,7 @@ export class ProfileProvider {
             passphrase: opts.passphrase,
             account: opts.account || 0,
             derivationStrategy: opts.derivationStrategy || 'BIP44',
-            coin: opts.coin.replace('polis', 'btc')
+            coin: opts.coin
           });
 
         } catch (ex) {
@@ -793,7 +771,7 @@ export class ProfileProvider {
             network,
             account: opts.account || 0,
             derivationStrategy: opts.derivationStrategy || 'BIP44',
-            coin: opts.coin.replace('polis', 'btc')
+            coin: opts.coin,
           });
         } catch (ex) {
           this.logger.warn(ex);
@@ -804,7 +782,7 @@ export class ProfileProvider {
           walletClient.seedFromExtendedPublicKey(opts.extendedPublicKey, opts.externalSource, opts.entropySource, {
             account: opts.account || 0,
             derivationStrategy: opts.derivationStrategy || 'BIP44',
-            coin: opts.coin.replace('polis', 'btc')
+            coin: opts.coin
           });
           walletClient.credentials.hwInfo = opts.hwInfo;
         } catch (ex) {
@@ -819,7 +797,7 @@ export class ProfileProvider {
             passphrase: opts.passphrase,
             language: lang,
             account: 0,
-            coin: opts.coin.replace('polis', 'btc')
+            coin: opts.coin
           });
         } catch (e) {
           this.logger.info('Error creating recovery phrase: ' + e.message);
@@ -829,7 +807,7 @@ export class ProfileProvider {
               network,
               passphrase: opts.passphrase,
               account: 0,
-              coin: opts.coin.replace('polis', 'btc')
+              coin: opts.coin
             });
           } else {
             return reject(e);
@@ -859,7 +837,7 @@ export class ProfileProvider {
             network: opts.networkName,
             singleAddress: opts.singleAddress,
             walletPrivKey: opts.walletPrivKey,
-            coin: opts.coin.replace('polis', 'btc')
+            coin: opts.coin
           }, (err: any, secret: any) => {
             if (err) {
               this.bwcErrorProvider.cb(err, this.translate.instant('Error creating wallet')).then((msg: string) => {
@@ -881,8 +859,7 @@ export class ProfileProvider {
     return new Promise((resolve, reject) => {
       this.doCreateWallet(opts).then((walletClient: any) => {
         this.addAndBindWalletClient(walletClient, {
-          bwsurl: opts.bwsurl,
-		  walletcoin: opts.coin
+          bwsurl: opts.bwsurl
         }).then((wallet: any) => {
           return resolve(wallet);
         });
@@ -896,10 +873,9 @@ export class ProfileProvider {
   public joinWallet(opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.logger.debug('Joining Wallet:', opts);
-      var walletData = null;
+
       try {
-		// Try to join BTC wallet first  
-        walletData = this.bwcProvider.parseSecretBtc(opts.secret);
+        var walletData = this.bwcProvider.parseSecret(opts.secret);
 
         // check if exist
         if (_.find(this.profile.credentials, {
@@ -908,27 +884,15 @@ export class ProfileProvider {
           return reject(this.translate.instant('Cannot join the same wallet more that once'));
         }
       } catch (ex) {
-		try {
-			// If error, try to join POLIS wallet  
-			walletData = this.bwcProvider.parseSecretPolis(opts.secret);
-
-			// check if exist
-			if (_.find(this.profile.credentials, {
-			  'walletId': walletData.walletId
-			})) {
-			  return reject(this.translate.instant('Cannot join the same wallet more that once'));
-			}	
-		}catch (ex) {
-			this.logger.debug(ex);
-			return reject(this.translate.instant('Bad wallet invitation'));
-		}
+        this.logger.debug(ex);
+        return reject(this.translate.instant('Bad wallet invitation'));
       }
       opts.networkName = walletData.network;
       this.logger.debug('Joining Wallet:', opts);
 
       this.seedWallet(opts).then((walletClient: any) => {
         walletClient.joinWallet(opts.secret, opts.myName || 'me', {
-          coin: opts.coin.replace('polis', 'btc')
+          coin: opts.coin
         }, (err: any) => {
           if (err) {
             this.bwcErrorProvider.cb(err, this.translate.instant('Could not join wallet')).then((msg: string) => {
@@ -936,8 +900,7 @@ export class ProfileProvider {
             });
           } else {
             this.addAndBindWalletClient(walletClient, {
-              bwsurl: opts.bwsurl,
-		      walletcoin: opts.coin
+              bwsurl: opts.bwsurl
             }).then((wallet: any) => {
               return resolve(wallet);
             });
@@ -982,7 +945,7 @@ export class ProfileProvider {
       opts.m = 1;
       opts.n = 1;
       opts.networkName = 'livenet';
-      opts.coin = 'polis';
+      opts.coin = 'btc';
       this.createWallet(opts).then((wallet: any) => {
         return resolve(wallet);
       }).catch((err) => {
@@ -1023,7 +986,7 @@ export class ProfileProvider {
 
     if (opts.coin) {
       ret = _.filter(ret, (x: any) => {
-        return (x.coin == opts.coin);
+        return (x.credentials.coin == opts.coin);
       });
     }
 
@@ -1170,9 +1133,8 @@ export class ProfileProvider {
           }
         });
 
-        let u = null;
+        let u = this.bwcProvider.getUtils();
         _.each(finale, (x: any) => {
-		  u = this.bwcProvider.getUtils(x.wallet.coin);
           if (x.data && x.data.message && x.wallet && x.wallet.credentials.sharedEncryptingKey) {
             // TODO TODO TODO => BWC
             x.message = u.decryptMessage(x.data.message, x.wallet.credentials.sharedEncryptingKey);

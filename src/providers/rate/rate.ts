@@ -1,77 +1,69 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash';
+import env from '../../environments';
 import { Logger } from '../../providers/logger/logger';
 
 @Injectable()
 export class RateProvider {
-
   private rates: any;
   private alternatives: any[];
-  private ratesPOLIS: any;
+  private ratesBCH: any;
   private ratesAvailable: boolean;
 
   private SAT_TO_BTC: number;
   private BTC_TO_SAT: number;
 
-  private rateServiceUrl = 'https://bitpay.com/api/rates';
-  private polisRateServiceUrl = 'https://cors-anywhere.herokuapp.com/api.coinmarketcap.com/v1/ticker/polis';
+  private rateServiceUrl = env.ratesAPI.btc;
+  private bchRateServiceUrl = env.ratesAPI.bch;
 
-  constructor(
-    private http: HttpClient,
-    private logger: Logger
-  ) {
+  constructor(private http: HttpClient, private logger: Logger) {
     this.logger.info('RateProvider initialized.');
     this.rates = {};
     this.alternatives = [];
-    this.ratesPOLIS = {};
+    this.ratesBCH = {};
     this.SAT_TO_BTC = 1 / 1e8;
     this.BTC_TO_SAT = 1e8;
     this.ratesAvailable = false;
     this.updateRatesBtc();
-    this.updateRatesPolis();
+    this.updateRatesBch();
   }
 
   public updateRatesBtc(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.getBTC().then((dataBTC: any) => {
-        _.each(dataBTC, (currency: any) => {
-          this.rates[currency.code] = currency.rate;
-          this.alternatives.push({
-            name: currency.name,
-            isoCode: currency.code,
-            rate: currency.rate
+      this.getBTC()
+        .then((dataBTC: any) => {
+          _.each(dataBTC, (currency: any) => {
+            this.rates[currency.code] = currency.rate;
+            this.alternatives.push({
+              name: currency.name,
+              isoCode: currency.code,
+              rate: currency.rate
+            });
           });
+          this.ratesAvailable = true;
+          resolve();
+        })
+        .catch((errorBTC: any) => {
+          this.logger.error(errorBTC);
+          reject(errorBTC);
         });
-        this.ratesAvailable = true;
-        resolve();
-      }).catch((errorBTC: any) => {
-        this.logger.error(errorBTC);
-        reject(errorBTC);
-      });
     });
   }
 
-  public updateRatesPolis(): Promise<any> {
+  public updateRatesBch(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.getPOLIS().then((dataPOLIS: any) => {
-        _.each(dataPOLIS, (currency: any) => {
-          this.ratesPOLIS[currency.symbol] = 1;
-		  if (this.isAvailable()) {
-			_.each(this.alternatives,  (alternative: any) => {
-			   this.ratesPOLIS[alternative.isoCode] = currency.price_btc * alternative.rate;
-			}); 
-		  }
-          this.ratesPOLIS['USD'] = currency.price_usd;
-          this.ratesPOLIS['BTC'] = currency.price_btc;
+      this.getBCH()
+        .then((dataBCH: any) => {
+          _.each(dataBCH, (currency: any) => {
+            this.ratesBCH[currency.code] = currency.rate;
+          });
+          resolve();
+        })
+        .catch((errorBCH: any) => {
+          this.logger.error(errorBCH);
+          reject(errorBCH);
         });
-		
-
-        resolve();
-      }).catch((errorPOLIS: any) => {
-        this.logger.error(errorPOLIS);
-        reject(errorPOLIS);
-      });
     });
   }
 
@@ -83,19 +75,17 @@ export class RateProvider {
     });
   }
 
-  public getPOLIS(): Promise<any> {
+  public getBCH(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.http.get(this.polisRateServiceUrl).subscribe((data: any) => {
+      this.http.get(this.bchRateServiceUrl).subscribe((data: any) => {
         resolve(data);
       });
     });
   }
 
   public getRate(code: string, chain?: string): number {
-    if (chain == 'polis')
-      return this.ratesPOLIS[code];
-    else
-      return this.rates[code];
+    if (chain == 'bch') return this.ratesBCH[code];
+    else return this.rates[code];
   }
 
   public getAlternatives(): any[] {
@@ -125,7 +115,7 @@ export class RateProvider {
       return {
         name: item.name,
         isoCode: item.isoCode
-      }
+      };
     });
     if (sort) {
       alternatives.sort((a: any, b: any) => {
@@ -145,5 +135,4 @@ export class RateProvider {
       }
     });
   }
-
 }

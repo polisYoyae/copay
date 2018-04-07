@@ -191,7 +191,7 @@ msgstr ""
 msgid "Bitcoin Address"
 msgstr "비트코인 주소"
 
-msgid "Polis Wallets"
+msgid "Bitcoin Cash Wallets"
 msgstr "비트코인 캐시 지갑"
 
 msgid "Bitcoin Network Fee Policy"
@@ -200,7 +200,7 @@ msgstr "비트코인 네트워크 수수료 정책"
 msgid "Bitcoin Wallets"
 msgstr "비트코인 지갑"
 
-msgid "Polis Payment"
+msgid "Bitcoin cash Payment"
 msgstr "비트코인 현금 지불"
 
 msgid "Bitcoin is a currency."
@@ -353,7 +353,7 @@ msgstr "계속"
 msgid "Contribute translations"
 msgstr ""
 
-msgid "Copay only supports Polis using new version numbers addresses"
+msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
 msgstr "Copay는 오직 새로운 버전 번호 주소를 이용한 비트코인 캐시만 지원합니다"
 
 msgid "Copayer already in this wallet"
@@ -857,7 +857,7 @@ msgstr ""
 msgid "I'm sure"
 msgstr ""
 
-msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
+msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
 msgstr ""
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
@@ -1109,7 +1109,7 @@ msgstr "자금을 수신하기 위해 이용 가능한 지갑이 없습니다"
 msgid "No wallets available to use ShapeShift"
 msgstr ""
 
-msgid "No wallets eligible for Polis support"
+msgid "No wallets eligible for Bitcoin Cash support"
 msgstr "비트코인 캐시 지원을 받을 수 있는 지갑이 없습니다"
 
 msgid "No wallets with funds"
@@ -1145,8 +1145,8 @@ msgstr ""
 msgid "Note"
 msgstr "알림"
 
-msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
-msgstr "알림: 이 POLIS 지갑이 BCT 지갑으로부터 복제된 경우, 두 지갑은 동일한 복원 문구를 공유합니다."
+msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgstr "알림: 이 BCH 지갑이 BCT 지갑으로부터 복제된 경우, 두 지갑은 동일한 복원 문구를 공유합니다."
 
 msgid "Notification"
 msgstr ""
@@ -1280,7 +1280,7 @@ msgstr "지불이 허용되었으나, 아직 브로드캐스트되지 않았습�
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "지불이 허용되었으며, Glidera에 의해 브로드캐스트될 것입니다. 문제가 있을 경우를 대비하여, 생성 후 6시간 후에 삭제될 수 있습니다."
 
-msgid "Payment address was translated to new Polis address format: {{addr}}"
+msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
 msgstr ""
 
 msgid "Payment request"
@@ -1661,7 +1661,7 @@ msgstr ""
 msgid "Slide to send"
 msgstr ""
 
-msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
+msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
 msgstr ""
 
 msgid "Specify Recovery Phrase"
@@ -1874,7 +1874,7 @@ msgstr ""
 msgid "Transactions without fee are not supported."
 msgstr "무수수료 거래는 지원되지 않습니다."
 
-msgid "Transfer to Polis Wallet"
+msgid "Transfer to Bitcoin Cash Wallet"
 msgstr ""
 
 msgid "Transfer to Bitcoin Wallet"
@@ -1928,7 +1928,7 @@ msgstr "업데이트 중입니다... 기다려주세요"
 msgid "Urgent"
 msgstr "긴급"
 
-msgid "Use Polis Copay Style Addresses"
+msgid "Use Bitcoin Cash Copay Style Addresses"
 msgstr ""
 
 msgid "Use Unconfirmed Funds"

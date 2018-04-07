@@ -6,21 +6,21 @@ import { BwcProvider } from '../../providers/bwc/bwc';
 @Injectable()
 export class AddressProvider {
   private bitcore: any;
-  private bitcorePolis: any;
+  private bitcoreCash: any;
   private Bitcore: any;
 
   constructor(
     private bwcProvider: BwcProvider,
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
-    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
     this.Bitcore = {
       'btc': {
         lib: this.bitcore,
-        translateTo: 'polis'
+        translateTo: 'bch'
       },
-      'polis': {
-        lib: this.bitcorePolis,
+      'bch': {
+        lib: this.bitcoreCash,
         translateTo: 'btc'
       }
     };
@@ -32,8 +32,8 @@ export class AddressProvider {
       return 'btc';
     } catch (e) {
       try {
-        new this.Bitcore['polis'].lib.Address(address);
-        return 'polis';
+        new this.Bitcore['bch'].lib.Address(address);
+        return 'bch';
       } catch (e) {
         return null;
       }
@@ -59,13 +59,13 @@ export class AddressProvider {
 
   validateAddress(address: string) {
     let Address = this.bitcore.Address;
-    let AddressPolis = this.bitcorePolis.Address;
+    let AddressCash = this.bitcoreCash.Address;
     let isLivenet = Address.isValid(address, 'livenet');
     let isTestnet = Address.isValid(address, 'testnet');
-    let isLivenetPolis = AddressPolis.isValid(address, 'livenet');
+    let isLivenetCash = AddressCash.isValid(address, 'livenet');
     return {
       address,
-      isValid: isLivenet || isTestnet || isLivenetPolis,
+      isValid: isLivenet || isTestnet || isLivenetCash,
       network: isTestnet ? 'testnet' : 'livenet',
       coin: this.getCoin(address),
       translation: this.translateAddress(address),

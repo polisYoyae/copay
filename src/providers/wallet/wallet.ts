@@ -329,14 +329,15 @@ export class WalletProvider {
   }
 
   public getAddressView(wallet: any, address: string): string {
-    return address;
+    if (wallet.coin != 'bch' || this.useLegacyAddress()) return address;
+    return this.txFormatProvider.toCashAddress(address);
   }
 
   public getProtoAddress(wallet: any, address: string) {
     let proto: string = this.getProtocolHandler(wallet.coin);
     let protoAddr: string = proto + ':' + address;
 
-    if (wallet.coin != 'polis') {
+    if (wallet.coin != 'bch' || this.useLegacyAddress()) {
       return protoAddr;
     } else {
       return protoAddr.toUpperCase();
@@ -952,8 +953,6 @@ export class WalletProvider {
         return new Promise((resolve, reject) => {
           let wallet = clients.shift();
           if (!wallet) return resolve();
-		  
-          
           this.logger.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
 
           wallet.savePreferences(prefs, (err: any) => {
@@ -980,8 +979,8 @@ export class WalletProvider {
       // Get current languge
       prefs.language = this.languageProvider.getCurrent();
       
-	  // BWS Compatibility 
-      prefs.unit = 'btc';
+      // Set OLD wallet in bits to btc
+      prefs.unit = 'btc'; // DEPRECATED
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {
@@ -1335,8 +1334,8 @@ export class WalletProvider {
   }
 
   public getProtocolHandler(coin: string): string {
-    if (coin == 'polis') {
-      return 'polis';
+    if (coin == 'bch') {
+      return 'bitcoincash';
     } else {
       return 'bitcoin';
     }
@@ -1344,17 +1343,14 @@ export class WalletProvider {
 
   public copyCopayers(wallet: any, newWallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-	  
-	  let bitcore = wallet.coin === 'btc' ? this.bwcProvider.getBitcore() : this.bwcProvider.getBitcorePolis();
-	  let walletPrivKey = bitcore.PrivateKey.fromString(wallet.credentials.walletPrivKey);
-
+      let walletPrivKey = this.bwcProvider.getBitcore().PrivateKey.fromString(wallet.credentials.walletPrivKey);
       let copayer = 1;
       let i = 0;
 
       lodash.each(wallet.credentials.publicKeyRing, (item) => {
         let name = item.copayerName || ('copayer ' + copayer++);
         newWallet._doJoinWallet(newWallet.credentials.walletId, walletPrivKey, item.xPubKey, item.requestPubKey, name, {
-          coin: wallet.coin,
+          coin: newWallet.credentials.coin,
         }, (err: any) => {
           // Ignore error is copayer already in wallet
           if (err && !(err instanceof this.errors.COPAYER_IN_WALLET)) return reject(err);

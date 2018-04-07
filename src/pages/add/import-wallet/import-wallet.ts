@@ -81,7 +81,7 @@ export class ImportWalletPage {
       filePassword: [null],
       derivationPath: [this.derivationPathByDefault, Validators.required],
       testnet: [false],
-      bwsURL: [this.navParams.data.coin === 'polis' ? this.defaults.bws.polis : this.defaults.bws.btc],
+      bwsURL: [this.defaults.bws.url],
       coin: [this.navParams.data.coin ? this.navParams.data.coin : 'btc']
     });
   }

@@ -36,7 +36,7 @@
       <ion-label stacked>{{'Coin' | translate}}</ion-label>
       <ion-select formControlName="coin" (ionChange)="createForm.value.testnetEnabled = false">
         <ion-option value="btc">BTC</ion-option>
-        <ion-option value="polis">POLIS</ion-option>
+        <ion-option value="bch">BCH</ion-option>
       </ion-select>
     </ion-item>
 
@@ -65,7 +65,7 @@
         <ion-input type="text" formControlName="recoveryPhrase"></ion-input>
       </ion-item>
 
-      <ion-item *ngIf="createForm.value.selectedSeed == 'new' && createForm.value.coin == 'btc'">
+      <ion-item *ngIf="createForm.value.selectedSeed == 'new'">
         <ion-label>Testnet</ion-label>
         <ion-toggle formControlName="testnetEnabled" (ionChange)="setDerivationPath()"></ion-toggle>
       </ion-item>

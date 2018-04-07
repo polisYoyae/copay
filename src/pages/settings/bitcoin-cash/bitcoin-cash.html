@@ -1,12 +1,12 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Polis</ion-title>
+    <ion-title>Bitcoin Cash</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <div class="box-notification no-margin warn" *ngIf="!availableWallets[0]">
-    <span translate>No wallets eligible for Polis support</span>
+    <span translate>No wallets eligible for Bitcoin Cash support</span>
   </div>
 
   <div *ngIf="availableWallets[0]">
@@ -59,7 +59,7 @@
 
     <ion-item-divider text-wrap>
       <span translate>
-        Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool
+        Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool
       </span>.
       <a (click)="openRecoveryToolLink()" translate>Click to open the recovery tool</a>.
     </ion-item-divider>

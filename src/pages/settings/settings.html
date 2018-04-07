@@ -39,9 +39,9 @@
 
     <button ion-item (click)="openBitcoinCashPage()">
       <ion-icon item-start>
-        <img src="assets/img/bitcoin-cash-logo.svg" alt="Polis Wallets" width="25" />
+        <img src="assets/img/bitcoin-cash-logo.svg" alt="Bitcoin Cash Wallets" width="25" />
       </ion-icon>
-      Polis
+      Bitcoin Cash
     </button>
 
     <button ion-item (click)="openNotificationsPage()">
@@ -107,16 +107,16 @@
         {{'Incomplete' | translate}}
       </ion-note>
       <ion-note class="wallet-warning" *ngIf="wallet.isComplete() && wallet.needsBackup" item-end>
-        {{'Needs backup recovery' | translate}}
+        {{'Needs backup' | translate}}
       </ion-note>
       <ion-note *ngIf="wallet.credentials.m > 1 && wallet.isComplete() && !wallet.needsBackup" item-end>
         {{wallet.credentials.m}}-{{wallet.credentials.n}}
       </ion-note>
     </button>
 
-    <ion-item-divider *ngIf="walletsPolis.length">{{'Polis Wallets' | translate}}</ion-item-divider>
+    <ion-item-divider *ngIf="walletsBch.length">{{'Bitcoin Cash Wallets' | translate}}</ion-item-divider>
 
-    <button ion-item *ngFor="let wallet of walletsPolis" (click)="openWalletSettingsPage(wallet.credentials.walletId)">
+    <button ion-item *ngFor="let wallet of walletsBch" (click)="openWalletSettingsPage(wallet.credentials.walletId)">
       <ion-icon item-start>
         <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
         <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />
@@ -126,7 +126,7 @@
         {{'Incomplete' | translate}}
       </ion-note>
       <ion-note class="wallet-warning" *ngIf="wallet.isComplete() && wallet.needsBackup" item-end>
-        {{'Needs backup recovery' | translate}}
+        {{'Needs backup' | translate}}
       </ion-note>
       <ion-note *ngIf="wallet.credentials.m > 1 && wallet.isComplete() && !wallet.needsBackup" item-end>
         {{wallet.credentials.m}}-{{wallet.credentials.n}}

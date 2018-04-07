@@ -12,7 +12,7 @@ export class AddressValidator {
   isValid(control: FormControl): any {
 
     let b = AddressValidator.bitcore.getBitcore();
-    let c = AddressValidator.bitcore.getBitcorePolis();
+    let c = AddressValidator.bitcore.getBitcoreCash();
 
     let URI = b.URI;
     let Address = b.Address;
@@ -36,7 +36,7 @@ export class AddressValidator {
       if (isUriValid && (isAddressValidLivenet || isAddressValidTestnet)) {
         return null;
       }
-    } else if (/^bitcoin:/.test(control.value)) {
+    } else if (/^bitcoincash:/.test(control.value)) {
       let isUriValid = URICash.isValid(control.value);
       if (isUriValid) {
         uri = new URICash(control.value);
@@ -47,7 +47,7 @@ export class AddressValidator {
       }
     }
 
-    // Regular Address: try Bitcoin and Polis
+    // Regular Address: try Bitcoin and Bitcoin Cash
     let regularAddressLivenet = Address.isValid(control.value, 'livenet');
     let regularAddressTestnet = Address.isValid(control.value, 'testnet');
     let regularAddressCashLivenet = AddressCash.isValid(control.value, 'livenet');

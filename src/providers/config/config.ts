@@ -30,8 +30,7 @@ interface Config {
   };
 
   bws: {
-    btc: string;
-    polis: string;
+    url: string;
   };
 
   download: {
@@ -100,7 +99,7 @@ interface Config {
 
   blockExplorerUrl: {
     btc: string;
-    polis: string;
+    bch: string;
   }
 };
 
@@ -133,8 +132,7 @@ const configDefault: Config = {
 
   // Bitcore wallet service URL
   bws: {
-    btc: 'https://bws.bitpay.com/bws/api',
-    polis: 'https://bws.polispay.org/bws/api'
+    url: 'https://bws.bitpay.com/bws/api'
   },
 
   download: {
@@ -204,7 +202,7 @@ const configDefault: Config = {
 
   blockExplorerUrl: {
     btc: 'insight.bitpay.com',
-    polis: 'polis-insight.bitpay.com'
+    bch: 'bch-insight.bitpay.com'
   }
 };
 

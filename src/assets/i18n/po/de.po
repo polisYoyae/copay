@@ -191,8 +191,8 @@ msgstr ""
 msgid "Bitcoin Address"
 msgstr "Bitcoin-Adresse"
 
-msgid "Polis Wallets"
-msgstr "Polis Wallet"
+msgid "Bitcoin Cash Wallets"
+msgstr "Bitcoin Cash Wallet"
 
 msgid "Bitcoin Network Fee Policy"
 msgstr "Bitcoin-Netzwerk Gebührenübersicht"
@@ -201,7 +201,7 @@ msgid "Bitcoin Wallets"
 msgstr "Bitcoin-Wallet"
 
 msgid "Bitcoin cash Payment"
-msgstr "Polis zahlung"
+msgstr "Bitcoin Cash zahlung"
 
 msgid "Bitcoin is a currency."
 msgstr "Bitcoin ist eine Währung."
@@ -353,8 +353,8 @@ msgstr "Weiter"
 msgid "Contribute translations"
 msgstr ""
 
-msgid "Copay only supports Polis using new version numbers addresses"
-msgstr "Copay unterstützt nur die neue Version der Polis adressen"
+msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
+msgstr "Copay unterstützt nur die neue Version der Bitcoin Cash adressen"
 
 msgid "Copayer already in this wallet"
 msgstr "Copayer nimmt bereits teil"
@@ -857,7 +857,7 @@ msgstr ""
 msgid "I'm sure"
 msgstr ""
 
-msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
+msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
 msgstr ""
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
@@ -1109,8 +1109,8 @@ msgstr "Keine Wallet verfügbar um Guthaben zu erhalten"
 msgid "No wallets available to use ShapeShift"
 msgstr ""
 
-msgid "No wallets eligible for Polis support"
-msgstr "Kein Wallet berechtigt für den Polis Support"
+msgid "No wallets eligible for Bitcoin Cash support"
+msgstr "Kein Wallet berechtigt für den Bitcoin Cash Support"
 
 msgid "No wallets with funds"
 msgstr ""
@@ -1145,8 +1145,8 @@ msgstr ""
 msgid "Note"
 msgstr "Notiz"
 
-msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
-msgstr "Tipp: Wenn dieses Polis Wallet von einem Bitcoin Core Wallet kopiert wurde, besitzen diese dieselben Wiederherstellungs Sätze."
+msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgstr "Tipp: Wenn dieses Bitcoin Cash Wallet von einem Bitcoin Core Wallet kopiert wurde, besitzen diese dieselben Wiederherstellungs Sätze."
 
 msgid "Notification"
 msgstr ""
@@ -1280,7 +1280,7 @@ msgstr "Zahlung akzeptiert, aber noch nicht übermittelt"
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "Zahlung akzeptiert. Sie wird durch Glidera übermittelt. Falls ein Problem auftritt, kann sie nach einer Wartezeit von 6 Stunden gelöscht werden."
 
-msgid "Payment address was translated to new Polis address format: {{addr}}"
+msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
 msgstr ""
 
 msgid "Payment request"
@@ -1661,7 +1661,7 @@ msgstr ""
 msgid "Slide to send"
 msgstr ""
 
-msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
+msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
 msgstr ""
 
 msgid "Specify Recovery Phrase"
@@ -1874,7 +1874,7 @@ msgstr ""
 msgid "Transactions without fee are not supported."
 msgstr "Es werden keine Transaktionen ohne Gebühren unterstützt."
 
-msgid "Transfer to Polis Wallet"
+msgid "Transfer to Bitcoin Cash Wallet"
 msgstr ""
 
 msgid "Transfer to Bitcoin Wallet"
@@ -1928,7 +1928,7 @@ msgstr "Aktualisiere... Bitte warten"
 msgid "Urgent"
 msgstr "Dringend"
 
-msgid "Use Polis Copay Style Addresses"
+msgid "Use Bitcoin Cash Copay Style Addresses"
 msgstr ""
 
 msgid "Use Unconfirmed Funds"

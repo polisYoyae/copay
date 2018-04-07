@@ -21,7 +21,7 @@ import { WalletProvider } from "../../../providers/wallet/wallet";
 })
 export class BitcoinCashPage {
   private walletsBTC: any[];
-  private walletsPOLIS: any[];
+  private walletsBCH: any[];
   private errors: any;
 
   public availableWallets: any[];
@@ -44,7 +44,7 @@ export class BitcoinCashPage {
     private events: Events
   ) {
     this.walletsBTC = [];
-    this.walletsPOLIS = [];
+    this.walletsBCH = [];
     this.availableWallets = [];
     this.nonEligibleWallets = [];
     this.errors = this.bwcProvider.getErrors();
@@ -59,12 +59,12 @@ export class BitcoinCashPage {
     });
 
     // Filter out already duplicated wallets
-    this.walletsPOLIS = this.profileProvider.getWallets({
-      coin: 'polis',
+    this.walletsBCH = this.profileProvider.getWallets({
+      coin: 'bch',
       network: 'livenet'
     });
 
-    let xPubKeyIndex = lodash.keyBy(this.walletsPOLIS, "credentials.xPubKey");
+    let xPubKeyIndex = lodash.keyBy(this.walletsBCH, "credentials.xPubKey");
 
     this.walletsBTC = lodash.filter(this.walletsBTC, w => {
       return !xPubKeyIndex[w.credentials.xPubKey];
@@ -78,7 +78,7 @@ export class BitcoinCashPage {
         w.excludeReason = this.translate.instant('Read only wallet');
         this.nonEligibleWallets.push(w);
       } else if (w.needsBackup) {
-        w.excludeReason = this.translate.instant('Needs backup recovery');
+        w.excludeReason = this.translate.instant('Needs backup');
         this.nonEligibleWallets.push(w);
       } else {
         this.availableWallets.push(w);
@@ -86,8 +86,8 @@ export class BitcoinCashPage {
     });
 
     lodash.each(this.availableWallets, (wallet) => {
-      this.walletProvider.getBalance(wallet, { coin: 'polis' }).then((balance) => {
-        wallet.bchBalance = this.txFormatProvider.formatAmountStr('polis', balance.availableAmount);
+      this.walletProvider.getBalance(wallet, { coin: 'bch' }).then((balance) => {
+        wallet.bchBalance = this.txFormatProvider.formatAmountStr('bch', balance.availableAmount);
         wallet.error = null;
       }).catch((err) => {
         wallet.error = (err === 'WALLET_NOT_REGISTERED') ? this.translate.instant('Wallet not registered') : this.bwcErrorProvider.msg(err);
@@ -107,15 +107,15 @@ export class BitcoinCashPage {
   }
 
   public duplicate(wallet: any) {
-    this.logger.debug('Duplicating wallet for POLIS: ' + wallet.id + ': ' + wallet.name);
+    this.logger.debug('Duplicating wallet for BCH: ' + wallet.id + ': ' + wallet.name);
 
     let opts: any = {
-      name: wallet.name + '[POLIS]',
+      name: wallet.name + '[BCH]',
       m: wallet.m,
       n: wallet.n,
       myName: wallet.credentials.copayerName,
       networkName: wallet.network,
-      coin: 'polis',
+      coin: 'bch',
       walletPrivKey: wallet.credentials.walletPrivKey,
       compliantDerivation: wallet.credentials.compliantDerivation,
     };
@@ -158,7 +158,7 @@ export class BitcoinCashPage {
       if (!isNew) return cb();
       if (wallet.n == 1) return cb();
 
-      this.logger.info('Adding copayers for POLIS wallet config:' + wallet.m + '-' + wallet.n);
+      this.logger.info('Adding copayers for BCH wallet config:' + wallet.m + '-' + wallet.n);
 
       this.walletProvider.copyCopayers(wallet, newWallet, (err) => {
         if (err) {

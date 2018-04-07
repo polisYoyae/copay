@@ -52,16 +52,16 @@ describe('Profile Provider', () => {
     },
     api2: {
       id: 'zxccv25b-d6ab-4b11-8b76-88570d822222',
-      cachedBalance: '5.00 POLIS',
+      cachedBalance: '5.00 BCH',
       cachedBalanceUpdatedOn: null,
       credentials: {
-        coin: 'polis',
+        coin: 'bch',
         network: 'livenet',
         n: 1,
         m: 1
       },
       status: {
-        availableBalanceSat: 500000000 // 5 POLIS
+        availableBalanceSat: 500000000 // 5 BCH
       },
       isComplete: () => {
         return true;
@@ -158,7 +158,7 @@ describe('Profile Provider', () => {
 
     it('should not return any wallet when there is no wallets validating provided opts', () => {
       const opts = {
-        coin: 'polis',
+        coin: 'bch',
         network: 'livenet',
         minAmount: 1000000000
       };

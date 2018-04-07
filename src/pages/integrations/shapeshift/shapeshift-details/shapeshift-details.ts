@@ -44,8 +44,8 @@ export class ShapeshiftDetailsPage {
     var url;
     if (this.ssData.outgoingType.toUpperCase() == 'BTC') {
       url = "https://insight.bitpay.com/tx/" + id;
-    } else if (this.ssData.outgoingType.toUpperCase() == 'POLIS') {
-      url = "https://polis-insight.bitpay.com/tx/" + id;
+    } else if (this.ssData.outgoingType.toUpperCase() == 'BCH') {
+      url = "https://bch-insight.bitpay.com/tx/" + id;
     } else {
       return;
     }

@@ -191,8 +191,8 @@ msgstr "La comisión de los mineros bitcoin (BTC) son altos debido a la demanda 
 msgid "Bitcoin Address"
 msgstr "Dirección Bitcoin"
 
-msgid "Polis Wallets"
-msgstr "Billeteras Polis"
+msgid "Bitcoin Cash Wallets"
+msgstr "Billeteras Bitcoin Cash"
 
 msgid "Bitcoin Network Fee Policy"
 msgstr "Política de Comisión de la Red Bitcoin"
@@ -200,8 +200,8 @@ msgstr "Política de Comisión de la Red Bitcoin"
 msgid "Bitcoin Wallets"
 msgstr "Billeteras Bitcoin"
 
-msgid "Polis Payment"
-msgstr "Pago en Polis"
+msgid "Bitcoin cash Payment"
+msgstr "Pago en Bitcoin cash"
 
 msgid "Bitcoin is a currency."
 msgstr "Bitcoin es una moneda."
@@ -353,8 +353,8 @@ msgstr "Continuar"
 msgid "Contribute translations"
 msgstr "Contribuye en las traducciones"
 
-msgid "Copay only supports Polis using new version numbers addresses"
-msgstr "Copay sólo soporta Polis utilizando la nueva versión de direcciones"
+msgid "Copay only supports Bitcoin Cash using new version numbers addresses"
+msgstr "Copay sólo soporta Bitcoin Cash utilizando la nueva versión de direcciones"
 
 msgid "Copayer already in this wallet"
 msgstr "Ya se encuentra en esta billetera"
@@ -857,8 +857,8 @@ msgstr "Entiendo que mis fondos están protegidos por el dispositivo y no por un
 msgid "I'm sure"
 msgstr "Estoy seguro"
 
-msgid "If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format."
-msgstr "Si esta habilitado, las direcciones Polis se mostrarán usando el formato de Copay y no el nuevo formato CashAddr."
+msgid "If enabled, Bitcoin Cash addresses will be shown using Copay style address, and not the new cashaddr format."
+msgstr "Si esta habilitado, las direcciones Bitcoin Cash se mostrarán usando el formato de Copay y no el nuevo formato CashAddr."
 
 msgid "If enabled, all sensitive information (private key and recovery phrase) and actions (spending and exporting) associated with this wallet will be protected."
 msgstr "Si está habilitado, se protegerá toda información sensible (clave privada y frase recuperación) y acciones (gastar y exportar) asociadas con esta billetera."
@@ -1109,8 +1109,8 @@ msgstr "No hay billeteras disponibles para recibir fondos"
 msgid "No wallets available to use ShapeShift"
 msgstr "No hay billeteras disponibles para usar ShapeShift"
 
-msgid "No wallets eligible for Polis support"
-msgstr "No hay billeteras elegibles para soporte a Polis"
+msgid "No wallets eligible for Bitcoin Cash support"
+msgstr "No hay billeteras elegibles para soporte a Bitcoin Cash"
 
 msgid "No wallets with funds"
 msgstr "Sin billeteras con fondos"
@@ -1145,8 +1145,8 @@ msgstr "Dirección bitcoin inválida"
 msgid "Note"
 msgstr "Nota"
 
-msgid "Note: if this POLIS wallet was duplicated from a BTC wallet, they share the same recovery phrase."
-msgstr "Nota: Si esta billetera POLIS fue duplicada desde una billetera BTC, entonces comparten la misma frase de recuperación."
+msgid "Note: if this BCH wallet was duplicated from a BTC wallet, they share the same recovery phrase."
+msgstr "Nota: Si esta billetera BCH fue duplicada desde una billetera BTC, entonces comparten la misma frase de recuperación."
 
 msgid "Notification"
 msgstr "Notificación"
@@ -1280,8 +1280,8 @@ msgstr "Pago aceptado, pero aún no fue enviado"
 msgid "Payment accepted. It will be broadcasted by Glidera. In case there is a problem, it can be deleted 6 hours after it was created."
 msgstr "Pago aceptado. Se transmitirá por Glidera. En caso de que haya un problema, puedes eliminar la transacción 6 horas después de fue creada."
 
-msgid "Payment address was translated to new Polis address format: {{addr}}"
-msgstr "La dirección de pago fue traducida al nuevo formato de Polis: {{addr}}"
+msgid "Payment address was translated to new Bitcoin Cash address format: {{addr}}"
+msgstr "La dirección de pago fue traducida al nuevo formato de Bitcoin Cash: {{addr}}"
 
 msgid "Payment request"
 msgstr "Solicitud de pago"
@@ -1661,8 +1661,8 @@ msgstr "Deslizar para pagar"
 msgid "Slide to send"
 msgstr "Deslizar para enviar"
 
-msgid "Some of your wallets are not eligible for Polis support. You can try to access POLIS funds from these wallets using the recovery tool"
-msgstr "Algunas de sus billeteras no pueden ser seleccionadas para darle soporte Polis. Pruebe acceder a sus fondos POLIS utilizando la herramienta de recuperación"
+msgid "Some of your wallets are not eligible for Bitcoin Cash support. You can try to access BCH funds from these wallets using the recovery tool"
+msgstr "Algunas de sus billeteras no pueden ser seleccionadas para darle soporte Bitcoin Cash. Pruebe acceder a sus fondos BCH utilizando la herramienta de recuperación"
 
 msgid "Specify Recovery Phrase"
 msgstr "Especificar Frase de Recuperación"
@@ -1874,8 +1874,8 @@ msgstr "Transacciones"
 msgid "Transactions without fee are not supported."
 msgstr "Las transacciones sin comisión no están soportadas."
 
-msgid "Transfer to Polis Wallet"
-msgstr "Transferir a Billetera Polis"
+msgid "Transfer to Bitcoin Cash Wallet"
+msgstr "Transferir a Billetera Bitcoin Cash"
 
 msgid "Transfer to Bitcoin Wallet"
 msgstr "Transferir a Billetera Bitcoin"
@@ -1928,8 +1928,8 @@ msgstr "Actualizando... Por favor, espera"
 msgid "Urgent"
 msgstr "Urgente"
 
-msgid "Use Polis Copay Style Addresses"
-msgstr "Utilizar Direcciones Polis de Copay"
+msgid "Use Bitcoin Cash Copay Style Addresses"
+msgstr "Utilizar Direcciones Bitcoin Cash de Copay"
 
 msgid "Use Unconfirmed Funds"
 msgstr "Utilizar los fondos sin confirmar"

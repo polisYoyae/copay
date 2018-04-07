@@ -38,7 +38,6 @@ export class BitPayCardTopUpPage {
   public useSendMax: boolean;
   public amount;
   public currency;
-  public message;
   public isCordova;
   public wallets;
 
@@ -53,7 +52,7 @@ export class BitPayCardTopUpPage {
   public currencySymbol;
   public rate;
 
-  private bitcorePolis: any;
+  private bitcoreCash: any;
   private createdTx;
   private configWallet: any;
 
@@ -83,7 +82,7 @@ export class BitPayCardTopUpPage {
   ) {
     this.configWallet = this.configProvider.get().wallet;
     this.isCordova = this.platformProvider.isCordova;
-    this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreCash = this.bwcProvider.getBitcoreCash();
   }
 
   ionViewDidLoad() {
@@ -105,7 +104,7 @@ export class BitPayCardTopUpPage {
 
     let coin;
     if (this.currency == 'BTC') coin = 'btc';
-    else if (this.currency == 'POLIS') coin = 'polis';
+    else if (this.currency == 'BCH') coin = 'bch';
     else coin = null;
 
     this.bitPayCardProvider.get({
@@ -146,7 +145,7 @@ export class BitPayCardTopUpPage {
 
   private _resetValues() {
     this.totalAmountStr = this.amount = this.invoiceFee = this.networkFee = this.totalAmount = this.wallet = null;
-    this.createdTx = this.message = null;
+    this.createdTx = null;
   }
 
   private showErrorAndBack(title: string, msg: any) {
@@ -283,9 +282,9 @@ export class BitPayCardTopUpPage {
 
         txp['origToAddress'] = txp.toAddress;
 
-        if (wallet.coin && wallet.coin == 'polis') {
+        if (wallet.coin && wallet.coin == 'bch') {
           // Use legacy address
-          txp.toAddress = this.bitcorePolis.Address(txp.toAddress).toString();
+          txp.toAddress = this.bitcoreCash.Address(txp.toAddress).toString();
           txp.outputs[0].toAddress = txp.toAddress;
         }
 
@@ -348,7 +347,7 @@ export class BitPayCardTopUpPage {
             buyerSelectedTransactionCurrency: wallet.coin.toUpperCase()
           }).then((inv) => {
 
-            // Check if BTC or POLIS is enabled in this account
+            // Check if BTC or BCH is enabled in this account
             if (!this.isCryptoCurrencySupported(wallet, inv)) {
               let msg = this.translate.instant('Top-up with this cryptocurrency is not enabled');
               this.showErrorAndBack(null, msg);
@@ -399,7 +398,7 @@ export class BitPayCardTopUpPage {
     this.onGoingProcessProvider.set('loadingTxInfo');
     this.createInvoice(dataSrc).then((invoice) => {
 
-      // Check if BTC or POLIS is enabled in this account
+      // Check if BTC or BCH is enabled in this account
       if (!this.isCryptoCurrencySupported(wallet, invoice)) {
         let msg = this.translate.instant('Top-up with this cryptocurrency is not enabled');
         this.showErrorAndBack(null, msg);
@@ -410,9 +409,9 @@ export class BitPayCardTopUpPage {
       invoice['minerFees'][COIN]['totalFee'] = invoice.minerFees[COIN].totalFee || 0;
       let invoiceFeeSat = invoice.minerFees[COIN].totalFee;
 
-      this.message = this.amountUnitStr + ' to ' + this.lastFourDigits;
+      let message = this.amountUnitStr + ' to ' + this.lastFourDigits;
 
-      this.createTx(wallet, invoice, this.message).then((ctxp) => {
+      this.createTx(wallet, invoice, message).then((ctxp) => {
         this.onGoingProcessProvider.clear();
 
         // Save TX in memory
@@ -444,9 +443,10 @@ export class BitPayCardTopUpPage {
     }
 
     let title = this.translate.instant('Confirm');
+    let message = 'Load ' + this.amountUnitStr;
     let okText = this.translate.instant('OK');
     let cancelText = this.translate.instant('Cancel');
-    this.popupProvider.ionicConfirm(title, this.message, okText, cancelText).then((ok) => {
+    this.popupProvider.ionicConfirm(title, message, okText, cancelText).then((ok) => {
       if (!ok) {
         if (this.isCordova)
           this.slideButton.isConfirmed(false);
