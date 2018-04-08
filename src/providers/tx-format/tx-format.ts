@@ -41,7 +41,9 @@ export class TxFormatProvider {
 		coin = 'btc';
     }
 	
-    return this.bwcProvider.getUtils(coin).formatAmount(satoshis, settings.unitCode, opts); // BWS Polis formatAmount should not be different from BTC BWS
+	var bwcUtils = this.bwcProvider.getUtils(coin);
+	
+    return bwcUtils.formatAmount(satoshis, settings.unitCode, opts); // BWS Polis formatAmount should not be different from BTC BWS
   }
 
   public formatAmountStr(coin: string, satoshis: number): string {
