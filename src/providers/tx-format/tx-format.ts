@@ -37,7 +37,7 @@ export class TxFormatProvider {
     };
 	
 	var coin = settings.unitCode;
-	if (settings.unitCode == 'bch' || settings.unitCode == 'bit')
+	if (settings.unitCode == 'bch' || settings.unitCode == 'bit'){
 		coin = 'btc';
     }
 	
