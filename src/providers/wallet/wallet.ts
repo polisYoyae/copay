@@ -953,6 +953,12 @@ export class WalletProvider {
           let wallet = clients.shift();
           if (!wallet) return resolve();
 		  
+		  prefs.unit = wallet.coin;
+		  
+		  // BWS Compatibility 
+		  if ( wallet.coin === 'bch' ){
+		    prefs.unit = 'btc';
+		  }
           
           this.logger.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
 
@@ -980,8 +986,7 @@ export class WalletProvider {
       // Get current languge
       prefs.language = this.languageProvider.getCurrent();
       
-	  // BWS Compatibility 
-      prefs.unit = 'btc';
+	  
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {
