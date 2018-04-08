@@ -35,7 +35,13 @@ export class TxFormatProvider {
     var opts = {
       fullPrecision: !!fullPrecision
     };
-    return this.bwcProvider.getUtils('polis').formatAmount(satoshis, settings.unitCode, opts); // BWS Polis formatAmount should not be different from BTC BWS
+	
+	var coin = settings.unitCode;
+	if (settings.unitCode == 'bch' || settings.unitCode == 'bit')
+		coin = 'btc';
+    }
+	
+    return this.bwcProvider.getUtils(coin).formatAmount(satoshis, settings.unitCode, opts); // BWS Polis formatAmount should not be different from BTC BWS
   }
 
   public formatAmountStr(coin: string, satoshis: number): string {
