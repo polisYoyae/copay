@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderBch">
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderPolis">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div class="wrapper">
@@ -152,29 +152,29 @@
       </ion-list>
     </div>
 
-    <div class="card" *ngIf="walletsBch && walletsBch[0]">
+    <div class="card" *ngIf="walletsPolis && walletsPolis[0]">
       <ion-item-divider>
         <div class="title" item-start>
           <img src="assets/img/bitcoin-cash-logo.svg" alt="Bitcoin Cash Wallets" width="22" />
           <span translate>Bitcoin Cash Wallets</span>
         </div>
-        <div item-end *ngIf="!showReorderBch">
-          <button ion-button clear icon-only color="grey" (click)="goToAddView('bch')">
+        <div item-end *ngIf="!showReorderPolis">
+          <button ion-button clear icon-only color="grey" (click)="goToAddView('polis')">
             <ion-icon name="add"></ion-icon>
           </button>
-          <button ion-button clear icon-only color="grey" (click)="reorderBch()" *ngIf="walletsBch.length > 1">
+          <button ion-button clear icon-only color="grey" (click)="reorderPolis()" *ngIf="walletsPolis.length > 1">
             <ion-icon name="reorder"></ion-icon>
           </button>
         </div>
-        <div item-end *ngIf="showReorderBch">
-          <button ion-button clear color="secondary" (click)="reorderBch()">
+        <div item-end *ngIf="showReorderPolis">
+          <button ion-button clear color="secondary" (click)="reorderPolis()">
             {{'Done' | translate}}
           </button>
         </div>
       </ion-item-divider>
 
-      <ion-list reorder="{{showReorderBch}}" (ionItemReorder)="reorderWalletsBch($event)">
-        <button ion-item *ngFor="let wallet of walletsBch" (click)="goToWalletDetails(wallet)">
+      <ion-list reorder="{{showReorderPolis}}" (ionItemReorder)="reorderWalletsPolis($event)">
+        <button ion-item *ngFor="let wallet of walletsPolis" (click)="goToWalletDetails(wallet)">
           <ion-icon item-start>
             <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
             <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />
