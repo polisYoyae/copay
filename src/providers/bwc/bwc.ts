@@ -25,8 +25,6 @@ export class BwcProvider {
     return BWCPolis.Bitcore;
   }
   
-  
-
   public getErrors(): any { // No bitcore connections - just a lib of errors - Polis bitcore has specific errors (InstantSend, ..)
     return BWCPolis.errors;
   }
