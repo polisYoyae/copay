@@ -35,9 +35,9 @@ export class BwcProvider {
 
   public getUtils(coin: string): any {
     if( coin === 'btc' ){
-		return BWCBitcoin.Utils();
+		return BWCBitcoin.Utils;
 	}
-    return BWCPolis.Utils();
+    return BWCPolis.Utils;
   }
   
   public parseSecretBtc(opts): any {// Bitcore connections
