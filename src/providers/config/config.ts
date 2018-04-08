@@ -204,7 +204,7 @@ const configDefault: Config = {
 
   blockExplorerUrl: {
     btc: 'insight.bitpay.com',
-    polis: 'polis-insight.bitpay.com'
+    polis: 'insight.polispay.org'
   }
 };
 
