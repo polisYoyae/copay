@@ -65,7 +65,7 @@ export class BwcProvider {
 	}else{
 		// note opts use `bwsurl` all lowercase;
 		bwc = new BWCPolis({
-		  baseUrl: opts.bwsurl || 'https://bws.polispay.org/bws/api',
+		  baseUrl: opts.bwsurl || 'https://bws-polis.polispay.org/bws/api',
 		  verbose: opts.verbose,
 		  timeout: 100000,
 		  transports: ['polling'],
