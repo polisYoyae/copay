@@ -226,8 +226,8 @@ export class TxFormatProvider {
 
   public satToUnit(amount: any): number {
     let settings = this.configProvider.get().wallet.settings;
-    var unitToSatoshi = settings.unitToSatoshi;
-    var satToUnit = 1 / unitToSatoshi;
+    var unitToSat = settings.unitToSatoshi;
+    var satToUnit = 1 / unitToSat;
     var unitDecimals = settings.unitDecimals;
     return parseFloat((amount * satToUnit).toFixed(unitDecimals));
   };
