@@ -48,6 +48,7 @@ export class AddressProvider {
         return null;
       }
     }
+    }
   };
 
   translateAddress(address: string) {

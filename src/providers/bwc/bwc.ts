@@ -67,7 +67,7 @@ export class BwcProvider {
     opts = opts || {};
 
 	let bwc = null;
-	if( coin === 'btc' ){
+	if ( coin === 'btc' ){
 		// note opts use `bwsurl` all lowercase;
 		bwc = new BWCBitcoin({
 		  baseUrl: opts.bwsurl || 'https://bws.bitpay.com/bws/api',
@@ -75,7 +75,7 @@ export class BwcProvider {
 		  timeout: 100000,
 		  transports: ['polling'],
 		});
-	} else if {
+	} else if ( coin === 'polis' ) {
 		// note opts use `bwsurl` all lowercase;
 		bwc = new BWCPolis({
 		  baseUrl: opts.bwsurl || 'https://bws-polis.polispay.org/bws/api',
@@ -84,7 +84,7 @@ export class BwcProvider {
 		  transports: ['polling'],
 		});
 	}
-  else if {
+  else if ( coin === 'dash' ) {
 		// note opts use `bwsurl` all lowercase;
 		bwc = new BWCDash({
 		  baseUrl: opts.bwsurl || 'https://bws-dash.polispay.org/bws/api',
