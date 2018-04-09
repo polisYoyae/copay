@@ -28,8 +28,8 @@ import { AboutPage } from './about/about';
 import { AddressbookPage } from './addressbook/addressbook';
 import { AdvancedPage } from './advanced/advanced';
 import { AltCurrencyPage } from './alt-currency/alt-currency';
-import { PolisPage } from './polis/polis';
 import { DashPage } from './dash/dash';
+import { PolisPage } from './polis/polis';
 import { FeePolicyPage } from './fee-policy/fee-policy';
 import { LanguagePage } from './language/language';
 import { LockPage } from './lock/lock';
@@ -118,7 +118,7 @@ export class SettingsPage {
   }
 
   public openPolisPage(): void {
-    this.navCtrl.push(BitcoinCashPage);
+    this.navCtrl.push(PolisPage);
   }
 
   public openAltCurrencyPage(): void {

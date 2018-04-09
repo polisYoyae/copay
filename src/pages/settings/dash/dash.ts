@@ -21,7 +21,7 @@ import { WalletProvider } from "../../../providers/wallet/wallet";
 })
 export class DashPage {
   private walletsBTC: any[];
-  private walletsDash: any[];
+  private walletsDASH: any[];
   private errors: any;
 
   public availableWallets: any[];

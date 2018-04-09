@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Logger } from '../../providers/logger/logger';
 
 import * as BWCBitcoin from 'bitcore-wallet-client';
-import * as BWCPolis from 'bitcore-wallet-client-polis';
 import * as BWCDash from 'bitcore-wallet-client-dash';
+import * as BWCPolis from 'bitcore-wallet-client-polis';
 
 
 @Injectable()
@@ -35,19 +35,16 @@ export class BwcProvider {
 
   public getErrors(): any { // No bitcore connections - just a lib of errors - Polis bitcore has specific errors (InstantSend, ..)
     return BWCPolis.errors;
+    return BWCDash.errors;
+
   }
 
   public getSJCL(): any { // No bitcore connections - Just a descriptor of crypto words
     return BWCPolis.sjcl;
-  }
-
-  public getErrors(): any { // No bitcore connections - just a lib of errors - Polis bitcore has specific errors (InstantSend, ..)
-    return BWCDash.errors;
-  }
-
-  public getSJCL(): any { // No bitcore connections - Just a descriptor of crypto words
     return BWCDash.sjcl;
+
   }
+
 
   public getUtils(coin: string): any {
     if( coin === 'btc' ){
