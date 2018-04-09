@@ -28,10 +28,10 @@ export class AddressBookProvider {
       network = (this.bwcProvider.getBitcorePolis().Address(address)).network.name;
     } catch (e) {
       this.logger.warn('No valid bitcoin address. Trying Dash...');
-      network = (this.bwcProvider.getBitcoreDash().Address(address)).network.name;
-      return network;
+      network = (this.bwcProvider.getBitcoreDash().Address(address)).network.name;   
       }
     }
+	return network;
   };
 
   public get(addr: string): Promise<any> {
