@@ -29,11 +29,11 @@ import { AddressbookPage } from './addressbook/addressbook';
 import { AdvancedPage } from './advanced/advanced';
 import { AltCurrencyPage } from './alt-currency/alt-currency';
 import { DashPage } from './dash/dash';
-import { PolisPage } from './polis/polis';
 import { FeePolicyPage } from './fee-policy/fee-policy';
 import { LanguagePage } from './language/language';
 import { LockPage } from './lock/lock';
 import { NotificationsPage } from './notifications/notifications';
+import { PolisPage } from './polis/polis';
 import { WalletSettingsPage } from './wallet-settings/wallet-settings';
 
 @Component({
