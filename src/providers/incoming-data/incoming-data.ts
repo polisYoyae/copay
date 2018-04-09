@@ -91,31 +91,13 @@ export class IncomingDataProvider {
           else
             this.popupProvider.ionicAlert(this.translate.instant('Error'), err);
         });
-      } else if (this.bwcProvider.getBitcoreDash().URI.isValid(data)) {
-        this.logger.debug('Handling Dash URI');
-        coin = 'dash';
-        parsed = this.bwcProvider.getBitcoreDash().URI(data);
-        addr = parsed.address ? parsed.address.toString() : '';
-
-        message = parsed.message;
-        amount = parsed.amount ? parsed.amount : '';
-
-        // paypro not yet supported on cash
-        if (parsed.r) {
-          this.payproProvider.getPayProDetails(parsed.r, coin).then((details: any) => {
-            this.handlePayPro(details, coin);
-          }).catch((err: string) => {
-            if (addr && amount)
-              this.goSend(addr, amount, message, coin);
-            else
-              this.popupProvider.ionicAlert(this.translate.instant('Error'), err);
-          });
-        }  else {
+      } else {
         this.goSend(addr, amount, message, coin);
       }
       return true;
 
-    } else if (this.bwcProvider.getBitcoreDash().URI.isValid(data)) {
+    }
+    else if (this.bwcProvider.getBitcoreDash().URI.isValid(data)) {
       this.logger.debug('Handling Dash URI');
       coin = 'dash';
       parsed = this.bwcProvider.getBitcoreDash().URI(data);
@@ -144,7 +126,6 @@ export class IncomingDataProvider {
       this.logger.debug('Handling Plain URL');
 
       let coin = 'btc'; // Assume BTC
-
       this.payproProvider.getPayProDetails(data, coin).then((details) => {
         this.handlePayPro(details, coin);
         return true;
@@ -243,6 +224,7 @@ export class IncomingDataProvider {
     } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
       this.navCtrl.push(ImportWalletPage, { code: data, fromScan: true })
       return true;
+
     } else {
 
       if (this.navCtrl.getActive().name === 'ScanPage') {
