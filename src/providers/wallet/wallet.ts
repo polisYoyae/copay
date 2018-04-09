@@ -871,7 +871,7 @@ export class WalletProvider {
 
       try {
         wallet.signTxProposal(txp, password, (err: any, signedTxp: any) => {
-          if (err) { 
+          if (err) {
             this.logger.error('Transaction signed err: ', err);
             return reject(err);
           }
@@ -952,14 +952,14 @@ export class WalletProvider {
         return new Promise((resolve, reject) => {
           let wallet = clients.shift();
           if (!wallet) return resolve();
-		  
+
 		  prefs.unit = wallet.coin;
-		  
-		  // BWS Compatibility 
+
+		  // BWS Compatibility
 		  if ( wallet.coin === 'bch' ){
 		    prefs.unit = 'btc';
 		  }
-          
+
           this.logger.debug('Saving remote preferences', wallet.credentials.walletName, prefs);
 
           wallet.savePreferences(prefs, (err: any) => {
@@ -985,8 +985,8 @@ export class WalletProvider {
 
       // Get current languge
       prefs.language = this.languageProvider.getCurrent();
-      
-	  
+
+
 
       updateRemotePreferencesFor(lodash.clone(clients), prefs).then(() => {
         this.logger.debug('Remote preferences saved for' + lodash.map(clients, (x: any) => {
@@ -1340,7 +1340,10 @@ export class WalletProvider {
   }
 
   public getProtocolHandler(coin: string): string {
-    if (coin == 'polis') {
+    if (coin == 'dash') {
+      return 'dash';
+    }
+    else if (coin == 'polis') {
       return 'polis';
     } else {
       return 'bitcoin';
@@ -1349,7 +1352,7 @@ export class WalletProvider {
 
   public copyCopayers(wallet: any, newWallet: any): Promise<any> {
     return new Promise((resolve, reject) => {
-	  
+
 	  let bitcore = this.bwcProvider.getBitcore(wallet.coin);
 	  let walletPrivKey = bitcore.PrivateKey.fromString(wallet.credentials.walletPrivKey);
 

@@ -223,7 +223,6 @@ export class ProfileProvider {
     return new Promise((resolve, reject) => {
       let now = Math.floor(Date.now() / 1000);
       let showRange = 600; // 10min;
-
       this.getLastKnownBalance(wallet.id).then((data: any) => {
         if (data) {
           let parseData: any = data;
@@ -292,7 +291,7 @@ export class ProfileProvider {
 
   public importWallet(str: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
-		
+
 	  let coin = opts.coin || 'btc';
       let walletClient = this.bwcProvider.getClient(coin, null, opts);
 
@@ -878,7 +877,7 @@ export class ProfileProvider {
       this.logger.debug('Joining Wallet:', opts);
       var walletData = null;
       try {
-		// Try to join BTC wallet first  
+		// Try to join BTC wallet first
         walletData = this.bwcProvider.parseSecretBtc(opts.secret);
 
         // check if exist
@@ -888,20 +887,33 @@ export class ProfileProvider {
           return reject(this.translate.instant('Cannot join the same wallet more that once'));
         }
       } catch (ex) {
-		try {
-			// If error, try to join POLIS wallet  
-			walletData = this.bwcProvider.parseSecretPolis(opts.secret);
+		      try {
+      			// If error, try to join POLIS wallet
+      			walletData = this.bwcProvider.parseSecretPolis(opts.secret);
 
-			// check if exist
-			if (_.find(this.profile.credentials, {
-			  'walletId': walletData.walletId
-			})) {
-			  return reject(this.translate.instant('Cannot join the same wallet more that once'));
-			}	
-		}catch (ex) {
-			this.logger.debug(ex);
-			return reject(this.translate.instant('Bad wallet invitation'));
-		}
+      			// check if exist
+      			if (_.find(this.profile.credentials, {
+      			  'walletId': walletData.walletId
+      			})) {
+      			  return reject(this.translate.instant('Cannot join the same wallet more that once'));
+      			   }
+		     } catch (ex) {
+   		      try {
+         			// If error, try to join DASH wallet
+         			walletData = this.bwcProvider.parseSecretDash(opts.secret);
+
+         			// check if exist
+         			if (_.find(this.profile.credentials, {
+         			  'walletId': walletData.walletId
+         			})) {
+         			  return reject(this.translate.instant('Cannot join the same wallet more that once'));
+         			   }
+   		     }
+           catch (ex) {
+			           this.logger.debug(ex);
+			           return reject(this.translate.instant('Bad wallet invitation'));
+		             }
+      }
       }
       opts.networkName = walletData.network;
       this.logger.debug('Joining Wallet:', opts);
@@ -1129,13 +1141,11 @@ export class ProfileProvider {
         });
 
         // let finale = shown; GROUPING DISABLED!
-
         let finale = [];
         let prev: any;
 
 
         // Item grouping... DISABLED.
-
         // REMOVE (if we want 1-to-1 notification) ????
         _.each(shown, (x: any) => {
           if (prev && prev.walletId === x.walletId && prev.txpId && prev.txpId === x.txpId && prev.creatorId && prev.creatorId === x.creatorId) {

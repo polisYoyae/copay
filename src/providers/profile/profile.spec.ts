@@ -68,6 +68,23 @@ describe('Profile Provider', () => {
       }
     },
     api3: {
+      id: 'zxccv25b-d6ab-4b11-8b76-88570d822222',
+      cachedBalance: '5.00 DASH',
+      cachedBalanceUpdatedOn: null,
+      credentials: {
+        coin: 'DASH',
+        network: 'livenet',
+        n: 1,
+        m: 1
+      },
+      status: {
+        availableBalanceSat: 500000000 // 5 DASH
+      },
+      isComplete: () => {
+        return true;
+      }
+    },
+    api4: {
       id: 'qwert25b-d6ab-4b11-8b76-88570d833333',
       cachedBalance: '1.50 BTC',
       cachedBalanceUpdatedOn: null,
@@ -159,6 +176,15 @@ describe('Profile Provider', () => {
     it('should not return any wallet when there is no wallets validating provided opts', () => {
       const opts = {
         coin: 'polis',
+        network: 'livenet',
+        minAmount: 1000000000
+      };
+      const wallets = profileProvider.getWallets(opts);
+      expect(wallets).toEqual([]);
+    });
+    it('should not return any wallet when there is no wallets validating provided opts', () => {
+      const opts = {
+        coin: 'dash',
         network: 'livenet',
         minAmount: 1000000000
       };

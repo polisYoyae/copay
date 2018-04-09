@@ -39,6 +39,8 @@ export class PaperWalletPage {
   public isOpenSelector: boolean;
   private bitcore: any;
   private bitcorePolis: any;
+  private bitcoreDash: any;
+
 
   // Platform info
   public isCordova: boolean;
@@ -60,6 +62,7 @@ export class PaperWalletPage {
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
     this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreDash = this.bwcProvider.getBitcoreDash();
     this.isCordova = this.platformProvider.isCordova;
   }
 
@@ -119,8 +122,12 @@ export class PaperWalletPage {
 	  try {
 		new this.bitcorePolis.PrivateKey(privateKey, 'livenet');
 	  } catch (err) {
+    try {
+  		new this.bitcoreDash.PrivateKey(privateKey, 'livenet');
+  	  } catch (err) {
 	  	return false;
 	  }
+    }
     }
     return true;
   };

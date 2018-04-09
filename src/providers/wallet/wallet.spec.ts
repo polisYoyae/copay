@@ -169,6 +169,12 @@ describe('Provider: Wallet Provider', () => {
       expect(protocol).toEqual('polis');
     });
 
+    it('should return dash if coin is dash', () => {
+      let coin = 'dash';
+      let protocol = walletProvider.getProtocolHandler(coin);
+      expect(protocol).toEqual('dash');
+    });
+
     it('should return bitcoin if coin is btc', () => {
       let coin = 'btc';
       let protocol = walletProvider.getProtocolHandler(coin);

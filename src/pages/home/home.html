@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderPolis">
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngIf="!showReorderBtc && !showReorderPolis && !showReorderDash">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div class="wrapper">
@@ -155,7 +155,7 @@
     <div class="card" *ngIf="walletsPolis && walletsPolis[0]">
       <ion-item-divider>
         <div class="title" item-start>
-          <img src="assets/img/bitcoin-cash-logo.svg" alt="Polis Wallets" width="22" />
+          <img src="assets/img/polis-logo.svg" alt="Polis Wallets" width="22" />
           <span translate>Polis Wallets</span>
         </div>
         <div item-end *ngIf="!showReorderPolis">
@@ -175,6 +175,57 @@
 
       <ion-list reorder="{{showReorderPolis}}" (ionItemReorder)="reorderWalletsPolis($event)">
         <button ion-item *ngFor="let wallet of walletsPolis" (click)="goToWalletDetails(wallet)">
+          <ion-icon item-start>
+            <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
+            <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />
+          </ion-icon>
+          <div class="item-title">{{wallet.name}}</div>
+          <div class="item-subtitle">
+            <span class="wallet-warning" *ngIf="!wallet.isComplete()" translate>
+              Incomplete
+            </span>
+            <span class="wallet-warning" *ngIf="wallet.isComplete() && wallet.needsBackup" translate>
+              Needs backup
+            </span>
+            <span *ngIf="wallet.isComplete() && !wallet.needsBackup">
+              <span *ngIf="!wallet.balanceHidden && !wallet.scanning">
+                {{wallet.status && wallet.status.totalBalanceStr ? (wallet.status.totalBalanceStr) : ( wallet.cachedBalance ? wallet.cachedBalance + (wallet.cachedBalanceUpdatedOn ? ' &middot; ' + ( wallet.cachedBalanceUpdatedOn * 1000 | amTimeAgo) : '') : '')}}
+              </span>
+              <span *ngIf="wallet.scanning" translate>Scanning funds</span>
+              <span *ngIf="wallet.balanceHidden && !wallet.scanning">[
+                <span translate>Balance Hidden</span>]</span>
+              <span *ngIf="wallet.credentials.m > 1">{{wallet.credentials.m}}-of-{{wallet.credentials.n}}</span>
+              <ion-icon *ngIf="!wallet.balanceHidden && wallet.status && (wallet.status.totalBalanceSat != wallet.status.spendableAmount)" name="timer"></ion-icon>
+              <span *ngIf="wallet.error" class="wallet-warning">{{wallet.error}}</span>
+            </span>
+          </div>
+        </button>
+      </ion-list>
+    </div>
+
+    <div class="card" *ngIf="walletsDash && walletsDash[0]">
+      <ion-item-divider>
+        <div class="title" item-start>
+          <img src="assets/img/dash-logo.svg" alt="Dash Wallets" width="22" />
+          <span translate>Dash Wallets</span>
+        </div>
+        <div item-end *ngIf="!showReorderDash">
+          <button ion-button clear icon-only color="grey" (click)="goToAddView('dash')">
+            <ion-icon name="add"></ion-icon>
+          </button>
+          <button ion-button clear icon-only color="grey" (click)="reorderDash()" *ngIf="walletsDash.length > 1">
+            <ion-icon name="reorder"></ion-icon>
+          </button>
+        </div>
+        <div item-end *ngIf="showReorderDash">
+          <button ion-button clear color="secondary" (click)="reorderDash()">
+            {{'Done' | translate}}
+          </button>
+        </div>
+      </ion-item-divider>
+
+      <ion-list reorder="{{showReorderDash}}" (ionItemReorder)="reorderWalletsDash($event)">
+        <button ion-item *ngFor="let wallet of walletsDash" (click)="goToWalletDetails(wallet)">
           <ion-icon item-start>
             <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
             <img *ngIf="wallet.network != 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet.svg" class="icon-wallet" />

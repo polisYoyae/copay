@@ -49,6 +49,7 @@ export class HomePage {
   public wallets: any;
   public walletsBtc: any;
   public walletsPolis: any;
+  public walletsDash: any;
   public cachedBalanceUpdateOn: string;
   public recentTransactionsEnabled: boolean;
   public txps: any;
@@ -68,6 +69,7 @@ export class HomePage {
   public homeTip: boolean;
   public showReorderBtc: boolean;
   public showReorderPolis: boolean;
+  public showReorderDash: boolean;
   public showIntegration: any;
 
   private isNW: boolean;
@@ -105,13 +107,14 @@ export class HomePage {
     this.isNW = this.platformProvider.isNW;
     this.showReorderBtc = false;
     this.showReorderPolis = false;
+    this.showReorderDash = false;
     this.zone = new NgZone({ enableLongStackTrace: false });
   }
 
   ionViewWillEnter() {
     this.config = this.configProvider.get();
-    this.pushNotificationsProvider.init(); 
-    
+    this.pushNotificationsProvider.init();
+
     this.addressBookProvider.list().then((ab: any) => {
       this.addressbook = ab || {};
     }).catch((err) => {
@@ -145,17 +148,17 @@ export class HomePage {
     // Hide stars to rate
     this.events.subscribe('feedback:hide', () => {
       this.showRateCard = false;
-    }); 
+    });
   }
 
   ionViewDidEnter() {
     if (this.isNW) this.checkUpdate();
     this.checkHomeTip();
-    this.checkFeedbackInfo(); 
+    this.checkFeedbackInfo();
 
     if (this.platformProvider.isCordova) {
       this.handleDeepLinks();
-    } 
+    }
 
     // Show integrations
     let integrations = _.filter(this.homeIntegrationsProvider.get(), { 'show': true });
@@ -233,6 +236,7 @@ export class HomePage {
     this.wallets = this.profileProvider.getWallets();
     this.walletsBtc = this.profileProvider.getWallets({ coin: 'btc' });
     this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
+    this.walletsDash = this.profileProvider.getWallets({ coin: 'dash' });
     this.updateAllWallets();
   }, 5000, {
       'leading': true
@@ -333,6 +337,10 @@ export class HomePage {
       wallets.push(wPolis);
     });
 
+    _.each(this.walletsDash, (wDash) => {
+      wallets.push(wDash);
+    });
+
     if (_.isEmpty(wallets)) return;
 
     let i = wallets.length;
@@ -393,7 +401,7 @@ export class HomePage {
   }
 
   public goToWalletDetails(wallet: any): void {
-    if (this.showReorderBtc || this.showReorderPolis) return;
+    if (this.showReorderBtc || this.showReorderPolis || this.showReorderDash) return;
     if (!wallet.isComplete()) {
       this.navCtrl.push(CopayersPage, { walletId: wallet.credentials.walletId });
       return;
@@ -436,6 +444,9 @@ export class HomePage {
   public reorderPolis(): void {
     this.showReorderPolis = !this.showReorderPolis;
   }
+  public reorderDash(): void {
+    this.showReorderDash = !this.showReorderDash;
+  }
 
   public reorderWalletsBtc(indexes): void {
     let element = this.walletsBtc[indexes.from];
@@ -451,6 +462,15 @@ export class HomePage {
     this.walletsPolis.splice(indexes.from, 1);
     this.walletsPolis.splice(indexes.to, 0, element);
     _.each(this.walletsPolis, (wallet: any, index: number) => {
+      this.profileProvider.setWalletOrder(wallet.id, index);
+    });
+  };
+
+  public reorderWalletsDash(indexes): void {
+    let element = this.walletsDash[indexes.from];
+    this.walletsDash.splice(indexes.from, 1);
+    this.walletsDash.splice(indexes.to, 0, element);
+    _.each(this.walletsDash, (wallet: any, index: number) => {
       this.profileProvider.setWalletOrder(wallet.id, index);
     });
   };

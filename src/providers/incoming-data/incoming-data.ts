@@ -43,7 +43,7 @@ export class IncomingDataProvider {
   public redir(data: string): boolean {
     // TODO Injecting NavController in constructor of service fails with no provider error
     this.navCtrl = this.app.getActiveNav();
-	
+
     data = this.sanitizeUri(data);
     let amount: string;
     let message: string;
@@ -96,12 +96,36 @@ export class IncomingDataProvider {
       }
       return true;
 
+    }
+    else if (this.bwcProvider.getBitcoreDash().URI.isValid(data)) {
+      this.logger.debug('Handling Dash URI');
+      coin = 'dash';
+      parsed = this.bwcProvider.getBitcoreDash().URI(data);
+      addr = parsed.address ? parsed.address.toString() : '';
+
+      message = parsed.message;
+      amount = parsed.amount ? parsed.amount : '';
+
+      // paypro not yet supported on cash
+      if (parsed.r) {
+        this.payproProvider.getPayProDetails(parsed.r, coin).then((details: any) => {
+          this.handlePayPro(details, coin);
+        }).catch((err: string) => {
+          if (addr && amount)
+            this.goSend(addr, amount, message, coin);
+          else
+            this.popupProvider.ionicAlert(this.translate.instant('Error'), err);
+        });
+      } else {
+        this.goSend(addr, amount, message, coin);
+      }
+      return true;
+
     } else if (/^https?:\/\//.test(data)) {
       // Plain URL
       this.logger.debug('Handling Plain URL');
 
       let coin = 'btc'; // Assume BTC
-
       this.payproProvider.getPayProDetails(data, coin).then((details) => {
         this.handlePayPro(details, coin);
         return true;
@@ -137,7 +161,19 @@ export class IncomingDataProvider {
         let coin = 'polis';
         this.goToAmountPage(data, coin);
       }
-    } else if (data && data.indexOf(this.appProvider.info.name + '://glidera') === 0) {
+    } else if (this.bwcProvider.getBitcoreDash().Address.isValid(data, 'livenet') || this.bwcProvider.getBitcoreDash().Address.isValid(data, 'testnet')) {
+        this.logger.debug('Handling Dash Plain Address');
+        if (this.navCtrl.getActive().name === 'ScanPage') {
+          this.showMenu({
+            data,
+            type: 'bitcoinAddress',
+            coin: 'dash',
+          });
+        } else {
+          let coin = 'dash';
+          this.goToAmountPage(data, coin);
+        }
+      } else if (data && data.indexOf(this.appProvider.info.name + '://glidera') === 0) {
 
       let code = this.getParameterByName('code', data);
       this.navCtrl.push(GlideraPage, { code });

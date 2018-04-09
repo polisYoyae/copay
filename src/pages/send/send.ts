@@ -24,11 +24,14 @@ export class SendPage {
   public walletsBtc: any;
   public walletsPolis: any;
   public walletPolisList: any;
+  public walletsDash: any;
+  public walletDashList: any;
   public walletBtcList: any;
   public contactsList: object[] = [];
   public filteredContactsList: object[] = [];
   public hasBtcWallets: boolean;
   public hasPolisWallets: boolean;
+  public hasDashWallets: boolean;
   public hasContacts: boolean;
   public contactsShowMore: boolean;
   private CONTACTS_SHOW_LIMIT: number = 10;
@@ -52,9 +55,11 @@ export class SendPage {
   ionViewWillEnter() {
     this.walletsBtc = this.profileProvider.getWallets({ coin: 'btc' });
     this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
+    this.walletsDash = this.profileProvider.getWallets({ coin: 'dash' });
     this.hasBtcWallets = !(_.isEmpty(this.walletsBtc));
-    this.hasPolisWallets = !(_.isEmpty(this.walletsPolis));
+    this.hasDashWallets = !(_.isEmpty(this.walletsDash));
     this.updatePolisWalletsList();
+    this.updateDashWalletsList();
     this.updateBtcWalletsList();
     this.updateContactsList();
   }
@@ -70,6 +75,35 @@ export class SendPage {
 
     _.each(this.walletsPolis, (v: any) => {
       this.walletPolisList.push({
+        color: v.color,
+        name: v.name,
+        recipientType: 'wallet',
+        coin: v.coin,
+        network: v.network,
+        m: v.credentials.m,
+        n: v.credentials.n,
+        isComplete: v.isComplete(),
+        needsBackup: v.needsBackup,
+        getAddress: (): Promise<any> => {
+          return new Promise((resolve, reject) => {
+            this.walletProvider.getAddress(v, false).then((addr) => {
+              return resolve(addr);
+            }).catch((err) => {
+              return reject(err);
+            });
+          });
+        }
+      });
+    });
+  }
+
+  private updateDashWalletsList(): void {
+    this.walletDashList = [];
+
+    if (!this.hasDashWallets) return;
+
+    _.each(this.walletsDash, (v: any) => {
+      this.walletDashList.push({
         color: v.color,
         name: v.name,
         recipientType: 'wallet',
