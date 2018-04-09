@@ -9,6 +9,7 @@ export class RateProvider {
   private rates: any;
   private alternatives: any[];
   private ratesPOLIS: any;
+  private ratesDASH: any;
   private ratesAvailable: boolean;
 
   private SAT_TO_BTC: number;
@@ -16,6 +17,8 @@ export class RateProvider {
 
   private rateServiceUrl = 'https://bitpay.com/api/rates';
   private polisRateServiceUrl = 'https://cors-anywhere.herokuapp.com/api.coinmarketcap.com/v1/ticker/polis';
+  private dashRateServiceUrl = 'https://cors-anywhere.herokuapp.com/api.coinmarketcap.com/v1/ticker/dash';
+
 
   constructor(
     private http: HttpClient,
@@ -25,11 +28,13 @@ export class RateProvider {
     this.rates = {};
     this.alternatives = [];
     this.ratesPOLIS = {};
+    this.ratesDASH = {};
     this.SAT_TO_BTC = 1 / 1e8;
     this.BTC_TO_SAT = 1e8;
     this.ratesAvailable = false;
     this.updateRatesBtc();
     this.updateRatesPolis();
+    this.updateRatesDash();
   }
 
   public updateRatesBtc(): Promise<any> {
@@ -60,17 +65,40 @@ export class RateProvider {
 		  if (this.isAvailable()) {
 			_.each(this.alternatives,  (alternative: any) => {
 			   this.ratesPOLIS[alternative.isoCode] = currency.price_btc * alternative.rate;
-			}); 
+			});
 		  }
           this.ratesPOLIS['USD'] = currency.price_usd;
           this.ratesPOLIS['BTC'] = currency.price_btc;
         });
-		
+
 
         resolve();
       }).catch((errorPOLIS: any) => {
         this.logger.error(errorPOLIS);
         reject(errorPOLIS);
+      });
+    });
+  }
+
+  public updateRatesDash(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.getDASH().then((dataPDASH: any) => {
+        _.each(dataDASH, (currency: any) => {
+          this.ratesDASH[currency.symbol] = 1;
+		  if (this.isAvailable()) {
+			_.each(this.alternatives,  (alternative: any) => {
+			   this.ratesDASH[alternative.isoCode] = currency.price_btc * alternative.rate;
+			});
+		  }
+          this.ratesDASH['USD'] = currency.price_usd;
+          this.ratesDASH['BTC'] = currency.price_btc;
+        });
+
+
+        resolve();
+      }).catch((errorDASH: any) => {
+        this.logger.error(errorDASH);
+        reject(errorDASH);
       });
     });
   }
@@ -90,10 +118,19 @@ export class RateProvider {
       });
     });
   }
+  public getDASH(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.http.get(this.dashRateServiceUrl).subscribe((data: any) => {
+        resolve(data);
+      });
+    });
+  }
 
   public getRate(code: string, chain?: string): number {
     if (chain == 'polis')
       return this.ratesPOLIS[code];
+    else if (chain == 'dash')
+        return this.ratesDASH[code];
     else
       return this.rates[code];
   }

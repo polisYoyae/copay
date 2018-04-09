@@ -11,6 +11,8 @@ import * as _ from "lodash";
 export class TxFormatProvider {
 
   private bitcorePolis: any;
+  private bitcoreDash: any;
+
 
   // TODO: implement configService
   public pendingTxProposalsCountForUs: number
@@ -24,6 +26,8 @@ export class TxFormatProvider {
   ) {
     this.logger.info('TxFormatProvider initialized.');
     this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreDash = this.bwcProvider.getBitcoreDash();
+
   }
 
   public formatAmount(satoshis: number, fullPrecision?: boolean): number {
@@ -35,14 +39,14 @@ export class TxFormatProvider {
     var opts = {
       fullPrecision: !!fullPrecision
     };
-	
+
 	var coin = settings.unitCode;
 	if (settings.unitCode == 'bch' || settings.unitCode == 'bit'){
 		coin = 'btc';
     }
-	
+
 	var bwcUtils = this.bwcProvider.getUtils(coin);
-	
+
     return bwcUtils.formatAmount(satoshis, settings.unitCode, opts);
   }
 
@@ -121,7 +125,7 @@ export class TxFormatProvider {
       tx.amountValueStr = tx.amountStr.split(' ')[0];
       tx.amountUnitStr = tx.amountStr.split(' ')[1];
     }
-	
+
     return tx;
   };
 
@@ -200,7 +204,7 @@ export class TxFormatProvider {
     var alternativeIsoCode = settings.alternativeIsoCode;
 
     // If fiat currency
-    if (currency != 'POLIS' && currency != 'BTC' && currency != 'sat') {
+    if (currency != 'POLIS' && currency != 'DASH' && currency != 'BTC' && currency != 'sat') {
       amountUnitStr = this.filter.formatFiatAmount(amount) + ' ' + currency;
       amountSat = Number(this.rate.fromFiat(amount, currency, coin).toFixed(0));
     } else if (currency == 'sat') {

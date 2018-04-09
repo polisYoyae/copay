@@ -173,6 +173,18 @@ export class AmountPage {
       });
     };
 
+    let hasDASHWallets = this.profileProvider.getWallets({
+      coin: 'dash'
+    }).length;
+
+    if (hasDASHWallets) {
+      this.availableUnits.push({
+        name: 'Dash',
+        id: 'dash',
+        shortName: 'DASH',
+      });
+    };
+
     this.unitIndex = 0;
 
     if (this.navParams.data.coin) {

@@ -28,7 +28,8 @@ import { AboutPage } from './about/about';
 import { AddressbookPage } from './addressbook/addressbook';
 import { AdvancedPage } from './advanced/advanced';
 import { AltCurrencyPage } from './alt-currency/alt-currency';
-import { BitcoinCashPage } from './bitcoin-cash/bitcoin-cash';
+import { PolisPage } from './polis/polis';
+import { DashPage } from './dash/dash';
 import { FeePolicyPage } from './fee-policy/fee-policy';
 import { LanguagePage } from './language/language';
 import { LockPage } from './lock/lock';
@@ -45,6 +46,7 @@ export class SettingsPage {
   public languages: any[];
   public walletsBtc: any[];
   public walletsPolis: any[];
+  public walletsDash: any[];
   public config: any;
   public selectedAlternative: any;
   public isCordova: boolean;
@@ -68,6 +70,7 @@ export class SettingsPage {
   ) {
     this.appName = this.app.info.nameCase;
     this.walletsPolis = [];
+    this.walletsDash = [];
     this.walletsBtc = [];
     this.isCordova = this.platformProvider.isCordova;
   }
@@ -83,6 +86,9 @@ export class SettingsPage {
     });
     this.walletsPolis = this.profileProvider.getWallets({
       coin: 'polis'
+    });
+    this.walletsDash = this.profileProvider.getWallets({
+      coin: 'dash'
     });
     this.config = this.configProvider.get();
     this.selectedAlternative = {
@@ -111,7 +117,7 @@ export class SettingsPage {
     });
   }
 
-  public openBitcoinCashPage(): void {
+  public openPolisPage(): void {
     this.navCtrl.push(BitcoinCashPage);
   }
 

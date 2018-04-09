@@ -292,7 +292,7 @@ export class ProfileProvider {
 
   public importWallet(str: string, opts: any): Promise<any> {
     return new Promise((resolve, reject) => {
-		
+
 	  let coin = opts.coin || 'btc';
       let walletClient = this.bwcProvider.getClient(coin, null, opts);
 
@@ -878,7 +878,7 @@ export class ProfileProvider {
       this.logger.debug('Joining Wallet:', opts);
       var walletData = null;
       try {
-		// Try to join BTC wallet first  
+		// Try to join BTC wallet first
         walletData = this.bwcProvider.parseSecretBtc(opts.secret);
 
         // check if exist
@@ -889,7 +889,7 @@ export class ProfileProvider {
         }
       } catch (ex) {
 		try {
-			// If error, try to join POLIS wallet  
+			// If error, try to join POLIS wallet
 			walletData = this.bwcProvider.parseSecretPolis(opts.secret);
 
 			// check if exist
@@ -897,8 +897,19 @@ export class ProfileProvider {
 			  'walletId': walletData.walletId
 			})) {
 			  return reject(this.translate.instant('Cannot join the same wallet more that once'));
-			}	
-		}catch (ex) {
+			}
+		} catch (ex) {
+      try {
+        // If error, try to join DASH wallet
+        walletData = this.bwcProvider.parseSecretDASH(opts.secret);
+
+        // check if exist
+        if (_.find(this.profile.credentials, {
+          'walletId': walletData.walletId
+        })) {
+          return reject(this.translate.instant('Cannot join the same wallet more that once'));
+        }
+      } catch (ex) {
 			this.logger.debug(ex);
 			return reject(this.translate.instant('Bad wallet invitation'));
 		}

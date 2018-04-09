@@ -123,6 +123,7 @@
     "bitauth": "git+https://github.com/bitpay/bitauth.git#copay",
     "bitcore-wallet-client": "6.7.1",
     "bitcore-wallet-client-polis": "github:polisYoyae/bitcore-wallet-client-polis",
+    "bitcore-wallet-client-dash": "github:snogcel/bitcore-wallet-client-dash#master_upstream",
     "buffer-compare": "^1.1.1",
     "cordova-android": "7.1.0",
     "cordova-clipboard": "^1.1.1",

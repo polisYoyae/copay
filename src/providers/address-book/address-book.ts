@@ -23,9 +23,12 @@ export class AddressBookProvider {
     try {
       network = (this.bwcProvider.getBitcore().Address(address)).network.name;
     } catch (e) {
+    try {
       this.logger.warn('No valid bitcoin address. Trying Polis...');
       network = (this.bwcProvider.getBitcorePolis().Address(address)).network.name;
-    }
+    } catch (e) {
+      this.logger.warn('No valid bitcoin address. Trying Dash...');
+      network = (this.bwcProvider.getBitcoreDash().Address(address)).network.name;
     return network;
   };
 

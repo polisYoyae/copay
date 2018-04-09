@@ -21,6 +21,13 @@
     </div>
     <span translate>If enabled, Polis addresses will be shown using Copay style address, and not the new cashaddr format.</span>
   </div>
+  <div class="advanced">
+    <div class="advanced-toggle">
+      <ion-label>{{'Use Dash Copay Style Addresses' | translate}}</ion-label>
+      <ion-toggle [(ngModel)]="useLegacyAddress" (ionChange)="useLegacyAddressChange()"></ion-toggle>
+    </div>
+    <span translate>If enabled, Dash addresses will be shown using Copay style address, and not the new cashaddr format.</span>
+  </div>
   <ion-item-divider></ion-item-divider>
   <div class="advanced">
     <div class="advanced-toggle">

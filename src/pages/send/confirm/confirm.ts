@@ -33,6 +33,7 @@ export class ConfirmPage {
 
   private bitcore: any;
   private bitcorePolis: any;
+  private bitcoreDash: any;
 
   public countDown = null;
   public CONFIRM_LIMIT_USD: number;
@@ -85,6 +86,7 @@ export class ConfirmPage {
   ) {
     this.bitcore = this.bwcProvider.getBitcore();
     this.bitcorePolis = this.bwcProvider.getBitcorePolis();
+    this.bitcoreDash = this.bwcProvider.getBitcoreDash();
     this.CONFIRM_LIMIT_USD = 20;
     this.FEE_TOO_HIGH_LIMIT_PER = 15;
     this.config = this.configProvider.get();
@@ -100,9 +102,13 @@ export class ConfirmPage {
     this.navCtrl.swipeBackEnabled = false;
     this.isOpenSelector = false;
     let B = this.navParams.data.coin == 'polis' ? this.bitcorePolis : this.bitcore;
+    let C = this.navParams.data.coin == 'dash' ? this.bitcoreDash : this.bitcore;
     let networkName;
     try {
       networkName = (new B.Address(this.navParams.data.toAddress)).network.name;
+    } catch (e) {
+    try {
+      networkName = (new C.Address(this.navParams.data.toAddress)).network.name;
     } catch (e) {
       var message = this.translate.instant('Copay only supports Polis using new version numbers addresses');
       var backText = this.translate.instant('Go back');
@@ -141,11 +147,17 @@ export class ConfirmPage {
       this.tx.feeRate = +this.navParams.data.requiredFeeRate;
     } else {
       this.tx.feeLevel = (this.tx.coin && this.tx.coin == 'polis') ? 'normal ' : this.configFeeLevel;
+      this.tx.feeLevel = (this.tx.coin && this.tx.coin == 'dash') ? 'normal ' : this.configFeeLevel;
+
     }
 
     if (this.tx.coin && this.tx.coin == 'polis') {
       // Use legacy address
       this.tx.toAddress = this.bitcorePolis.Address(this.tx.toAddress).toString();
+    }
+    if (this.tx.coin && this.tx.coin == 'dash') {
+      // Use legacy address
+      this.tx.toAddress = this.bitcoreDash.Address(this.tx.toAddress).toString();
     }
 
     this.tx.feeLevelName = this.feeProvider.feeOpts[this.tx.feeLevel];
@@ -260,6 +272,9 @@ export class ConfirmPage {
     if (!this.usingCustomFee && !this.usingMerchantFee) {
       this.tx.feeLevel = wallet.coin == 'polis' ? 'normal' : this.configFeeLevel;
     }
+    if (!this.usingCustomFee && !this.usingMerchantFee) {
+      this.tx.feeLevel = wallet.coin == 'dash' ? 'normal' : this.configFeeLevel;
+    }
 
     this.setButtonText(this.wallet.credentials.m > 1, !!this.tx.paypro);
 
@@ -329,6 +344,7 @@ export class ConfirmPage {
       let maxAllowedMerchantFee = {
         btc: 'urgent',
         polis: 'normal',
+        dash: 'normal',
       }
 
       this.onGoingProcessProvider.set('calculatingFee');
@@ -695,6 +711,7 @@ export class ConfirmPage {
   public chooseFeeLevel(): void {
 
     if (this.tx.coin == 'polis') return;
+    if (this.tx.coin == 'dash') return;
     if (this.usingMerchantFee) return; // ToDo: should we allow overwride?
 
     let txObject: any = {};

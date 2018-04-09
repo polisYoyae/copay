@@ -13,11 +13,15 @@ export class AddressValidator {
 
     let b = AddressValidator.bitcore.getBitcore();
     let c = AddressValidator.bitcore.getBitcorePolis();
+    let d = AddressValidator.bitcore.getBitcoreDash();
+
 
     let URI = b.URI;
     let Address = b.Address;
-    let URICash = c.URI;
-    let AddressCash = c.Address;
+    let URIPolis = c.URI;
+    let AddressPolis = c.Address;
+    let URIDash = d.URI;
+    let AddressDash = c.Address;
 
     // Regular url
     if (/^https?:\/\//.test(control.value)) {
@@ -37,10 +41,20 @@ export class AddressValidator {
         return null;
       }
     } else if (/^bitcoin:/.test(control.value)) {
-      let isUriValid = URICash.isValid(control.value);
+      let isUriValid = URIPolis.isValid(control.value);
       if (isUriValid) {
-        uri = new URICash(control.value);
-        isAddressValidLivenet = AddressCash.isValid(uri.address.toString(), 'livenet')
+        uri = new URIPolis(control.value);
+        isAddressValidLivenet = AddressPolis.isValid(uri.address.toString(), 'livenet')
+      }
+      if (isUriValid && isAddressValidLivenet) {
+        return null;
+      }
+    }
+    else if (/^bitcoin:/.test(control.value)) {
+      let isUriValid = URIDash.isValid(control.value);
+      if (isUriValid) {
+        uri = new URIDash(control.value);
+        isAddressValidLivenet = AddressDash.isValid(uri.address.toString(), 'livenet')
       }
       if (isUriValid && isAddressValidLivenet) {
         return null;
@@ -50,8 +64,9 @@ export class AddressValidator {
     // Regular Address: try Bitcoin and Polis
     let regularAddressLivenet = Address.isValid(control.value, 'livenet');
     let regularAddressTestnet = Address.isValid(control.value, 'testnet');
-    let regularAddressCashLivenet = AddressCash.isValid(control.value, 'livenet');
-    if (regularAddressLivenet || regularAddressTestnet || regularAddressCashLivenet) {
+    let regularAddressPolisLivenet = AddressPolis.isValid(control.value, 'livenet');
+    let regularAddressDashLivenet = AddressDash.isValid(control.value, 'livenet');
+    if (regularAddressLivenet || regularAddressTestnet || regularAddressPolisLivenet || regularAddressDashLivenet) {
       return null;
     }
 
