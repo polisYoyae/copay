@@ -121,6 +121,10 @@ export class SettingsPage {
     this.navCtrl.push(PolisPage);
   }
 
+  public openDashPage(): void {
+    this.navCtrl.push(DashPage);
+  }
+
   public openAltCurrencyPage(): void {
     this.navCtrl.push(AltCurrencyPage);
   }
