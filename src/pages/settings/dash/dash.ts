@@ -21,7 +21,7 @@ import { WalletProvider } from "../../../providers/wallet/wallet";
 })
 export class DashPage {
   private walletsBTC: any[];
-  private walletsDASH: any[];
+  private walletsDash: any[];
   private errors: any;
 
   public availableWallets: any[];
@@ -44,7 +44,7 @@ export class DashPage {
     private events: Events
   ) {
     this.walletsBTC = [];
-    this.walletsDASH = [];
+    this.walletsDash = [];
     this.availableWallets = [];
     this.nonEligibleWallets = [];
     this.errors = this.bwcProvider.getErrors();
@@ -59,12 +59,12 @@ export class DashPage {
     });
 
     // Filter out already duplicated wallets
-    this.walletsDASH = this.profileProvider.getWallets({
+    this.walletsDash = this.profileProvider.getWallets({
       coin: 'dash',
       network: 'livenet'
     });
 
-    let xPubKeyIndex = lodash.keyBy(this.walletsDASH, "credentials.xPubKey");
+    let xPubKeyIndex = lodash.keyBy(this.walletsDash, "credentials.xPubKey");
 
     this.walletsBTC = lodash.filter(this.walletsBTC, w => {
       return !xPubKeyIndex[w.credentials.xPubKey];
