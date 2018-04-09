@@ -140,6 +140,8 @@
       </ion-note>
     </button>
 
+    <ion-item-divider *ngIf="walletsDash.length">{{'Dash Wallets' | translate}}</ion-item-divider>
+
     <button ion-item *ngFor="let wallet of walletsDash" (click)="openWalletSettingsPage(wallet.credentials.walletId)">
       <ion-icon item-start>
         <img *ngIf="wallet.network == 'testnet'" [ngStyle]="{'background-color': wallet.color}" src="assets/img/icon-wallet-testnet.svg" class="icon-wallet" />
