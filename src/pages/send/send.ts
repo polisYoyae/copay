@@ -21,17 +21,21 @@ import * as _ from 'lodash';
 })
 export class SendPage {
   public search: string = '';
+  
   public walletsBtc: any;
+  public walletBtcList: any;
+  public hasBtcWallets: boolean;
+  
   public walletsPolis: any;
   public walletPolisList: any;
+  public hasPolisWallets: boolean;
+  
   public walletsDash: any;
   public walletDashList: any;
-  public walletBtcList: any;
+  public hasDashWallets: boolean;
+  
   public contactsList: object[] = [];
   public filteredContactsList: object[] = [];
-  public hasBtcWallets: boolean;
-  public hasPolisWallets: boolean;
-  public hasDashWallets: boolean;
   public hasContacts: boolean;
   public contactsShowMore: boolean;
   private CONTACTS_SHOW_LIMIT: number = 10;
@@ -57,6 +61,7 @@ export class SendPage {
     this.walletsPolis = this.profileProvider.getWallets({ coin: 'polis' });
     this.walletsDash = this.profileProvider.getWallets({ coin: 'dash' });
     this.hasBtcWallets = !(_.isEmpty(this.walletsBtc));
+    this.hasPolisWallets = !(_.isEmpty(this.walletsPolis));
     this.hasDashWallets = !(_.isEmpty(this.walletsDash));
     this.updatePolisWalletsList();
     this.updateDashWalletsList();
