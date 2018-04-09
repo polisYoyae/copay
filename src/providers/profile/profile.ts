@@ -912,7 +912,7 @@ export class ProfileProvider {
       } catch (ex) {
 			this.logger.debug(ex);
 			return reject(this.translate.instant('Bad wallet invitation'));
-		}
+		    }
       }
       opts.networkName = walletData.network;
       this.logger.debug('Joining Wallet:', opts);
@@ -937,7 +937,9 @@ export class ProfileProvider {
         return reject(err);
       });
     });
+    }
   }
+
 
   public getWallet(walletId: string): any {
     return this.wallet[walletId];

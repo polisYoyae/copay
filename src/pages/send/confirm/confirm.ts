@@ -102,6 +102,7 @@ export class ConfirmPage {
   this.navCtrl.swipeBackEnabled = false;
   this.isOpenSelector = false;
   let B = this.navParams.data.coin == 'polis' ? this.bitcorePolis : this.bitcore;
+  let C = this.navParams.data.coin == 'dash' ? this.bitcoreDash : this.bitcore;
   let networkName;
   try {
     networkName = (new B.Address(this.navParams.data.toAddress)).network.name;

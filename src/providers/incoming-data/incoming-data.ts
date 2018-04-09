@@ -243,7 +243,6 @@ export class IncomingDataProvider {
     } else if (data && ((data.substring(0, 2) == '1|') || (data.substring(0, 2) == '2|') || (data.substring(0, 2) == '3|'))) {
       this.navCtrl.push(ImportWalletPage, { code: data, fromScan: true })
       return true;
-
     } else {
 
       if (this.navCtrl.getActive().name === 'ScanPage') {
