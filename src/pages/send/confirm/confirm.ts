@@ -99,30 +99,29 @@ export class ConfirmPage {
   }
 
   ionViewWillEnter() {
-    this.navCtrl.swipeBackEnabled = false;
-    this.isOpenSelector = false;
-    let B = this.navParams.data.coin == 'polis' ? this.bitcorePolis : this.bitcore;
-    let C = this.navParams.data.coin == 'dash' ? this.bitcoreDash : this.bitcore;
-    let networkName;
-    try {
-      networkName = (new B.Address(this.navParams.data.toAddress)).network.name;
-    } catch (e) {
+  this.navCtrl.swipeBackEnabled = false;
+  this.isOpenSelector = false;
+  let B = this.navParams.data.coin == 'polis' ? this.bitcorePolis : this.bitcore;
+  let networkName;
+  try {
+    networkName = (new B.Address(this.navParams.data.toAddress)).network.name;
+  } catch (e) {
     try {
       networkName = (new C.Address(this.navParams.data.toAddress)).network.name;
     } catch (e) {
-      var message = this.translate.instant('Copay only supports Polis using new version numbers addresses');
-      var backText = this.translate.instant('Go back');
-      var learnText = this.translate.instant('Learn more');
-      this.popupProvider.ionicConfirm(null, message, backText, learnText).then((back) => {
-        if (!back) {
-          var url = 'https://support.bitpay.com/hc/en-us/articles/115004671663';
-          this.externalLinkProvider.open(url);
-        }
-        this.navCtrl.pop();
-      });
-      return;
-    }
-
+    var message = this.translate.instant('Copay only supports Polis using new version numbers addresses');
+    var backText = this.translate.instant('Go back');
+    var learnText = this.translate.instant('Learn more');
+    this.popupProvider.ionicConfirm(null, message, backText, learnText).then((back) => {
+      if (!back) {
+        var url = 'https://support.bitpay.com/hc/en-us/articles/115004671663';
+        this.externalLinkProvider.open(url);
+      }
+      this.navCtrl.pop();
+    });
+    return;
+  }
+}
     this.tx = {
       toAddress: this.navParams.data.toAddress,
       amount: parseInt(this.navParams.data.amount, 10),
@@ -155,6 +154,7 @@ export class ConfirmPage {
       // Use legacy address
       this.tx.toAddress = this.bitcorePolis.Address(this.tx.toAddress).toString();
     }
+
     if (this.tx.coin && this.tx.coin == 'dash') {
       // Use legacy address
       this.tx.toAddress = this.bitcoreDash.Address(this.tx.toAddress).toString();

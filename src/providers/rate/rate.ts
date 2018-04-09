@@ -82,7 +82,7 @@ export class RateProvider {
 
   public updateRatesDash(): Promise<any> {
     return new Promise((resolve, reject) => {
-      this.getDASH().then((dataPDASH: any) => {
+      this.getDASH().then((dataDASH: any) => {
         _.each(dataDASH, (currency: any) => {
           this.ratesDASH[currency.symbol] = 1;
 		  if (this.isAvailable()) {

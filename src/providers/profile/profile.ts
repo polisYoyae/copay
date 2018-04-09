@@ -901,7 +901,7 @@ export class ProfileProvider {
 		} catch (ex) {
       try {
         // If error, try to join DASH wallet
-        walletData = this.bwcProvider.parseSecretDASH(opts.secret);
+        walletData = this.bwcProvider.parseSecretDash(opts.secret);
 
         // check if exist
         if (_.find(this.profile.credentials, {

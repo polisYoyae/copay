@@ -35,14 +35,10 @@ export class BwcProvider {
 
   public getErrors(): any { // No bitcore connections - just a lib of errors - Polis bitcore has specific errors (InstantSend, ..)
     return BWCPolis.errors;
-    return BWCDash.errors;
-
   }
 
   public getSJCL(): any { // No bitcore connections - Just a descriptor of crypto words
     return BWCPolis.sjcl;
-    return BWCDash.sjcl;
-
   }
 
 
