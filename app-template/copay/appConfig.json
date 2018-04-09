@@ -30,7 +30,7 @@
     "coinbase": false,
     "glidera": false,
     "debitcard": false,
-    "amazon": false,
+    "amazon": true,
     "mercadolibre": false,
     "shapeshift": false
   }
